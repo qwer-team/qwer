@@ -6,7 +6,8 @@
     "keywords": ["itc admin", "itc"],
     "homepage": "http://github.com/qwer-team/itcadmin",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "avalanche123/imagine-bundle" : "dev-master"
     },
     "autoload": {
         "psr-0": {
