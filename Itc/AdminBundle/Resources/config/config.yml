@@ -175,21 +175,6 @@ knp_paginator:
         
 white_october_breadcrumbs: ~
 
-genemu_form:
-    date: ~  
-    image:
-        enabled:  true
-        selected: 'large'
-        filters:  ['rotate', 'bw', 'negative', 'sepia', 'crop']
-        thumbnails:
-            small:  [100, 100]
-            medium: [200, 200]
-            large:  [500, 500]
-            extra:  [1024, 768]
+    
 
-    file:
-      folder: "/images"
-      swf : %kernel.root_dir%/../web/swf/uploadify.swf
-    select2: ~
-
-gregwar_captcha: ~
+#gregwar_captcha: ~
