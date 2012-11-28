@@ -1,8 +1,9 @@
 { 
-    "name": "qwer-team/itcadmin",
+    "name": "qwerteam/itcadmin",
     "type": "library",
     "description": "admin PHP 5.3",
-    "homepage": "https://github.com/qwer-team/itcadmin",
+    "license": "MIT",
+    "homepage": "http://github.com/qwer-team/itcadmin",
     "require": {
         "php": ">=5.3.0"
     },
