@@ -1,6 +1,6 @@
 <div class = 'menu_sys_header'>
 <div class = 'float_left'>
-    <a href="{{path("itc_index")}}"><img class = '' src = '{{ asset('image/logo_itc.gif') }}' ></a>
+    <a href="{{path("itc_index")}}"><img class = '' src = '{{ asset('bundles/itcadmin/images//logo_itc.gif') }}' ></a>
 </div>
 
 {% macro link_block(entity, locale, trans) %}
@@ -9,7 +9,7 @@
 
         <img class = 'menu_sys_icon {{ trans }}' src = '{{ vich_uploader_asset(entity, 'iconImage') | apply_filter('my_thumb') }}' />
     {% else %}
-        <img class = 'menu_sys_icon {{ trans }}' src = '{{ asset('image/m_menu.gif') }}' >
+        <img class = 'menu_sys_icon {{ trans }}' src = '{{ asset('bundles/itcadmin/images/m_menu.gif') }}' >
     {% endif %}
     <span class = 'menu_sys_icon_text'>
         {{ entity.translate(locale).getTitle() }}
@@ -45,7 +45,7 @@
 
     <div class = 'float_right menu_sys_top_link'>
         <a href="/logout" class="menu_sys_link" >
-            <img class = 'menu_sys_icon' src = '{{ asset('image/m_exit.gif') }}' >
+            <img class = 'menu_sys_icon' src = '{{ asset('bundles/itcadmin/images/m_exit.gif') }}' >
             <br />
             Выход
         </a>

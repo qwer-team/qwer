@@ -21,7 +21,7 @@
             {% if entity.iconImage is not null %}
                 <img  class = 'menu_sys_iconImage' style = 'z-index: 0;' src = '{{ vich_uploader_asset(entity, 'iconImage') | apply_filter('my_thumb') }}?0328478327489' />
             {% else %}
-                <img style = 'z-index: 0;' src = '/image/m_menu.gif' />
+                <img style = 'z-index: 0;' src = '/bundles/itcadmin/images/m_menu.gif' />
             {% endif %}
             <div> 
                 {{ form_widget( image_form["iconImage"], { 'attr': { 'class': 'hidden_loader' } } ) }}

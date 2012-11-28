@@ -29,32 +29,32 @@ h1.menu_sys_h1{
 }
 a.menu_sys_edit{
     padding: 0 0 0 18px;
-    background: url("/image/ico_edit_1.png") no-repeat scroll 0 0 transparent;
+    background: url("/bundles/itcadmin/images/ico_edit_1.png") no-repeat scroll 0 0 transparent;
     cursor: pointer;
 }
 a.menu_sys_delete{
     padding: 0 0 0 11px;
-    background: url("/image/del.gif") no-repeat scroll 0 2px transparent;
+    background: url("/bundles/itcadmin/images/del.gif") no-repeat scroll 0 2px transparent;
     cursor: pointer;
 }
 a.menu_sys_show{
     padding: 0 0 0 18px;
-    background: url("/image/ico_svitok.png") no-repeat scroll 0 0 transparent;
+    background: url("/bundles/itcadmin/images/ico_svitok.png") no-repeat scroll 0 0 transparent;
     cursor: pointer;
 }
 a.menu_sys_save{
     padding: 0 0 0 18px;
-    background: url("/image/btn_save_small.gif") no-repeat scroll 0 0 transparent;
+    background: url("/bundles/itcadmin/images/btn_save_small.gif") no-repeat scroll 0 0 transparent;
     cursor: pointer;
 }
 a.menu_sys_up{
     padding: 0 0 0 18px;
-    background: url("/image/ar_top.png") no-repeat scroll 0 0 transparent;
+    background: url("/bundles/itcadmin/images/ar_top.png") no-repeat scroll 0 0 transparent;
     cursor: pointer;
 }
 a.menu_sys_down{
     padding: 0 0 0 18px;
-    background: url("/image/ar_bot.png") no-repeat scroll 0 0 transparent;
+    background: url("/bundles/itcadmin/images/ar_bot.png") no-repeat scroll 0 0 transparent;
     cursor: pointer;
 }
 
@@ -83,7 +83,7 @@ img.menu_sys_icon:hover{
 }
 .menu_sys_folder{
     padding: 0 0 0 18px;
-    background: url("/image/folder-closed.gif") no-repeat scroll 0 0 transparent;
+    background: url("/bundles/itcadmin/images/folder-closed.gif") no-repeat scroll 0 0 transparent;
     
 }
 .menu_sys_top_link{
@@ -171,11 +171,11 @@ div.menu_sys_content_show{
     border-radius: 5px;
     cursor: pointer;
     right: 65px; 
-    background: url( "/image/btn_save.gif" ) no-repeat;     
+    background: url( "/bundles/itcadmin/images/btn_save.gif" ) no-repeat;     
 }
 .menu_sys_delete_button{
     right: 10px; 
-    background: url( "/image/50px-delete.png" ) no-repeat; 
+    background: url( "/bundles/itcadmin/images/50px-delete.png" ) no-repeat; 
 }
 .menu_sys_link{
     font-size: 11px;
@@ -206,7 +206,7 @@ div.menu_sys_content_show{
     width: 290px;
 }
 #auth_bg {
-    background: url("/image/key.gif") no-repeat scroll 10px 30px #AFD1F4;
+    background: url("/bundles/itcadmin/images/key.gif") no-repeat scroll 10px 30px #AFD1F4;
     color: #000000;
     font-size: 14px;
 /*    height: 120px;*/
@@ -293,20 +293,20 @@ div.menu_sys_content_show{
 .edit{
     float:left;
     margin: 5px;
-    background: url("/web/image/btn_save1.gif");
+    background: url("/web/bundles/itcadmin/images/btn_save1.gif");
 
     border: medium none;
     height: 48px;
     width: 48px;
 }
 .delete{
-    background: url("/image/delete.png");
+    background: url("/bundles/itcadmin/images/delete.png");
     border: medium none;
     height: 40px;
     width: 40px;
 }
 .back_menu{
-    background: url("/image/back.png");
+    background: url("/bundles/itcadmin/images/back.png");
     border: medium none;
     height: 40px;
     width: 40px;   
