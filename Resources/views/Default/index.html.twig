@@ -1,0 +1,17 @@
+{% extends 'MainSiteBundle::layout.html.twig' %}
+{% block menu %}
+    {{parent()}}
+{% endblock %}
+{% block body %}
+    <section id="slider-wrapper">
+            <a id="playPauseButton" class="show" href="#" data-link="#index_slider">
+                <span class="hide-text" style="opacity: 1;">Hide Slideshow</span>
+                <span class="show-text" style="opacity: 0;">Show Slideshow</span>
+            </a>
+            <div id="index_slider" style="width: 50%">
+            {% for image in images %}
+                <img src = '{{ vich_uploader_asset( image, 'image' ) }}' alt="" style="width: 50%; float: right;"  />
+            {% endfor %}
+            </div>
+    </section>          
+{% endblock %}
