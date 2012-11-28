@@ -1,0 +1,108 @@
+
+{% block body %}
+
+{% block table %}                   
+<table class="records_list" id="menu_list">
+    <thead>
+        <tr>
+            <th>{{ "id"|trans }}</th>
+            <th>{{ "kod"|trans }}</th>
+            <th>{{ "tag"|trans }}</th>
+            <th>{{ "title"|trans }}</th>
+            <th>{{ "date_create"|trans }}</th>
+            <th>{{ "visible"|trans }}</th>
+            <th>{{ "parent"|trans }}</th>
+            <th>{{ "actions"|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr id ="tr_{{ entity.id }}">
+            <td class = 'w50px right'><a href="{{ path('menu', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td class = 'w50px right'>{{ entity.kod }}</td>
+            <td class = 'center w50px'>{{ entity.tag }}</td>
+            <td>                
+                {% if entity.children.isEmpty %} 
+                    {% set folderClass = 'menu_sys_empty_folder' %}
+                    {% set countInFolder = '' %}
+                {% else %}
+                    {% set folderClass = 'menu_sys_folder' %}
+                    {% set countInFolder  %}
+                        ( {{ entity.children.getKeys|length }} )
+                    {% endset %}
+                {% endif %}
+                <a href="{{ path('menu', { 'parent_id': entity.id, 'coulonpage':coulonpage }) }}">
+                    <span class = '{{ folderClass }}'>
+                        {{ entity.translate(locale).getTitle() }}
+                    </span>
+                </a>
+                {{ countInFolder }}
+            </td>
+            <td class = 'center w150px'>
+                {% if entity.datecreate %}
+                    {{ entity.datecreate|date('Y-m-d H:i:s') }}
+                {% endif %}
+            </td>
+            <td class = 'center w50px'>
+                <form style = 'display:inline-block' action="{{ path('menu_update_visible', { 'id': entity.id }) }}" method="post">
+                    <div class = 'hide'>
+                        {% set visible = visible_form[entity.id]['visible'] %}
+                        {{ form_label(  visible ) }}
+                        {{ form_errors( visible ) }}
+                    </div>
+
+                    {{ form_widget( visible, { 'attr': { 'class': 'checkbox_update_visible' } } ) }}
+                    {{ form_rest(visible_form[entity.id]) }}
+                </form>
+            </td>
+            <td class="w50px">{% if entity.getParentId() is not null %}
+                    {% if entity.parent.getParentId() is not empty  %}
+                        {% set parentParentId = entity.parent.getParentId() %}
+                    {% else %}
+                        {% set parentParentId = null %}
+                    {% endif %}
+                    <a href="{{ path('menu', { 'parent_id': parentParentId }) }}">
+                        {{ entity.getParentId() }}
+                    </a>
+                {% endif %}
+            </td>
+            <td class="w200px">
+                {% if loop.first == false %}
+                    <div class="link_block">
+                        <a class="menu_sys_up change_position_object"
+                           data-form="#menu_kod_{{entity.id}}"
+                           data-link="#menu_list"
+                           data-action="up"></a>
+                    </div>
+                {% else %}
+                    <div class="link_block" style="width: 18px; height: 14px;"></div>
+                {% endif %}
+                {% if loop.last == false %}
+                    <div class="link_block">
+                        <a class="menu_sys_down change_position_object"
+                           data-form="#menu_kod_{{entity.id}}"
+                           data-link="#menu_list"
+                           data-action="down"></a>
+                    </div>                
+                {% else %}
+                    <div class="link_block" style="width: 18px; height: 14px;"></div>
+                {% endif %}                
+                <a class = 'menu_sys_edit new_window' target= '_blank' href="{{ path('menu_edit', { 'id': entity.id }) }}">{{ "edit"|trans }}</a>
+                <a class = 'menu_sys_delete delete_object'
+                   data-link="#tr_{{entity.id}}" data-form="#menu_delete_{{entity.id}}">
+                    {{ "delete"|trans }}</a>              
+                <form id="menu_delete_{{entity.id}}" action="{{ path('menu_delete_ajax', { 'id': entity.id }) }}" method="post">
+                    {{ form_rest(delete_form[entity.id]) }}
+                </form>                
+                <form id="menu_kod_{{entity.id}}" style ="display:inline-block" action="{{ path( 'menu_change_kod', { 'id': entity.id }) }}" method="post">
+                    {{ form_widget( change_kod_form[entity.id] ) }}
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+        
+        
+{% endblock %}

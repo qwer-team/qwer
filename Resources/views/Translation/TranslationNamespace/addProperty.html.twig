@@ -1,0 +1,6 @@
+<tr>
+    <td>{{ prop }}</td>
+    {% for lang in langs%}
+    <td><input name="translations[{{lang}}][{{prop}}]" value="" /></td>
+    {% endfor %}
+</tr>

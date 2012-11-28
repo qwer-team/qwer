@@ -1,0 +1,126 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block body %}
+lalal
+
+{# image '/home/kex/site/sfpr1/src/Itc/AdminBundle/Resources/public/images/icons/example.png' #}
+    <img src='images/example.png' alt='Example'/>
+{# endimage #}
+{% set k = "vassa" %}
+
+{% include template_from_string(k) %}
+
+{% block menu_sys_header %}
+<h1 class='menu_sys_h1'>{{ "menusys_list"|trans({}, "menu_sys") }}</h1>
+{% endblock %}
+
+<br class = 'clr'/>
+{{ wo_render_breadcrumbs() }}
+
+<div class = 'menu_sys_main_conteiner'>
+           
+    
+{% block navigation %}    
+    {% include 'ItcAdminBundle::navigator.html.twig' with {'route': 'menu_sys'} %}
+    {% include 'ItcAdminBundle::addnew.html.twig' with {'route': 'menu_sys'} %}
+{% endblock %}    
+    
+<table class="records_list">
+    <thead>
+        <tr>
+            <th class = 'w50px'>{{ "id"|trans }}</th>
+            <th class = 'w50px'>{{ "kod"|trans }}</th>
+            <th class = 'w150px'>{{ "date_create"|trans }}</th>
+            {#<th>{{ "tag"|trans }}</th>#}
+            <th>{{ "title"|trans }}</th>
+            
+            <th class = 'w50px'>{{ "visible"|trans }}</th>
+            {#
+                <th>Icon</th>
+                <th>Parent</th>
+                <th>Translit</th>
+            #}
+            <th class = 'w150px'>{{ "actions"|trans }}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for entity in entities %}
+
+        <tr id="tr_menu_sys_{{entity.id}}" >
+            <td class = 'right'><a href="{{ path('menu_sys_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td class = 'right'>{{ entity.kod }}</td>
+            <td class = 'center'>
+                {% if entity.datecreate %}
+                    {{ entity.datecreate|date('Y-m-d H:i:s') }}
+                {% endif %}
+            </td>
+            {#<td>{{ entity.tag }}</td>#}
+            <td class = ''>
+                {% if entity.id in chmap|keys %} 
+                    {% set folderClass = 'menu_sys_folder' %}
+                    {% set countInFolder  %}
+                        ( {{ chmap[entity.id] }} )
+                    {% endset %}
+                {% else %}
+                    {% set folderClass = 'menu_sys_empty_folder' %}
+                    {% set countInFolder = '' %}
+                {% endif %}
+
+                <a href="{{ path('menu_sys', { 'parent_id': entity.id, 'coulonpage':coulonpage }) }}">
+                    <span class = '{{ folderClass }}'>
+
+                        {{ entity.translate(locale).getTitle() }}
+                    </span>
+                </a>
+                {{ countInFolder }}
+            </td>
+
+            <td class = 'center'>
+                <form style = 'display:inline-block' action="{{ path('menu_sys_update_visible', { 'id': entity.id }) }}" method="post">
+                    <div class = 'hide'>
+                        {% set visible = visible_form[entity.id]['visible'] %}
+                        {{ form_label(  visible ) }}
+                        {{ form_errors( visible ) }}
+                    </div>
+
+                    {{ form_widget( visible, { 'attr': { 'class': 'checkbox_update_visible' } } ) }}
+                    {{ form_rest(visible_form[entity.id]) }}
+                </form>
+            </td>
+            {#<td>{{ entity.icon }}</td>
+            <td>
+                {% if entity.getParentId() is not null %}
+                    {% if entity.parent.getParentId() is not empty  %}
+                        {% set parentParentId = entity.parent.getParentId() %}
+                    {% else %}
+                        {% set parentParentId = null %}
+                    {% endif %}
+                    <a href="{{ path('menu_sys', { 'parent_id': parentParentId }) }}">
+                        {{ entity.getParentId() }}
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                {{ entity.translit }}
+            </td>#}
+            <td class = ''>
+                <a class = 'menu_sys_edit new_window' target= '_blank' href="{{ path('menu_sys_edit', { 'id': entity.id }) }}">{{ "edit"|trans }}</a>
+                <a class = 'menu_sys_delete delete_object'
+                   data-link="#tr_menu_sys_{{entity.id}}" data-form="#menu_sys_delete_{{entity.id}}">
+                    {{ "delete"|trans }}</a>                              
+                <form id="menu_sys_delete_{{entity.id}}" style = 'display:inline-block' action="{{ path('menu_sys_delete_ajax', { 'id': entity.id }) }}" method="post">
+                    {{ form_rest( delete_form[entity.id] ) }}
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    
+    {{ block("navigation") }}
+    
+    <br class="clr" />
+
+</div>
+{% endblock %}

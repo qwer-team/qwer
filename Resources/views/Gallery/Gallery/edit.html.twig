@@ -1,0 +1,31 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block menu %}
+    {# скрываем меню #}
+{% endblock %}
+{% block body %}
+<h1>Gallery\Gallery edit</h1>
+
+<form action="{{ path('gallery_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <p>
+        <button type="submit">Edit</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('gallery', {'menu_id' : entity.menuId}) }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('gallery_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+<div>
+    
+</div>
+{% endblock %}

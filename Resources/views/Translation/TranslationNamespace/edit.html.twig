@@ -1,0 +1,74 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block body %}
+{% if app.session.hasFlash('warning') %}
+    <div class="flash-notice">
+        {{ app.session.flash('warning') }}
+    </div>
+{% endif %}
+<h1>Translation\TranslationNamespace edit</h1>
+
+<form action="{{ path('translation_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <table id="propertyTable">
+        <thead>
+            <td>Prop</td>
+            {% for lang in langs %}
+            <td>{{lang}}</td>
+            {% endfor %}
+        </thead>
+        {% for prop in props %}
+        <tr>
+            <td>{{prop}}</td>
+            {% for lang in langs %}
+                <td><input name="translations[{{lang}}][{{prop}}]" value="{{translations[lang][prop]}}"></td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+        <script type="text/javascript" >
+            $(document).ready(
+                function(){
+                    $("#addPropBut").click(
+                        function(){
+                            var prop = $("#prop").attr("value");
+                            if(prop == "")
+                            {
+                                return false;
+                            }
+                            var url = Routing.generate('add_property', { "property": prop });
+                            $.ajax({
+                                type: "GET",
+                                url: url ,
+                                dataType: "html",
+                                success: function(data) {
+                                    $("#propertyTable tr:last").after(data);
+                                }
+                            });
+                        }
+                    );
+                }
+            );
+        </script>
+    <div id="addProp">
+        <input id="prop" /><br />
+        <div id="addPropBut">{{"add"|trans}}</div>
+    </div>
+    <p>
+        <button type="submit">Edit</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('translation') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('translation_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

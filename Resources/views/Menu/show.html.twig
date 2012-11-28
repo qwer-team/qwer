@@ -1,0 +1,67 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block menu %}
+    {# скрываем меню #}
+{% endblock %}
+{% block body %}
+<h1 class = 'menu_sys_h1'>Menu</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Kod</th>
+            <td>{{ entity.kod }}</td>
+        </tr>
+        <tr>
+            <th>Tag</th>
+            <td>{{ entity.tag }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ entity.translate(locale).getTitle() }}</td>
+        </tr>
+        <tr>
+            <th>Date_create</th>
+            <td>{{ entity.datecreate|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Visible</th>
+            <td>{{ entity.visible }}</td>
+        </tr>
+        <tr>
+            <th>Icon</th>
+            <td>{{ entity.icon }}</td>
+        </tr>
+        <tr>
+            <th>Translit</th>
+            <td>{{ entity.translate(locale).getTranslit() }}</td>
+        </tr>
+        <tr>
+            <th>Pdid</th>
+            <td>{{ entity.translate(locale).getParentId() }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('menu', {"parent_id" : entity.getParentId()}) }}">
+            {{"Back to the list"|trans}}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('menu_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('menu_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

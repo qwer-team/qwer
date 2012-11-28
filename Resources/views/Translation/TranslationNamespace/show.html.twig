@@ -1,0 +1,57 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block body %}
+{% if app.session.hasFlash('warning') %}
+    <div class="flash-notice">
+        {{ app.session.flash('warning') }}
+    </div>
+{% endif %}
+<h1>Translation\TranslationNamespace</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Namespace</th>
+            <td>{{ entity.namespace }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('translation') }}">
+            {{ "Back to the list"|trans }}
+        </a>
+    </li>
+    <table>
+        <thead>
+            <td>Prop</td>
+            {% for lang in langs %}
+            <td>{{lang}}</td>
+            {% endfor %}
+        </thead>
+        {% for prop in props %}
+        <tr>
+            <td>{{prop}}</td>
+            {% for lang in langs %}
+                <td>{{translations[lang][prop]}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <li>
+        <a href="{{ path('translation_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('translation_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

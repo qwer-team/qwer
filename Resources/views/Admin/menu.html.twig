@@ -1,0 +1,54 @@
+<div class = 'menu_sys_header'>
+<div class = 'float_left'>
+    <a href="{{path("itc_index")}}"><img class = '' src = '{{ asset('image/logo_itc.gif') }}' ></a>
+</div>
+
+{% macro link_block(entity, locale, trans) %}
+
+    {% if entity.icon != "" %}
+
+        <img class = 'menu_sys_icon {{ trans }}' src = '{{ vich_uploader_asset(entity, 'iconImage') | apply_filter('my_thumb') }}' />
+    {% else %}
+        <img class = 'menu_sys_icon {{ trans }}' src = '{{ asset('image/m_menu.gif') }}' >
+    {% endif %}
+    <span class = 'menu_sys_icon_text'>
+        {{ entity.translate(locale).getTitle() }}
+    </span>
+{% endmacro %}
+
+{% for entity in entities %}
+    {# если существует роутинг для пункта меню то делаем его активным #}
+    <div class = 'float_left menu_sys_top_link'>
+
+    {% if entity.routing is not empty and entity.routing in routes %}
+        <a href = "{{ path( entity.routing ) }}" class="menu_sys_link">
+            {{  _self.link_block(entity, locale, '') }}
+        </a>
+    {% else %}
+        {{  _self.link_block(entity, locale, 'transparent50') }}
+    {% endif %}
+            {% set pid = entity.id %}            
+            <div class = 'float_left menu_sys_child_link' >
+            {% for entity in child_entities if entity.parentid == pid %}
+                {% if entity.routing is not empty and entity.routing in routes %}
+                    <div class="white-bg">
+                    <a href="{{ path( entity.routing ) }}" class="menu_sys_ch_link">
+                        {{entity.translate(locale).getTitle()}}
+                    </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+           
+    </div>
+{% endfor %}
+
+    <div class = 'float_right menu_sys_top_link'>
+        <a href="/logout" class="menu_sys_link" >
+            <img class = 'menu_sys_icon' src = '{{ asset('image/m_exit.gif') }}' >
+            <br />
+            Выход
+        </a>
+    </div>
+</div>
+<br class = 'clr' />

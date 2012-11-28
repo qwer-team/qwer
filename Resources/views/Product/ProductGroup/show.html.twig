@@ -1,0 +1,57 @@
+<h1>Product\ProductGroup</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Parent_id</th>
+            <td>{{ entity.parentid }}</td>
+        </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ entity.title }}</td>
+        </tr>
+        <tr>
+            <th>Translit</th>
+            <td>{{ entity.translit }}</td>
+        </tr>
+        <tr>
+            <th>Icon</th>
+            <td>{{ entity.icon }}</td>
+        </tr>
+        <tr>
+            <th>Kod</th>
+            <td>{{ entity.kod }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ entity.content }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ entity.description }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('product_group') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('product_group_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('product_group_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

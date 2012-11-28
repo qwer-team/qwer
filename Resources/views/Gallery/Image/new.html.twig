@@ -1,0 +1,27 @@
+{# <h1>{{ "Image creation"|trans({}, "image") }}</h1> #}
+{# gallery_id #}
+<div class="menu_sys_upper_form">
+    <form action="{{ path('image_create') }}" method="post" {{ form_enctype(form) }}>    
+        <div class = 'hide'>
+            {% set gallery = form['gallery'] %}
+            {{ form_label(  gallery ) }}
+            {{ form_errors( gallery ) }}
+            {{ form_widget( gallery ) }}
+        </div>    
+        {{ form_widget( form["image"], { 'attr': {'class': 'w150px'} }  ) }}
+        <br class="clr" />
+        {{ form_widget( form["tag"], { 'attr': {'class': 'w150px'} }  ) }}
+        {{ form_rest(form) }}
+        <p>
+            <button type="submit">{{ "Create"|trans }}</button>
+        </p>
+    </form>
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="#new_image_{{ gallery_id }}" class="hide_object">
+            <img src="{{ asset('/image/ar_top.png')}}" />
+        </a>
+    </li>
+</ul>

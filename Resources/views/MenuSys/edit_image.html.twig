@@ -1,0 +1,15 @@
+ <form action="{{ path('menu_sys_update_image', { 'id': entity.id }) }}" method="post" {{ form_enctype(image_form) }}>
+    <div class = 'menu_sys_icon_loader'>
+        {% if entity.iconImage is not null %}
+            <img style = 'z-index: 0;' src = {{ vich_uploader_asset(entity, 'iconImage') | apply_filter('my_thumb') }} />
+        {% else %}
+            <img style = 'z-index: 0;' src = '/image/m_menu.gif' />
+        {% endif %}
+        <div> 
+            {{ form_widget( image_form["iconImage"], { 'attr': { 'class': 'hidden_loader' } } ) }}
+        </div>
+            {{ form_rest(image_form) }}
+    </div>
+
+    <button type="submit">Edit</button>
+</form>

@@ -1,0 +1,14 @@
+<form action="{{ path('gallery_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget( form["title"], { 'attr': {'class': 'w250px'} }  ) }}
+    {{ form_widget( form ) }}
+    <p>
+        <button type="submit">{{ "create"|trans }}</button>
+    </p>
+</form>
+<ul class="record_actions">
+    <li>
+        <a href="#new_gallery_{{menu_id}}" class="hide_object">
+            <img src="{{ asset('/image/ar_top.png')}}" />
+        </a>
+    </li>
+</ul>

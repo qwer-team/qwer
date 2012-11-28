@@ -1,0 +1,71 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block menu %}
+    {# скрываем меню от Макса#}
+{% endblock %}
+{% block body %}
+<h1>User creation</h1>
+<div class='header_user'>
+<div class='float_left'> 
+<div class='panel_user'>
+<button type="submit" class='edit' onclick="document.forms['form_sub'].submit()"></button> 
+</div></div></div>
+<form action="{{ path('user_create') }}" method="post" {{ form_enctype(form) }}  id="form_sub">
+
+               {# <div class='user_form'>
+                    {{ form_label(form['id']) }} 
+                    {{ form_widget(form['id']) }}
+                </div>
+                <div class='user_form'>
+                    {{ form_label(form['date_registrate']) }}
+                    {{ form_widget(form['date_registrate']) }}
+                </div>#}
+               <div class='marg_user'> 
+    <div class='like_form'>
+                <div class='float_left_p'>   
+    
+                    {{ form_label(form['username']) }}
+                    {{ form_widget(form['username']) }}
+                </div>
+                <div class='float_right_p'>
+                    {{ form_label(form['status']) }}
+                    {{ form_widget(form['status']) }}
+                </div>
+    </div>
+       
+    <div  class='like_form'>
+                <div class='float_left_p'>
+                    {{ form_label(form['fio']) }}
+                    {{ form_widget(form['fio']) }}
+                </div>
+               
+                <div class='float_right_p'>
+                    {{ form_label(form['tel']) }}
+                    {{ form_widget(form['tel']) }}
+                </div>
+                <div class='float_left_p'>
+                     {{ form_label(form['email']) }}
+                    {{ form_widget(form['email']) }}
+                </div>
+                <div class='float_right_p'>
+                    {{form_label(form['address'])}} 
+                    {{form_widget(form['address'])}} 
+                 </div>
+    </div>
+                       <div class='like_form'>
+                           <div class='float_left_p'>
+                               {{ form_widget(form['password']) }}
+                           </div>
+                       </div>
+</div>
+         {{ form_row(form._token) }} 
+        
+
+  <p> 
+ 
+
+       
+  </p>
+</form>
+
+
+{% endblock %}

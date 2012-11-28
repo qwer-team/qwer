@@ -1,0 +1,90 @@
+{% block body %}
+
+{% if ajax_sign == false %}
+    {% block header %}
+    <h1 class='menu_sys_h1'>{{ "Product list"|trans({}, "product") }}</h1>
+
+    <br class = 'clr'/>
+    <div class = 'menu_sys_main_conteiner'>
+
+    {% block navigation %}    
+        {% include 'ItcAdminBundle::navigator.html.twig' with {'route': route~'_group' } %}
+        {% include 'ItcAdminBundle::addnew.html.twig' with {'route': route } %}
+    {% endblock %}    
+    {% endblock %}
+{% endif %}
+
+{% block table %}    
+<table class="records_list" id="product_list">
+    <thead>
+        <tr>
+            <th class = 'w50px'>{{ "id"|trans }}</th>
+            <th class = 'w50px'>{{ "kod"|trans }}</th>
+            <th>{{ "title"|trans }}</th>
+            <th class = 'w150px'>{{ "translit"|trans }}</th>
+            <th class = 'w150px'>{{ "brand"|trans }}</th>
+            <th class = 'w150px'>{{ "price"|trans }}</th>
+            <th class = 'w200px'>{{ "actions"|trans }}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for entity in entities %}
+
+        <tr id="tr_{{ route }}_{{ entity.id }}">
+            <td class = 'right'>{#<a href="{{ path(route~'_show', { 'id': entity.id }) }}">{{ entity.id }}</a>#}{{ entity.id }}</td>
+            <td class = 'right'>{{ entity.kod }}</td>
+            <td class = ''>{{ entity.translate(locale).getTitle() }}</td>
+            <td>{{ entity.translit }}</td>
+            <td>{{ entity.brand }}</td>
+            <td>{{ entity.price }}</td>
+            <td class = ''>
+                {% if loop.first == false %}
+                    <div class="link_block">
+                        <a class="menu_sys_up change_position_object"
+                           data-form="#product_kod_{{entity.id}}"
+                           data-link="#product_list"
+                           data-action="up"></a>
+                    </div>
+                {% else %}
+                    <div class="link_block" style="width: 18px; height: 14px;"></div>
+                {% endif %}
+                {% if loop.last == false %}
+                    <div class="link_block">
+                        <a class="menu_sys_down change_position_object"
+                           data-form="#product_kod_{{entity.id}}"
+                           data-link="#product_list"
+                           data-action="down"></a>
+                    </div>                
+                {% else %}
+                    <div class="link_block" style="width: 18px; height: 14px;"></div>
+                {% endif %}
+                <a class = 'menu_sys_edit new_window' target= '_blank' href="{{ path( route~'_edit', { 'id': entity.id }) }}">{{ "edit"|trans }}</a>
+                <a class = 'menu_sys_delete delete_object'
+                   data-link="#tr_{{ route }}_{{ entity.id }}" data-form="#product_delete_{{entity.id}}">
+                    {{ "delete"|trans }}</a>              
+                <form id="product_delete_{{entity.id}}" style ="display:inline-block" action="{{ path( route~'_delete', { 'id': entity.id }) }}" method="post">
+                     {{ form_widget( delete_product_form[entity.id] ) }}
+                </form>
+                <form id="product_kod_{{entity.id}}" style ="display:inline-block" action="{{ path( route~'_change_kod', { 'id': entity.id }) }}" method="post">
+                    {{ form_widget( change_kod_form[entity.id] ) }}
+                </form>
+          </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}    
+{% if ajax_sign == false %}
+        
+    {% block bottom %}
+        {{ block("navigation") }}
+
+    <br class = 'clr'/>    
+
+
+    </div>
+    {% endblock %}
+{% endif %}
+{% endblock %}

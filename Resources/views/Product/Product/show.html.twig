@@ -1,0 +1,61 @@
+<h1>Product\Product</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Brandid</th>
+            <td>{{ entity.brandId }}</td>
+        </tr>
+        <tr>
+            <th>Productgroupid</th>
+            <td>{{ entity.productGroupId }}</td>
+        </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ entity.title }}</td>
+        </tr>
+        <tr>
+            <th>Translit</th>
+            <td>{{ entity.translit }}</td>
+        </tr>
+        <tr>
+            <th>Icon</th>
+            <td>{{ entity.icon }}</td>
+        </tr>
+        <tr>
+            <th>Kod</th>
+            <td>{{ entity.kod }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ entity.content }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ entity.description }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('product') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('product_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('product_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

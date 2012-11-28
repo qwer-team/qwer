@@ -1,0 +1,27 @@
+<div class="navigation float_left">
+    
+    <div class = 'fl' style = 'padding: 9px 3px;'>
+            {{ entities.render() | raw }}
+    </div>
+    <div class = 'fl' style = 'padding: 6px 3px;'>
+        {% set pagers = [10, 20, 30, 40, 50, 100] %}
+
+        {{ "lines_per_page"|trans }}
+
+        <select class = 'pager_changes'>
+        {% for pager in pagers %}
+
+            {% if pager == coulonpage %}{% set sel = 'selected=selected' %}
+            {% else %}{% set sel = '' %}
+            {% endif %}
+
+            <option value = "{{pager}}" {{ sel }} href="{{ path( route , { 'parent_id': parent_id, 'coulonpage':pager }) }}">
+                {{ pager }}
+            </option>
+
+        {% endfor %}
+        </select>
+    </div>
+   
+    
+</div>

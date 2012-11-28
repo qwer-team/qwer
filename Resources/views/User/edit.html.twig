@@ -1,0 +1,80 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block menu %}
+    {# скрываем меню от Макса#}
+{% endblock %}
+{% block body %}
+<h1>User edit</h1>
+
+<div class='header_user'>
+<div class='float_left'> 
+     Userid: {{ entity.id }}; date_registrate: 
+    {% if entity.dateRegistrate %}
+        {{ entity.dateRegistrate|date('Y-m-d H:i:s') }}
+    {% endif %}
+</div>
+<div class='float_right'>   
+                         <div  style="display:none">
+                           <div id='passwd'>
+                               <div class='user_form'>
+                                   <form action="{{ path('user_update_pass', { 'id': entity.id }) }}" method="post" {{ form_enctype(pass_form) }} id="form_pas_sub">
+                                            {{ form_widget(pass_form['password']) }}
+                                            {{ form_row(pass_form._token) }} 
+                                    </form>
+                                </div>
+                               <button type="submit" class='edit' style='float:right; margin: 30px;' onclick="document.forms['form_pas_sub'].submit()"></button> 
+                           </div>
+                        </div>   
+    <div class='panel_user'>
+               <a href="#passwd" class="openPas">
+                   <img src="/web/image/btn_pass.gif" />
+               </a> 
+               <button type="submit" class='edit' onclick="document.forms['form_sub'].submit()"></button> 
+    </div>
+
+</div>  
+</div>
+
+<form action="{{ path('user_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} id="form_sub">
+
+<div class='marg_user'> 
+    <div class='like_form'>
+                <div class='float_left_p'>   
+    
+                    {{ form_label(edit_form['username']) }}
+                    {{ form_widget(edit_form['username']) }}
+                </div>
+                <div class='float_right_p'>
+                    {{ form_label(edit_form['status']) }}
+                    {{ form_widget(edit_form['status']) }}
+                </div>
+    </div>
+       
+    <div  class='like_form'>
+                <div class='float_left_p'>
+                    {{ form_label(edit_form['fio']) }}
+                    {{ form_widget(edit_form['fio']) }}
+                </div>
+               
+                <div class='float_right_p'>
+                    {{ form_label(edit_form['tel']) }}
+                    {{ form_widget(edit_form['tel']) }}
+                </div>
+                <div class='float_left_p'>
+                     {{ form_label(edit_form['email']) }}
+                    {{ form_widget(edit_form['email']) }}
+                </div>
+                <div class='float_right_p'>
+                    {{form_label(edit_form['address'])}} 
+                    {{form_widget(edit_form['address'])}} 
+                 </div>
+    </div>
+
+</div>
+         {{ form_row(edit_form._token) }} 
+        
+
+</form>
+
+
+
+{% endblock %}

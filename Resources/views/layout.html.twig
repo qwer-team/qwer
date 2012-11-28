@@ -1,0 +1,98 @@
+<html>
+<head>
+
+    {% block title %}
+    {% endblock %}
+    
+        {% block javascript %}
+
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery-1.8.2.min.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery-1.8.2.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery-ui-1.9.1.custom.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery-ui-1.9.1.custom.min.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery.fancybox.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery.form.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery.Jcrop.min.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/select2.min.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/itcadmin/js/content.js' ) }}" ></script>
+            <script type="text/javascript" src="{{ asset('bundless/fosjsrouting/js/router.js') }}"></script>
+            <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        {% endblock %}
+
+        {% block css %}
+
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/plugins/jquery-ui-1.9.1.custom.min.css' ) }}"/>
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/plugins/jquery-ui-1.9.1.custom.css' ) }}"/>
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/plugins/fancy.css' ) }}"/>
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/select2.css' ) }}"/>
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/reset.css' ) }}" />
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/base.css' ) }}" />
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/morestyles.css' ) }}" />
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/plugins/jquery.Jcrop.css' ) }}" />
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/style.css' ) }}" />
+        {% endblock %}
+    
+    {#% block javascript %}
+        {% javascripts '@ItcAdminBundle/Resources/public/js/plugins/*'
+                       '@ItcAdminBundle/Resources/public/js/*' %}
+
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+            <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+
+            <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        {% endblock %}
+
+        {% block css %}
+
+        {% stylesheets '@ItcAdminBundle/Resources/public/css/reset.css'
+                       '@ItcAdminBundle/Resources/public/css/base.css'
+                       '@ItcAdminBundle/Resources/public/css/select2.css'
+                       '@ItcAdminBundle/Resources/public/css/plugins/*'
+                       '@ItcAdminBundle/Resources/public/css/base.css'
+                       '@ItcAdminBundle/Resources/public/css/morestyles.css'
+                       '@ItcAdminBundle/Resources/public/css/style.css'
+        %}
+            
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %#}
+</head>
+
+<body>
+    
+    {% block menu %}
+        {% render "ItcAdminBundle:Admin:menu" %}
+    {% endblock %}
+
+    <br class = 'clr' />
+    <div class = 'body_content'>
+
+        {% block fos_user_content %}
+
+            {% block body %}
+
+            {% endblock %}
+        {% endblock %}
+
+    </div>
+    {#
+    {% block hidden %}
+        <div class="alert hidden" id="save_message">
+            Data is saved!
+        </div> 
+        <div class="hidden">
+            <div id="popup_window">
+            </div>
+        </div>    
+    {% endblock %}
+#}
+    <div class = 'footer'>
+        {% block footer %}
+
+        {% endblock %}
+    </div>
+</body>
+
+</html>

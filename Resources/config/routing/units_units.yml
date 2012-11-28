@@ -1,0 +1,30 @@
+units:
+    pattern:  /
+    defaults: { _controller: "ItcAdminBundle:Units\Units:index" }
+
+units_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ItcAdminBundle:Units\Units:show" }
+
+units_new:
+    pattern:  /new
+    defaults: { _controller: "ItcAdminBundle:Units\Units:new" }
+
+units_create:
+    pattern:  /create
+    defaults: { _controller: "ItcAdminBundle:Units\Units:create" }
+    requirements: { _method: post }
+
+units_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ItcAdminBundle:Units\Units:edit" }
+
+units_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ItcAdminBundle:Units\Units:update" }
+    requirements: { _method: post }
+
+units_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ItcAdminBundle:Units\Units:delete" }
+    requirements: { _method: post }

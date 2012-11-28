@@ -1,0 +1,84 @@
+{# {% extends 'ItcAdminBundle::Product/ProductGroup/index.html.twig' %}
+
+{% block body %}
+<h1>Product\Brand list</h1>
+{{ parent() }}
+    {% block navigator %}
+        {% include 'ItcAdminBundle::navigator.html.twig' with {'route': route} %}
+    {% endblock %}
+{% endblock %}
+{% block product %}
+{% endblock %} #}
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block body %}
+
+<h1 class='menu_sys_h1'>{{ "ProductGroup list"|trans({}, "product_group") }}</h1>
+
+<br class = 'clr'/>
+{{ wo_render_breadcrumbs() }}
+
+<div class = 'menu_sys_main_conteiner'>
+{% block navigation %}    
+    {% include 'ItcAdminBundle::addnew.html.twig' with {'route': route} %}
+{% endblock %}    
+<table class="records_list">
+    <thead>
+        <tr>
+            <th class = 'w50px'>{{ "id"|trans }}</th>
+            <th class = 'w50px'>{{ "kod"|trans }}</th>
+            <th>{{ "title"|trans }}</th>
+            <th class = 'w150px'>{{ "translit"|trans }}</th>
+            <th class = 'w150px'>{{ "actions"|trans }}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for entity in entities %}
+
+        <tr id="tr_{{ route }}_{{ entity.id }}">
+            <td class = 'right'>{{ entity.id }}</td>
+            <td class = 'right'>{{ entity.kod }}</td>
+            <td class = ''>
+                {% set folderClass %}
+                    {% if entity.children.isEmpty %} 
+                        menu_sys_empty_folder
+                    {% else %}
+                        menu_sys_folder
+                    {% endif %}
+                {% endset %}
+                <a href="{{ path('product_group', { 'parent_id': entity.id, 'coulonpage':coulonpage }) }}">
+                    <span class = '{{ folderClass }}'>
+                        {{ entity.translate(locale).getTitle() }}
+                    </span>
+                </a>
+            </td>
+            <td>{{ entity.translit }}</td>
+
+            <td class = ''>
+                <a class = 'menu_sys_edit new_window' target= '_blank' href="{{ path( route~'_edit', { 'id': entity.id }) }}">{{ "edit"|trans }}</a>
+                {% if entity.children.isEmpty %} 
+                <a class = 'menu_sys_delete delete_object' data-prev="true"
+                   data-link="#tr_{{ route }}_{{ entity.id }}" data-form="#product_group_delete_{{entity.id}}">
+                    {{ "delete"|trans }}</a>              
+                <form id="product_group_delete_{{entity.id}}"style = 'display:inline-block' action="{{ path(route~'_delete', { 'id': entity.id }) }}" method="post">
+                    {{ form_widget( delete_form[entity.id] ) }} 
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {{ block("navigation") }} 
+        
+<br class = 'clr'/>           
+
+   {% render 'ItcAdminBundle:Product/Product:index' with {'product_group_id': parent_id, 'coulonpage': coulonpage, 'page': page}%}    
+{#       
+   {% block product %}
+        {% include 'ItcAdminBundle::Product/Product/index.html.twig' with {'entities': products, 'route':'product'} %}
+   {% endblock %}
+#}
+</div>
+{% endblock %}

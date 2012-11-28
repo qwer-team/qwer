@@ -1,0 +1,72 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block menu %}
+    {# скрываем меню #}
+{% endblock %}
+{% block body %}
+<div class = 'menu_sys_main_conteiner'>
+
+<h1>{% trans from "gallery" %}Gallery list{% endtrans %}</h1>
+
+
+<table class="records_list">
+    <thead>
+            <th class="w50px">{{ "id"|trans }}</th>
+            <th>{{ "title"|trans }}</th>
+            <th class="w250px">{{ "actions"|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key in forms|keys  %}
+        <tr id="tr_gallery_{{key}}">
+            <td>{{ key }}</td>
+            <td>
+                <form id="update_form_{{key}}" action="{{ path('gallery_update', { 'id': key }) }}" method="post" {{ form_enctype(forms[key]) }} >
+                    {{ form_widget( forms[key]["title"], { 'attr': {'class': 'w100per'} }  ) }}
+                    {{form_rest(forms[key])}}
+                </form>
+            </td>
+            <td>
+                <div class="link_block">
+                    <a href="#update_form_{{key}}" class="menu_sys_save update_date" >{{ "Save"|trans }}</a>
+                </div>                
+                <div class="link_block">
+                    <a class = 'menu_sys_delete delete_object'
+                   data-link="#tr_gallery_{{key}}" data-form="#gallery_delete_{{key}}">
+                    {{ "delete"|trans }}</a>              
+                    <form id="gallery_delete_{{key}}" action="{{ path('gallery_delete', { 'id': key }) }}" method="post">
+                        {{ form_widget(delete_form[key]) }}
+                    </form>
+                </div>
+                <div class="link_block">
+                    <a href="#image_{{key}}" class="show_object"><img src="{{ asset('/image/ar_bot.png')}}" /></a>
+                </div>
+                <div class="link_block">
+                    <a href="#image_{{key}}" class="hide_object"><img src="{{ asset('/image/ar_top.png')}}" /></a>
+                </div>
+            </td>
+        </tr>
+        {% set visible %}
+            {% if key != gallery_id %}hidden{% endif %}
+        {% endset %}
+        <tr id="image_{{key}}" class="{{visible}}">
+            <td colspan="3"> 
+                 {% render "ItcAdminBundle:Gallery/Image:index" with {'gallery_id': key} %}       
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="#new_gallery_{{ menu_id }}" class="show_object addbutton" 
+           alt="{% trans from "gallery" %}Create a new gallery{% endtrans %}">
+        </a>
+    </li>
+</ul>
+<div id="new_gallery_{{ menu_id }}" class="hidden menu_sys_upper_form">
+    {% render "ItcAdminBundle:Gallery/Gallery:new" with {'menu_id': menu_id} %}
+</div>
+
+</div>
+{% endblock %}
