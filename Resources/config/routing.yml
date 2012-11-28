@@ -1,3 +1,6 @@
 main_site_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: MainSiteBundle:Default:index }
+site:
+    resource: "@MainSiteBundle/Controller/"
+    prefix:   /

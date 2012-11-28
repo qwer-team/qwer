@@ -3,15 +3,33 @@
     {{parent()}}
 {% endblock %}
 {% block body %}
+    
     <section id="slider-wrapper">
             <a id="playPauseButton" class="show" href="#" data-link="#index_slider">
                 <span class="hide-text" style="opacity: 1;">Hide Slideshow</span>
                 <span class="show-text" style="opacity: 0;">Show Slideshow</span>
             </a>
-            <div id="index_slider" style="width: 50%">
-            {% for image in images %}
-                <img src = '{{ vich_uploader_asset( image, 'image' ) }}' alt="" style="width: 50%; float: right;"  />
-            {% endfor %}
+    <div class="slider-bg">
+        <div class="wrapper" style="width:99%" >    
+            {% if images|length > 0%}
+            <div id="index_slider">            
+                {% for image in images %}
+                    <img src = '{{ vich_uploader_asset( image, 'image' ) }}' alt="" title="#image_text_{{ image.id }}" style="float: right;"  />
+                {% endfor %}
+                <div style="opacity: 1;" class="nivo-caption">
+                    <div style="display: block;" class="nivo-caption-inner">
+                    </div>                    
+                </div>    
             </div>
+            {% for image in images %}
+                    <div id="image_text_{{ image.id }}" class="hidden">
+                        <h5> {{ image.title }} </h5>
+                    </div>
+            {% endfor %}
+            {% else %}
+            нет картинок!
+            {% endif %}
+        </div>
+    </div>
     </section>          
 {% endblock %}
