@@ -7,7 +7,7 @@
     "homepage": "http://github.com/qwer-team/itcadmin",
     "require": {
         "php": ">=5.3.0",
-        "avalanche123/imagine-bundle" : "dev-master"
+        "imagine/Imagine" : "*"
     },
     "autoload": {
         "psr-0": {
