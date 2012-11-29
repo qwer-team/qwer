@@ -42,12 +42,12 @@
     display: block;
     width: 30px;
     height: 30px;
-    background: url( '/image/icon-32-new.png' ) scroll 0 32px transparent;
+    background: url( '/bundles/itcadmin/images/icon-32-new.png' ) scroll 0 32px transparent;
     font: none;
     text-indent:-9990px; 
 }
 .addbutton:hover{
-    background: url( '/image/icon-32-new.png' ) scroll 0 0px transparent;
+    background: url( '/bundles/itcadmin/images/icon-32-new.png' ) scroll 0 0px transparent;
 }
 .w50px{
     width:50px;
