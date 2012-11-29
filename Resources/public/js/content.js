@@ -30,7 +30,7 @@ $( document ).ready(function() {
         }else {       
             slider.data('nivoslider').start();  
             $button.toggleClass("show", true); 
-            $(".slider-bg").animate({height:"529px"}); 
+            $(".slider-bg").animate({height:"530px"}); 
             $(".hide-text").animate({opacity:"1"});   
             $(".show-text").animate({opacity:"0"});              
         }   

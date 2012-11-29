@@ -8,11 +8,11 @@ html, body {
     min-width: 960px;
 }
 #main {
-    background: url("/image/content.gif") repeat scroll 50% 0 transparent;
+    background: url("/bundles/mainsite/image/content.gif") repeat scroll 50% 0 transparent;
     font-size: 0.75em;
 }
 #header {
-    background: url("/image/header.gif") repeat-x scroll 0 0 transparent;
+    background: url("/bundles/mainsite/image/header.gif") repeat-x scroll 0 0 transparent;
     height: 128px;
     position: relative;
     z-index: 99;
@@ -91,7 +91,7 @@ article, aside, dialog, figure, footer, header, hgroup, nav, section {
     line-height: 1;
 }
 .sf-menu ul {
-    background: url("/image/sub-menu.gif") repeat scroll 0 0 transparent;
+    background: url("/bundles/mainsite/image/sub-menu.gif") repeat scroll 0 0 transparent;
     border-top: 1px solid #000000;
     position: absolute;
     top: -999em;
@@ -140,14 +140,14 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
     text-decoration: none;
 }
 .sf-menu li {
-    background: url("/image/menu-divider.gif") no-repeat scroll 0 12px transparent;
+    background: url("/bundles/mainsite/image/menu-divider.gif") no-repeat scroll 0 12px transparent;
     padding: 0 0 0 2px;
 }
 .sf-menu li:first-child {
     background: none repeat scroll 0 0 transparent;
 }
 .sf-menu li a {
-    background: url("/image/menu.gif") repeat-x scroll 0 -43px transparent;
+    background: url("/bundles/mainsite/image/menu.gif") repeat-x scroll 0 -43px transparent;
     font-size: 14px;
     height: 43px;
     line-height: 42px;
@@ -202,7 +202,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
     padding-right: 2.25em;
 }
 .sf-sub-indicator {
-    background: url("/image/arrows-ffffff.png") no-repeat scroll -10px -100px transparent;
+    background: url("/bundles/mainsite/image/arrows-ffffff.png") no-repeat scroll -10px -100px transparent;
     display: block;
     height: 10px;
     overflow: hidden;
@@ -229,7 +229,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     background-position: -10px 0;
 }
 .sf-shadow ul {
-    background: url("/image/shadow.png") no-repeat scroll right bottom transparent;
+    background: url("/bundles/mainsite/image/shadow.png") no-repeat scroll right bottom transparent;
     padding: 0 8px 9px 0;
 }
 .sf-shadow ul.sf-shadow-off {
@@ -247,10 +247,11 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     border-left: 1px solid #FFFFFF;
     border-top: 1px solid #FFFFFF;
     padding: 4px 5px 0 4px;
-    width: 100%;
+    width: 930px;
+    height: 529px;
 }
 #playPauseButton {
-    background: url("/image/show.gif") no-repeat scroll 100% 0 transparent;
+    background: url("/bundles/mainsite/image/show.gif") no-repeat scroll 100% 0 transparent;
     color: #6D6D6D;
     display: block;
     font-size: 12px;
@@ -266,7 +267,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     top: 13px;
 }
 .show {
-    background: url("/image/hide.gif") no-repeat scroll 100% 0 transparent !important;
+    background: url("/bundles/mainsite/image/hide.gif") no-repeat scroll 100% 0 transparent !important;
     color: #6D6D6D;
     display: block;
     font-size: 12px;
@@ -285,6 +286,96 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     right: 46px;
     top: -1px;
 }
+h5 {
+    color: #5EABCC;
+    font-family: 'Ubuntu',sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2em;
+    margin: 0;
+}
+.primary_content_wrap {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+.primary_content_wrap .indent {
+    padding: 52px 0 66px;
+    width: 100%;
+}
+ul.extra {
+    overflow: hidden;
+    padding: 0 0 39px;
+    width: 100%;
+}
+h2 {
+    background: url("../images/title-line.png") repeat-x scroll 0 100% transparent;
+    color: #2F2E2B;
+    font-family: 'Ubuntu',sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2em;
+    margin: 0 0 24px;
+    padding: 0 0 12px;
+}
+#slider-wrapper .slider-bg {
+    background: none repeat scroll 0 0 #F1F1F1;
+    border-left: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+    height: 529px;
+    padding: 4px 5px 0 4px;
+    width: 930px;
+}
+#slider {
+    background: url("images/loading.gif") no-repeat scroll 50% 50% transparent;
+    height: 529px;
+    position: relative;
+    width: 930px;
+}
+#slider img {
+    display: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+#slider a {
+    border: 0 none;
+    display: block;
+}
+.nivoSlider {
+    position: relative;
+}
+.nivoSlider img {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.nivoSlider a.nivo-imageLink {
+    border: 0 none;
+    display: none;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 60;
+}
+.nivo-slice {
+    display: block;
+    height: 100%;
+    position: absolute;
+    z-index: 50;
+}
+.nivo-box {
+    display: block;
+    position: absolute;
+    z-index: 5;
+}
 .nivo-caption {
     background: none repeat scroll 0 0 transparent;
     color: #5EABCC;
@@ -298,16 +389,84 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     width: 930px;
     z-index: 89;
 }
+.nivo-caption h5 {
+}
 .nivo-caption .nivo-caption-inner {
     margin: 0;
     padding: 0;
 }
-h5 {
-    color: #5EABCC;
-    font-family: 'Ubuntu',sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    line-height: 1.2em;
-    margin: 0;
+.nivo-caption a {
+    display: inline !important;
+}
+.nivo-html-caption {
+    display: none;
+}
+.nivo-directionNav a {
+    cursor: pointer;
+    position: absolute;
+    top: 45%;
+    z-index: 99;
+}
+.nivo-prevNav {
+    left: 0;
+}
+.nivo-nextNav {
+    right: 0;
+}
+.nivo-controlNav {
+    bottom: 81px;
+    position: absolute;
+    right: 11px;
+    text-align: center;
+    width: 18px;
+}
+.nivo-controlNav a {
+    background: url("images/pagination.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    display: inline-block !important;
+    font-size: 0;
+    height: 18px;
+    line-height: 0;
+    margin: 4px 0 0;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    vertical-align: top;
+    width: 18px;
+    z-index: 99;
+}
+.nivo-controlNav a.active, .nivo-controlNav a:hover {
+    background-position: 0 -18px;
+}
+.nivo-directionNav {
+}
+.nivo-directionNav a {
+    background: url("images/direction_nav.png") no-repeat scroll 0 0 transparent;
+    border: 0 none;
+    display: block;
+    height: 35px;
+    position: absolute;
+    text-indent: -9999px;
+    top: 45%;
+    width: 36px;
+}
+a.nivo-nextNav {
+    background-position: -36px 0;
+    right: 15px;
+}
+a.nivo-nextNav:hover {
+    background-position: -36px -35px;
+}
+a.nivo-prevNav {
+    background-position: 0 0;
+    left: 15px;
+}
+#index_slider{
+    width: 930px;
+    height: 529px;
+}
+.wrapper {
+    overflow: hidden;
+    width: 99%;
+    height: 99%;
 }
