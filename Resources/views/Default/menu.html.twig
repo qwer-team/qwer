@@ -2,7 +2,7 @@
         <div class="grid_12">
             <div class="logo">
                 <a href="#" id="logo">
-                    <img src="/image/logo01.png" alt="Case" title="">
+                    <img src="/bundles/mainsite/image/logo01.png" alt="Case" title="">
                 </a>
                 </div>
                 <nav class="primary">
@@ -24,6 +24,26 @@
                         {% endif %}
                     </li>
                     {% endfor %}
+                    <li id="menu-item" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item 
+                        page_item page-item current_page_item menu-item">
+                        <a href="">
+                            {{ locale }}
+                        </a>
+                        {% for lang in languages %}
+                            {% if lang != locale %}
+                                <ul class="sub-menu">
+                                    <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
+                                        <a href="{{lang}}">
+                                            {{ lang }}
+                                 {#           {{ path(app.request.getPathInfo(), {'_locale': lang} ) }}#}
+                                            {#{{ path(route, {'_locale': lang} ) }}#}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </li>
+                    
                     </ul>
                  </nav>
             </div>
