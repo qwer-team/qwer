@@ -5,11 +5,11 @@
 	<meta charset="UTF-8">
         <link rel="shortcut icon" href="/image/favicon.ico" />
 	<title>
-           {{% if entity.metatitle is not empty %}
+           {% if entity.metatitle is not empty %}
                 {{ entity.metatitle }}
             {% else %}
                 Title
-            {% endif %}}
+            {% endif %}  
         </title>
         {% block javascript %}
 
