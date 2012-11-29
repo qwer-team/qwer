@@ -37,52 +37,27 @@
    	<div class="container_12 clearfix">
       	<div class="grid_12">
             <div class="indent">
-	<div id="my_poststypewidget-2"><ul class='post_list extra'>
-    		<li class="cat_post_item-1 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/" rel="bookmark" title="Quick.">Quick.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/">
-                                            <img width="107" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-1.png" class="attachment-post-thumbnail wp-post-image" alt="img-1" title="img-1" />              			                  </a></div>
-              			            
-		</li>
-	    		<li class="cat_post_item-2 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/simple/" rel="bookmark" title="Simple.">Simple.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/simple/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/simple/">
-                                            <img width="128" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-2.png" class="attachment-post-thumbnail wp-post-image" alt="img-2" title="img-2" />              			                  </a></div>
-              			            
-		</li>
-	    		<li class="cat_post_item-3 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/effective/" rel="bookmark" title="Effective.">Effective.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/effective/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/effective/">
-                                            <img width="93" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-3.png" class="attachment-post-thumbnail wp-post-image" alt="img-3" title="img-3" />              			                  </a></div>
-              			            
-		</li>
-	    		<li class="cat_post_item-4 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/successfull/" rel="bookmark" title="Successfull.">Successfull.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/successfull/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/successfull/">
-                                            <img width="108" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-4.png" class="attachment-post-thumbnail wp-post-image" alt="img-4" title="img-4" />              			                  </a></div>
-              			            
-		</li>
-		</ul>
+	<div id="my_poststypewidget-2">
+            <ul class='post_list extra'>
+                {% for child in childrens %}
+                <li class="cat_post_item-1 clearfix">
+                    <h2>
+                        <a class="post-title" href="#" rel="" title="">
+                            {{ child.title }}
+                        </a>
+                    </h2>			            
+                    <div class="post_content">
+                        {{ child.content }}
+                    </div>			                         
+                    <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/" class="link">Read More</a>
+                    <div class="picture">
+                        <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/">
+                            <img width="107" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-1.png" class="attachment-post-thumbnail wp-post-image" alt="img-1" title="img-1" />              			                  
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
 		
 </div>   
                  <div id="my_cyclewidget-2">                  <h2>Areas Of Practice</h2>						

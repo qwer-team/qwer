@@ -2350,10 +2350,6 @@ input[type="submit"]:hover, input[type="reset"]:hover {
 .clear {
     clear: both;
 }
-.wrapper {
-    overflow: hidden;
-    width: 100%;
-}
 .extra-wrap {
     overflow: hidden;
 }

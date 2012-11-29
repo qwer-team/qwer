@@ -29,20 +29,25 @@ class DefaultController extends Controller
                         ->select( 'M, T' )
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
+                        ->where('M.parent IS NULL')
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale);
 
         $entities = $queryBuilder->getQuery()->execute();
         $entity = $entities[0];
         
+        $childrens = $entity->getChildren();
+        
         $galleries = $entity->getGalleries();
+        
         $images = array();
-        //$images    = $galleries[0]->getImages();
+        $images = $galleries[0]->getImages();
         
         return array( 
             'entities'  => $entities,
             'entity'    => $entity,
             'images'    => $images,
+            'childrens'  => $childrens,
         );
     }
     
