@@ -9,10 +9,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
 
+/**
+ * Default controller.
+ * @Route("/")
+ */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/", defaults={ "_locale" = "ru"}, name="index")
      * @Template()
      */
     public function indexAction()
@@ -36,13 +40,9 @@ class DefaultController extends Controller
         //$images    = $galleries[0]->getImages();
         
         return array( 
-            'entity' => $entity,
-            'images' => $images,
-        );
-        return array( 
-            'entities'   => $entities,
-            'entity' => $entity,
-            'images' => $images,
+            'entities'  => $entities,
+            'entity'    => $entity,
+            'images'    => $images,
         );
     }
     
@@ -77,6 +77,10 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
+        $languages  = LanguageHelper::getLanguages();
+        
+        $request = $this->container->get('request')->getPathInfo();
+//$routeName = $request->get('_route');
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
@@ -95,8 +99,11 @@ class DefaultController extends Controller
                 $entities[] = $v;
                 
         return array( 
-            "entities"       => $entities,
-            "locale"         => $locale,
+            "entities"  => $entities,
+            "locale"    => $locale,
+            'locale'    => $locale,
+            'languages' => $languages,
+            'route'     => $request,
         );
     }
     

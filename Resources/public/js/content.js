@@ -30,9 +30,24 @@ $( document ).ready(function() {
         }else {       
             slider.data('nivoslider').start();  
             $button.toggleClass("show", true); 
-            $(".slider-bg").animate({height:"529px"}); 
+            $(".slider-bg").animate({height:"530px"}); 
             $(".hide-text").animate({opacity:"1"});   
             $(".show-text").animate({opacity:"0"});              
         }   
-    });   
+    });       
+	$(window).scroll(function () {
+		if (jQuery(this).scrollTop() > 100) {
+			jQuery('#back-top').fadeIn();
+		} else {
+			jQuery('#back-top').fadeOut();
+		}
+	});
+
 });
+
+	$('#back-top a').click(function () {
+		$('body,html').stop(false, false).animate({
+			scrollTop: 0
+		}, 800);
+		return false;
+	});
