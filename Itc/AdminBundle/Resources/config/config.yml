@@ -146,7 +146,7 @@ vich_uploader:
     mappings:
         menu_icon:
             uri_prefix: /bundles/itcadmin/images/icons
-            upload_destination: %kernel.root_dir%/../web/bundles/itcadmin/images/icons
+            upload_destination: %kernel.root_dir%/../web/images/icons
             namer: itcadmin.namer.image
         image:
             uri_prefix: /images
