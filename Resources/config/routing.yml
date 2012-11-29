@@ -1,6 +1,26 @@
+site_index:
+    pattern: /
+    defaults: { _controller: MainSiteBundle:Default:index, _locale: %locale% }
+    
+site:
+    prefix:   /{_locale}
+    resource: "@MainSiteBundle/Controller/"
+    type:     annotation
+    defaults: {_locale: %locale% }
+    requirements:
+      _locale : \w{2}        
+      
 main_site_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: MainSiteBundle:Default:index }
-site:
-    resource: "@MainSiteBundle/Controller/"
-    prefix:   /
+
+    
+      
+#itc_index:
+#    pattern: /itc/
+#    defaults: { _controller: ItcAdminBundle:Admin:index, _locale: %locale% }
+#    
+#itc_admin_def:
+#    prefix: /itc/{_locale}
+#    resource: "@ItcAdminBundle/Controller/"
+#    type:     annotation
