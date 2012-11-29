@@ -11,16 +11,8 @@ site:
       _locale : \w{2}        
       
 main_site_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: MainSiteBundle:Default:index }
-
-    
-      
-#itc_index:
-#    pattern: /itc/
-#    defaults: { _controller: ItcAdminBundle:Admin:index, _locale: %locale% }
-#    
-#itc_admin_def:
-#    prefix: /itc/{_locale}
-#    resource: "@ItcAdminBundle/Controller/"
-#    type:     annotation
+main_site:
+    resource: "@MainSiteBundle/Controller/"
+    prefix:   /

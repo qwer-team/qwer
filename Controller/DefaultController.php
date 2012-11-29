@@ -36,7 +36,8 @@ class DefaultController extends Controller
         $entity = $entities[0];
         
         $galleries = $entity->getGalleries();
-        $images    = $galleries[0]->getImages();
+        $images = array();
+        //$images    = $galleries[0]->getImages();
         
         return array( 
             'entities'  => $entities,
@@ -44,6 +45,16 @@ class DefaultController extends Controller
             'images'    => $images,
         );
     }
+    
+    /**
+     * @Route("/faq", name="faq")
+     * @Template()
+     */
+    public function faqAction(){
+        
+        return array( 'entity' => array() );
+    }
+    
     /**     
      * Lists all Menu entities.
      * @Template()
