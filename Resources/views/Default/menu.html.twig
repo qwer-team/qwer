@@ -10,7 +10,7 @@
                     {% for entity in entities %}
                     <li id="menu-item" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item 
                         page_item page-item current_page_item menu-item">
-                        <a href="">
+                        <a href="{{ entity.translit }}">
                             {{entity.title}}
                         </a>
                         {% if entity.children.isEmpty == false %} 
