@@ -11,6 +11,10 @@ use Itc\AdminBundle\Tools\LanguageHelper;
 
 class DefaultController extends Controller
 {
+    private $menu = array( 
+        'ItcAdminBundle:Menu\Menu',
+        'ItcAdminBundle:Menu\MenuTranslation'
+    );
     /**
      * @Route("/", name="index")
      * @Template()
@@ -54,6 +58,16 @@ class DefaultController extends Controller
         
         return array( 'entity' => array() );
     }
+    /**
+     * @Route("/{translit}" , name="content")
+     * @Template()
+     */
+    public function contentAction($translit){
+        
+        $entity = $this->getEntityTranslit( $this->menu, $translit )
+                       ->getOneOrNullResult();
+        return array( 'entity' => $entity );
+    }
     
     /**     
      * Lists all Menu entities.
@@ -84,6 +98,102 @@ class DefaultController extends Controller
             "entities"       => $entities,
             "locale"         => $locale,
         );
+    }
+    
+/************************ Вспомогательные методы ******************************/
+    /**
+     * Поиск по транслиту
+     * @param string $entities - сущьность с транслитом описана в массиве
+     * пример $this->menu;
+     * @param string $translit - транслит для поиска
+     * @return результат запроса
+     */
+    private function getEntityTranslit( $entities, $translit ){
+
+        if( LanguageHelper::getLocale() == LanguageHelper::getDefaultLocale() ){
+
+            $wheres[] = "M.translit = :translit";
+            $parameters['translit'] = $translit;
+
+        } else {
+
+            $wheres[] = "M.value    = :translit";
+            $wheres[] = "M.property = :property";
+            
+            $parameters['translit'] = $translit;
+            $parameters['property'] = "translit";
+        }
+
+        return $this->getEntities( $entities, $wheres, $parameters );
+    }
+    /**
+     * Вытягивет сущьность по критериям
+     * @param type $entities - сущьность с транслитом описана в массиве
+     * пример $this->menu;
+     * 
+     * @param array $wheres - массив с поиском [] = "M.locale = :locale" без AND;
+     * $qb->where( implode( ' AND ', $wheres ) );
+     * 
+     * @param array $parameters - парметры поиска, обязательное условие
+     * array( ['locale'] => $locale, ... )
+     * 
+     * @return $qb->getQuery();
+     */
+     
+     
+    private function getEntities( $entities, array $wheres = NULL, array $parameters = NULL ){
+        
+        list( $entity, $translation ) = $entities;
+
+        $em            = $this->getDoctrine()->getManager();
+        $locale        = LanguageHelper::getLocale();
+
+        if( $locale == LanguageHelper::getDefaultLocale() ){
+
+            $table = $entity;
+
+        } else {
+            
+            $table = $translation;
+            $wheres[] = "M.locale = :locale";
+            $parameters['locale'] = $locale;
+        }
+
+        $qb = $em->getRepository( $table )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M' );
+
+        if( $wheres !== NULL ){
+
+            $qb->where( implode( ' AND ', $wheres ) );
+            $qb->setParameters( $parameters );
+
+        }
+
+        return $qb->getQuery();
+    }
+    
+    
+    
+        private function getLocale()
+    {
+        $locale = $this->getRequest()->getLocale();
+        return $locale;
+    }
+     /**
+     * есть в ITC
+     * @return type
+     */
+    private function getRoutes()
+    {
+        $router = $this->container->get( 'router' );
+        
+        $routes = array();
+
+        foreach ( $router->getRouteCollection()->all() as $name => $route ){
+            $routes[] = $name;
+        }
+        return $routes;
     }
     
 }
