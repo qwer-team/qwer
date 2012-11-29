@@ -1,4 +1,12 @@
 {% extends 'MainSiteBundle::layout.html.twig' %}
+<head>
+        {% block css %}
+            <link rel="stylesheet" href="{{ asset ( 'bundles/mainsite/css/style.css' ) }}" />
+            <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/morestyles.css' ) }}" />
+            {# <link rel="stylesheet" href="{{ asset ( 'css/nivo-slider.css' ) }}" /> #}
+            <link rel="stylesheet" href="{{ asset ( 'css/plugins/jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.css' ) }}"/>
+        {% endblock %}
+</head>
 {% block menu %}
     {{parent()}}
 {% endblock %}
