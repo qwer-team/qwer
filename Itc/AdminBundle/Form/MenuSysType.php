@@ -45,9 +45,11 @@ class MenuSysType extends AbstractType
                                         array("label" => "MetaTitle", 
                                               'required'=>NULL))
                     ->add( $lang.'Translation.description', 'textarea',
-                                array("label" => "Description"))
+                                array("label" => "Description",
+                                        'required'=>NULL))
                     ->add( $lang.'Translation.content', 'textarea', 
                                 array("label" => "Content",
+                                    'required'=>NULL,
                                     'attr' => $tinymce));
                     
         }

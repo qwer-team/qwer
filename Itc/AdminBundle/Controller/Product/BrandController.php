@@ -50,9 +50,12 @@ class BrandController extends Controller
             $this->get('request')->query->get('page', 1)/*page number*/,
             $coulonpage/*limit per page*/
         );      
-        foreach ($entities as $entity)
+        
+        $deleteForm = array();
+        foreach ($entities as $entity){
             $deleteForm[$entity->getId()] = $this->createDeleteForm($entity->getId())
                             ->createView();
+        }
         /*
         $router = $this->get("router");
         $route = $router->match($this->getRequest()->getPathInfo());

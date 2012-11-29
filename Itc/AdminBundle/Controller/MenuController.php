@@ -62,6 +62,7 @@ class MenuController extends Controller {
 
         $deleteForm = array();   
         $visibleForm = array();
+        $changeKodForm = array();
         
         foreach ($entities as $entity){
             

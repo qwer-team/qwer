@@ -49,9 +49,11 @@ class MenuSysNewType extends AbstractType
                                         array("label" => "MetaTitle", 
                                               'required'=>NULL))
                     ->add( $lang.'Translation.description','textarea',
-                                            array("label" => "Description"))
+                                            array("label" => "Description",
+                                                'required'=>NULL,))
                     ->add( $lang.'Translation.content', 'textarea', 
-                            array_merge($tinymce, array("label" => "Content") ));
+                            array_merge($tinymce, 
+                                    array("label" => "Content", 'required'=>NULL) ));
                     
         }
         
