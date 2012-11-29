@@ -145,7 +145,7 @@ vich_uploader:
     db_driver: orm # or mongodb
     mappings:
         menu_icon:
-            uri_prefix: /bundles/itcadmin/images/icons
+            uri_prefix: /images/icons
             upload_destination: %kernel.root_dir%/../web/images/icons
             namer: itcadmin.namer.image
         image:
