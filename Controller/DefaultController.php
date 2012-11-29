@@ -52,7 +52,21 @@ class DefaultController extends Controller
      */
     public function faqAction(){
         
-        return array( 'entity' => array() );
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale);
+
+        $entities = $queryBuilder->getQuery()->execute();
+        $entity = $entities[0];
+        
+        return array( 'entity' => $entity );
     }
     
     /**     
