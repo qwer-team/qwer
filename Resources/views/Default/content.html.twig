@@ -19,21 +19,16 @@
                                 {% endautoescape %}
                             </div>  
                         </article>
-                        <div id="post-author">
-                            <h3>Written by admin</h3>
-                                <p class="gravatar"><img width="80" height="80" class="avatar avatar-80 photo" src="bundles/mainsite/image/logo01.png" alt=""></p>
-                            <div id="author-description">
-                                Aenean et orci id purus iaculis scelerisque. Vestibulum ante ipsum primis in 
-                                faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus nec 
-                                diam sit amet quam pretium iaculis eget sit amet neque. 
-                                Maecenas nec molestie quam. Morbi ornare egestas urna, in eleifend urna euismod 
-                                sit amet. Nulla aliquam scelerisque enim, non commodo orci lobortis sit amet. 
-                                Integer nec condimentum ipsum. Vivamus tempor auctor nulla, non aliquam risus venenatis a. 
-                            <div id="author-link">
-                                <p>View all posts by: <a rel="author" title="Posts by admin" href="#">admin</a></p>
-                            </div>
-                            </div>
-                        </div>
+                        <div id="disqus_thread"></div>         
+                        <script type="text/javascript">            
+                            var disqus_shortname = 'demo1qwercomua';    
+                            (function() {         
+                                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;  
+                                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';   
+                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); 
+                            })();         </script>        
+                         <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>      
+                        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>         
                     </div>        
                 </div>
              {% include "MainSiteBundle:Default:rightblock.html.twig" %}   
