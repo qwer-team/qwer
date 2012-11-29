@@ -30,20 +30,24 @@ _itc:
 security.yml
 
 <code>
+
     jms_security_extra:
         secure_all_services: false
         expressions: true
+        
     security:
         providers:
             chain_provider:
                 chain:
                     providers: [in_memory, fos_userbundle]
+                    
             fos_userbundle:
                 id: fos_user.user_provider.username
+                
             in_memory:
                 memory:
                     users:
-    
+                        qwer: { password: admin, roles: 'ROLE_ADMIN' }
         encoders:
             FOS\UserBundle\Model\UserInterface: sha512
             Symfony\Component\Security\Core\User\User: plaintext
