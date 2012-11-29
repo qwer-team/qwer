@@ -3,32 +3,34 @@ itcadmin
 
 AppKernel.php
 <code>
-new Itc\AdminBundle\ItcAdminBundle(),
-new FOS\UserBundle\FOSUserBundle(),
-new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
-new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-new Vich\UploaderBundle\VichUploaderBundle(),
-new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
-new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
-new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-new Genemu\Bundle\FormBundle\GenemuFormBundle()
+    
+    new Itc\AdminBundle\ItcAdminBundle(),
+    new FOS\UserBundle\FOSUserBundle(),
+    new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+    new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+    new Vich\UploaderBundle\VichUploaderBundle(),
+    new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+    new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
+    new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+    new Genemu\Bundle\FormBundle\GenemuFormBundle()
 </code>
 
 config.yml
 <code>
-import:
-    - { resource: '@ItcAdminBundle/Resources/config/config.yml' }
+
+    import:
+        - { resource: '@ItcAdminBundle/Resources/config/config.yml' }
 </code>
 
 routing.yml
 <code>
-_itc:
-  resource: '@ItcAdminBundle/Resources/config/routing.yml'
+
+    _itc:
+      resource: '@ItcAdminBundle/Resources/config/routing.yml'
 </code>
 
 security.yml
-
 <code>
 
     jms_security_extra:
