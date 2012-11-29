@@ -177,4 +177,5 @@ white_october_breadcrumbs: ~
 
     
 
-#gregwar_captcha: ~
+parameters:
+  schema_fill_file: 'qwer.sql'

@@ -30,8 +30,9 @@ class FillSchemaCommand extends Command
     {
         $container = \Itc\AdminBundle\ItcAdminBundle::getContainer();
         $param = $container->getParameter("schema_fill_file");
-        $path = __DIR__."/../Resources/".$param;
-        $output->write($path."\n");
+        $kernel = $container->get("kernel");
+        $path       = 
+            $kernel->locateResource("@ItcAdminBundle/Resources/".$param);
         $file = new File($path);
         $reader = $file->openFile();
         $sql = "";
