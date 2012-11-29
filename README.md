@@ -20,11 +20,13 @@ config.yml
 import:
     - { resource: '@ItcAdminBundle/Resources/config/config.yml' }
 </code>
-<code>
+
 routing.yml
+<code>
 _itc:
   resource: '@ItcAdminBundle/Resources/config/routing.yml'
 </code>
+
 security.yml
 <code>
 jms_security_extra:
