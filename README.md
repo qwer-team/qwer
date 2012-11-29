@@ -2,7 +2,7 @@ itcadmin
 ========
 
 AppKernel.php
-
+<code>
 new Itc\AdminBundle\ItcAdminBundle(),
 new FOS\UserBundle\FOSUserBundle(),
 new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
@@ -13,17 +13,20 @@ new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
 new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
 new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
 new Genemu\Bundle\FormBundle\GenemuFormBundle()
-
+</code>
 
 config.yml
+<code>
 import:
     - { resource: '@ItcAdminBundle/Resources/config/config.yml' }
-
+</code>
+<code>
 routing.yml
 _itc:
   resource: '@ItcAdminBundle/Resources/config/routing.yml'
-
+</code>
 security.yml
+<code>
 jms_security_extra:
     secure_all_services: false
     expressions: true
@@ -69,6 +72,7 @@ security:
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
-
+</code>
+<code>
 chmod -R 777 vendor/qwerteam/
-
+</code>
