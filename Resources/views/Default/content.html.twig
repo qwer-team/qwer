@@ -17,6 +17,9 @@
                                 {% autoescape false %}
                                     {{ entity.content }}
                                 {% endautoescape %}
+                                    {% for keyword in keywords %}
+                                    {{ keyword.keyword }}
+                                    {% endfor %}
                             </div>  
                         </article>
                     </div>        

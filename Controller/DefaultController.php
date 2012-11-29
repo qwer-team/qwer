@@ -63,10 +63,16 @@ class DefaultController extends Controller
      * @Template()
      */
     public function contentAction($translit){
-        
+       
         $entity = $this->getEntityTranslit( $this->menu, $translit )
                        ->getOneOrNullResult();
-        return array( 'entity' => $entity );
+         if (!$entity) {
+            throw $this->createNotFoundException('Невозможно найти страницу.');
+        }
+        $keywords=$entity->getKeywords();
+        return array( 'entity' => $entity, 
+                      'keywords' =>$keywords
+                    );
     }
     
     /**     
