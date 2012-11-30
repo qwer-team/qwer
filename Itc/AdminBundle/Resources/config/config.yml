@@ -179,3 +179,4 @@ white_october_breadcrumbs: ~
 
 parameters:
   schema_fill_file: 'qwer.sql'
+  schema_version: 'version.sql'

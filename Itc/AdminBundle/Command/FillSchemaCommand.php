@@ -29,10 +29,12 @@ class FillSchemaCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = \Itc\AdminBundle\ItcAdminBundle::getContainer();
-        $param = $container->getParameter("schema_fill_file");
+        $schemaName = $container->getParameter("schema_fill_file");
+        $versName = $container->getParameter("schema_version");
+        
         $kernel = $container->get("kernel");
         $path       = 
-            $kernel->locateResource("@ItcAdminBundle/Resources/".$param);
+            $kernel->locateResource("@ItcAdminBundle/Resources/".$schemaName);
         $file = new File($path);
         $reader = $file->openFile();
         $sql = "";
@@ -43,6 +45,7 @@ class FillSchemaCommand extends Command
         }
         $query = $em->getConnection()->prepare($sql);
         $query->execute();
+        
         $output->write("Completed!\n");
     }
 }

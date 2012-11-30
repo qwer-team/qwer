@@ -293,7 +293,7 @@ div.menu_sys_content_show{
 .edit{
     float:left;
     margin: 5px;
-    background: url("/web/bundles/itcadmin/images/btn_save1.gif");
+    background: url("/bundles/itcadmin/images/btn_save.gif");
 
     border: medium none;
     height: 48px;
