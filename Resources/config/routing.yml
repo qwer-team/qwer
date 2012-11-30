@@ -10,9 +10,3 @@ site:
     requirements:
       _locale : \w{2}        
       
-main_site_homepage:
-    pattern:  /
-    defaults: { _controller: MainSiteBundle:Default:index }
-main_site:
-    resource: "@MainSiteBundle/Controller/"
-    prefix:   /

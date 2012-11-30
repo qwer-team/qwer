@@ -329,19 +329,19 @@ h2 {
     padding: 4px 5px 0 4px;
     width: 930px;
 }
-#slider {
+#index_slider {
     background: url("/bundles/mainsite/image/loading.gif") no-repeat scroll 50% 50% transparent;
     height: 529px;
     position: relative;
     width: 930px;
 }
-#slider img {
+#index_slider img {
     display: none;
     left: 0;
     position: absolute;
     top: 0;
 }
-#slider a {
+#index_slider a {
     border: 0 none;
     display: block;
 }
@@ -1599,7 +1599,7 @@ ul.clients li .excerpt {
     margin: 0 0 0 3px;
     padding: 0;
 }
-#slider-code .pager li a {
+#slider-code .pager li a, .prevBtn, .nextBtn {
     background: url("/bundles/mainsite/image/pagination.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 18px;
