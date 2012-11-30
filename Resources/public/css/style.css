@@ -2388,3 +2388,103 @@ h2 a {
     color: #2F2E2B !important;
     text-decoration: none !important;
 }
+/*
+section.faq .faq_arrows{
+    width: 940px;
+    height: 73px;
+    overflow: hidden;
+}
+section.faq{
+    width: 940px;
+    margin: 1px auto 0;
+}
+
+section.faq .answer{
+    color: #2F2E2B;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: bold;
+    height: 33px;
+    margin: 0;
+    padding: 0;
+    width: 940px;
+}
+
+section.faq .text{
+    padding: 7px 0 20px 7px;
+    text-align: justify;
+}
+section.faq .text p{
+    color: #636363;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    text-indent: 30px;
+}
+section.faq .text p b{
+    color: #0A6695;
+}
+section.faq .foto_bg_right{
+    background-image: url("../images/foto_bg.png");
+    float: right;
+    height: 204px;
+    margin: 0 0 4px 10px;
+    padding: 0;
+    width: 359px;
+}
+
+section.faq .foto_bg_right .foto{
+    margin: 9px 0 0 9px;
+    padding: 0;
+}
+section.faq .arrows_block{
+    border-color: #FFF;
+    border-style: solid;
+    border-top-width: 2px;
+    border-right-width: 0;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    background: url("/bundles/mainsite/images/bg_arrow_block.png");
+    display: inline-block;
+    height: 71px;
+    float:left;
+}
+section.faq .arrows_block > div{
+    color: #fff;
+    background: url("/bundles/mainsite/images/arrow.png") no-repeat transparent;
+    background-position: left;
+    float:left;
+    height: 71px;
+    padding-top: 0px;
+    padding-bottom: 0;
+    padding-right: 10px;
+    padding-left: 35px;
+    border: 0px solid #222;
+    margin: 0;
+
+}
+section.faq .arrows_block div.first_arrow{
+    background: none;
+    padding-left: 10px;
+}
+section.faq div.last_arrow{
+    margin-top:2px;
+    background: url("/bundles/mainsite/images/arrow_last.png") no-repeat transparent;
+    height: 71px;
+    width: 28px;
+    float:left;
+}
+section.faq .arrows_block div div{
+    margin-top: 10px;
+    display: block;
+}
+section.faq .content{
+    position: relative;
+    width: 910px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+*/

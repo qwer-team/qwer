@@ -47,6 +47,31 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/portfolio", name="portfolio")
+     * @Template()
+     */
+    public function portfolioAction(){
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where( "M.routing = :routing ")
+                        ->setParameter( "routing", "faq" )
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale);
+
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return array( 
+            'entity' => $entity,
+        );
+    }
+    
+    /**
      * @Route("/faq", name="faq")
      * @Template()
      */
@@ -57,17 +82,16 @@ class DefaultController extends Controller
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
-                        ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
-                        ->orderBy('M.kod', 'ASC')
-                        ->setParameter('locale', $locale);
+                        ->select( 'M' )
+                        ->where( "M.id = 7");
 
-        $entities = $queryBuilder->getQuery()->execute();
-        $entity = $entities[0];
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
         
-        return array( 'entity' => $entity );
+        return array( 
+            'entity' => $entity,
+        );
     }
+    
     
     /**     
      * Lists all Menu entities.
