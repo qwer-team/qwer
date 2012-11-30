@@ -108,10 +108,14 @@ class DefaultController extends Controller
                        ->getOneOrNullResult();
          if (!$entity) {
             throw $this->createNotFoundException('Невозможно найти страницу.');
-        }
-        $keywords=$entity->getKeywords();
+                }
+                
+                $keywords=$entity->getKeywords();
+                $parent_id=$entity->getParent();
+                $entities=$this->getMenus($parent_id);
         return array( 'entity' => $entity, 
-                      'keywords' =>$keywords
+                      'keywords' =>$keywords,
+                      'menus' =>$entities
                     );
     }
     
@@ -303,7 +307,32 @@ class DefaultController extends Controller
 
         return $qb->getQuery();
     }
-    
+    /**
+     * Для правого блока меню
+     * 
+     * @param type $parent_id
+     * @return type 
+     */
+    private function getMenus($parent_id){
+        $em     = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        $repo   = $em->getRepository('ItcAdminBundle:Menu\Menu');
+        $qb = $repo->createQueryBuilder('M')
+                        ->select('M, T')
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale);
+        if(null === $parent_id)
+        {
+            $qb->where('M.parent IS NULL');
+        }
+        else
+        {
+            $qb->where('M.parent = :parent')
+               ->setParameter('parent', $parent_id);
+        }
+        return $qb->getQuery()->execute();
+    }
     
     
         private function getLocale()
