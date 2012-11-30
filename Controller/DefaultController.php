@@ -23,30 +23,96 @@ class DefaultController extends Controller
      * @Route("/", defaults={ "_locale" = "ru"}, name="index")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($locale = 'ru')
     {
         $em = $this->getDoctrine()->getManager();
-        $locale =  LanguageHelper::getLocale();
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M, T' )
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
+                        ->where('M.parent IS NULL')
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale);
 
         $entities = $queryBuilder->getQuery()->execute();
         $entity = $entities[0];
         
+        $childrens = $entity->getChildren();
+        
         $galleries = $entity->getGalleries();
-        $images = array();
-        //$images    = $galleries[0]->getImages();
+        
+        $images = $news = $blog = array();
+        $images = $galleries[0]->getImages();
+        
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                        ->createQueryBuilder('M')
+                        ->select( 'M' )
+                        ->where("M.keyword = 'showcase' ");
+        
+        $portfolio = $queryBuilder->getQuery()->execute();
+        
+        $topPortfolio = $portfolio[0]->getMenus();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M' )
+                        ->innerJoin('M.parent', 'P',
+                                'WITH', "P.routing = 'news' ")                        
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->orderBy('M.date_create', 'DESC')
+                        ->setMaxResults(1)
+                        ->setParameter('locale', $locale);
+        
+        $news = $queryBuilder->getQuery()->execute();
+        
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M' )
+                        ->innerJoin('M.parent', 'P',
+                                'WITH', "P.routing = 'blog' ")                        
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->orderBy('M.date_create', 'DESC')
+                        ->setMaxResults(1)
+                        ->setParameter('locale', $locale);
+        
+        $blog = $queryBuilder->getQuery()->execute();
         
         return array( 
             'entities'  => $entities,
             'entity'    => $entity,
             'images'    => $images,
+            'childrens' => $childrens,
+            'topPortfolio' => $topPortfolio,
+            'news'      => array_merge($news, $blog),
+        );
+    }
+    
+    /**
+     * @Route("/portfolio", name="portfolio")
+     * @Template()
+     */
+    public function portfolioAction(){
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where( "M.routing = :routing ")
+                        ->setParameter( "routing", "faq" )
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale);
+
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return array( 
+            'entity' => $entity,
         );
     }
     
@@ -56,7 +122,19 @@ class DefaultController extends Controller
      */
     public function faqAction(){
         
-        return array( 'entity' => array() );
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M' )
+                        ->where( "M.id = 7");
+
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return array( 
+            'entity' => $entity,
+        );
     }
     /**
      * @Route("/{translit}",  name="content")
@@ -83,44 +161,123 @@ class DefaultController extends Controller
                     );
     }
     
+    
     /**     
      * Lists all Menu entities.
      * @Template()
      */
-    public function menuAction(){
+    public function menuAction($routing, $req){
 
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
         $languages  = LanguageHelper::getLanguages();
-        
-        $request = $this->container->get('request')->getPathInfo();
-//$routeName = $request->get('_route');
-        
+        $request = "";
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M, T' )
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
+                        ->where('M.parent IS NULL')
+                        ->andWhere('M.visible = 1')
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale);
 
-        $arr = $queryBuilder->getQuery()->execute();
+        $entities = $queryBuilder->getQuery()->execute();
         
-        $entities = $child_entities = array();
-
+        $child_entities = array();
+/*
         foreach($arr as $v)
             if (is_null($v->getParentId()) )
                 $entities[] = $v;
-                
+  */              
         return array( 
             "entities"  => $entities,
             "locale"    => $locale,
             'locale'    => $locale,
             'languages' => $languages,
             'route'     => $request,
+            'routing'   => $routing,
+            'req'       => $req
         );
     }
     
+    private $translitCollection = 
+            array(
+                    "translit"      => "menu",
+                    "kwd_translit"  => "kwd"
+                );
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @Template()
+     */
+    public function languagesAction($req, $routing){
+        if($routing == "site_index")
+        {
+            $routing = "index";
+        }        
+        $pattern = $this->container->get('router')
+                  ->getRouteCollection()
+                  ->get($routing)
+                  ->getPattern();
+        $out = array();
+        preg_match_all("/{([^}]*)}/", $pattern, $out, PREG_PATTERN_ORDER);
+        
+        $params = array();
+        if(isset($out[1]) && count($out[1]) > 0)
+        {
+            $params = $out[1];
+        }
+        
+        $urls = array();
+        $locale =  LanguageHelper::getLocale();
+        $languages  = LanguageHelper::getLanguages();
+        foreach($languages as $lang)
+        {
+            $wasLocale = false;
+            if($lang == $locale)
+            {
+                continue;
+            }
+            $values = array();
+            foreach($params as $param)
+            {
+                $value = $req->get($param);
+                if($param == "translit")
+                {
+                    $entity = $this->getEntityTranslit( $this->menu, $value )
+                       ->getOneOrNullResult();
+                    $value = $entity->translate($lang)->getTranslit();
+                }else 
+                    if($param == "_locale")
+                {
+                    $value = $lang;
+                    $wasLocale = true;
+                }    
+                else 
+                {
+                    if($value == "")
+                    {
+                        $value = null;
+                    }                    
+                }
+                $values[$param] = $value;
+            }
+            
+            if(!$wasLocale)
+            {
+                $values["_locale"] = $lang;
+            }
+            $url = $this->generateUrl($routing, $values, true);
+            $urls[$lang] = $url;
+        }
+        return array( 
+            "locale"    => $locale,
+            "urls"      => $urls
+            );
+        
+    }
+            
 /************************ Вспомогательные методы ******************************/
     /**
      * Поиск по транслиту
