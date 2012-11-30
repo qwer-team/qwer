@@ -103,15 +103,20 @@ class DefaultController extends Controller
      * @Route("/{translit}" , name="content")
      * @Template()
      */
-    public function contentAction(Request $request, $translit){
+    public function contentAction($translit){
+        
+        $em = $this->getDoctrine()->getManager();
         $entity = $this->getEntityTranslit( $this->menu, $translit )
                        ->getOneOrNullResult();
          if (!$entity) {
             throw $this->createNotFoundException('Невозможно найти страницу.');
                 }
                 
-                $keywords=$entity->getKeywords();
+        $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
                 $parent_id=$entity->getParent();
+                if ($parent_id === null ){
+                  $parent_id=$entity->getId();  
+                }
                 $entities=$this->getMenus($parent_id);
         return array( 'entity' => $entity, 
                       'keywords' =>$keywords,
