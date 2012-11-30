@@ -1,0 +1,12 @@
+{% extends 'ItcAdminBundle::layout.html.twig' %}
+{% block body %}
+    <div class="flash-notice">
+        <pre>
+            {{ app.session.flash('notice') }}
+        </pre>
+    </div>
+    <div><a href="{{ path('cache_clear') }}">Читка кэша</a></div>
+    <div><a href="{{ path('datatbase_create') }}">Создание базы данных</a></div>
+    <div><a href="{{ path('schema_update') }}">Апдейт схемы</a></div>
+    <div><a href="{{ path('schema_fill') }}">Заливка схемы</a></div>
+{% endblock %}
