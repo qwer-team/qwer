@@ -195,7 +195,7 @@ class DefaultController extends Controller
         return $res;
     }
     /**
-     * @Route("/{translit}" , name="content")
+     * @Route("/{translit}",  name="content")
      * @Template()
      */
     public function contentAction($translit){
@@ -431,16 +431,9 @@ class DefaultController extends Controller
                         ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
-                        ->setParameter('locale', $locale);
-        if(null === $parent_id)
-        {
-            $qb->where('M.parent IS NULL');
-        }
-        else
-        {
-            $qb->where('M.parent = :parent')
-               ->setParameter('parent', $parent_id);
-        }
+                        ->setParameter('locale', $locale)
+                        ->where('M.parent = :parent')
+                        ->setParameter('parent', $parent_id);
         return $qb->getQuery()->execute();
     }
     
