@@ -1,7 +1,6 @@
 <?php
 
 namespace Itc\AdminBundle\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -92,12 +91,20 @@ class UserController extends Controller
         $entity  = new User();
         $form = $this->createForm(new UserType(), $entity);
         $form->bind($request);
-
+        $data = $form->getData();
+        $passwd = $data->getPassword();
+        
+            $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
+            $encodedPass = $encoder->encodePassword($passwd, $entity->getSalt());  
+            $entity->setPassword($encodedPass);
+            $entity->setEnabled(true);
         if ($form->isValid()) {
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
+            
+            
             return $this->redirect($this->generateUrl('user_edit', array('id' => $entity->getId())));
         }
 
@@ -180,18 +187,26 @@ class UserController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new UserSysType(), $entity);
+        $editForm1 = $this->createForm(new UserType(), $entity);
+        
         $editForm->bind($request);
+        $data = $editForm->getData();
+        $passwd = $data->getPassword();
+        
+            $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
+            $encodedPass = $encoder->encodePassword($passwd, $entity->getSalt());  
+            $entity->setPassword($encodedPass);
+            
         if ($editForm->isValid()) {
-            $em->persist($entity);
             $em->flush();
-            $editForm = $this->createForm(new UserType(), $entity);
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+           return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
-        $editForm = $this->createForm(new UserType(), $entity);
+        
         return array(
             'entity'      => $entity,
+            'pass_form'   => $editForm->createView(),
+            'edit_form'   => $editForm1->createView(),
         );
     }
     /**
