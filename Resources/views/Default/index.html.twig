@@ -33,200 +33,103 @@
         </div>
     </div>
     </section>          
-	<div class="primary_content_wrap">
+    <div class="primary_content_wrap">
    	<div class="container_12 clearfix">
       	<div class="grid_12">
             <div class="indent">
-	<div id="my_poststypewidget-2"><ul class='post_list extra'>
-    		<li class="cat_post_item-1 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/" rel="bookmark" title="Quick.">Quick.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/quick/">
-                                            <img width="107" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-1.png" class="attachment-post-thumbnail wp-post-image" alt="img-1" title="img-1" />              			                  </a></div>
-              			            
-		</li>
-	    		<li class="cat_post_item-2 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/simple/" rel="bookmark" title="Simple.">Simple.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/simple/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/simple/">
-                                            <img width="128" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-2.png" class="attachment-post-thumbnail wp-post-image" alt="img-2" title="img-2" />              			                  </a></div>
-              			            
-		</li>
-	    		<li class="cat_post_item-3 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/effective/" rel="bookmark" title="Effective.">Effective.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/effective/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/effective/">
-                                            <img width="93" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-3.png" class="attachment-post-thumbnail wp-post-image" alt="img-3" title="img-3" />              			                  </a></div>
-              			            
-		</li>
-	    		<li class="cat_post_item-4 clearfix">
-            			  <h2><a class="post-title" href="http://livedemo00.template-help.com/wordpress_37934/extra-view/successfull/" rel="bookmark" title="Successfull.">Successfull.</a></h2>			            <div>
-			                            </div>
-			<div class="post_content">
-            			  				                  Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi en. 				                                        </div>
-			                          <a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/successfull/" class="link">Read More</a>
-                        
-						                  <div class="picture"><a href="http://livedemo00.template-help.com/wordpress_37934/extra-view/successfull/">
-                                            <img width="108" height="107" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/img-4.png" class="attachment-post-thumbnail wp-post-image" alt="img-4" title="img-4" />              			                  </a></div>
-              			            
-		</li>
-		</ul>
+	<div id="my_poststypewidget-2">
+            <ul class='post_list extra'>
+                {% for child in childrens %}
+                <li class="cat_post_item-1 clearfix">
+                    <h2>
+                        <a href="/{{ child.translit }}">{{ child.title }}</a>                            
+                    </h2>			            
+                    <div class="post_content">
+                        {{ child.content }}
+                    </div>			                         
+                    <a href="/{{ child.translit }}" class="link">Далее...</a>
+                    <div class="picture">
+                        <a href="/{{ child.translit }}">
+                            <img width="107" height="107" src="/images/icons/{{ asset(child.icon) }}" class="attachment-post-thumbnail wp-post-image" alt="img-1" title="img-1" />              			                  
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
 		
-</div>   
-                 <div id="my_cyclewidget-2">                  <h2>Areas Of Practice</h2>						
+        </div>   
+    </div>
+                
+    <div style="padding-bottom: 5%;">
+        {{ entity.content }}
+    </div>
+             <div id="my_cyclewidget-2">                  <h2>Последние работы</h2>						
 						                  
                   
-<div id="slider-code">
+    <div id="slider-code">
+        <a id="prevBtn" class="pagenum prevBtn" style="margin-top:-240px;float:right; margin-right: 20px;"></a>
+        <a id="nextBtn" class="pagenum nextBtn" style="margin-top:-240px;float: right; "></a>
 	<div class="viewport">
-		<ul class="overview">
-								                                						 	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/morbi-ornare-egestas-urna/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-1-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-1" title="service-1" /></a>
-                                              </li>
-                   	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/pellentesque-habitant-morbi/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-2-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-2" title="service-2" /></a>
-                                              </li>
-                   	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/aenean-pulvinar-ligula/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-3-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-3" title="service-3" /></a>
-                                              </li>
-                   	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/donec-in-eros-quis/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-4-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-4" title="service-4" /></a>
-                                              </li>
-                   	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/nulla-gravida-tellus/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-5-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-5" title="service-5" /></a>
-                                              </li>
-                   	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/fusce-facilisis-elit-quis/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-6-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-6" title="service-6" /></a>
-                                              </li>
-                   	
-                      <li>
-                                                	<a href="http://livedemo00.template-help.com/wordpress_37934/services-view/donec-eget-sapien/"><img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-7-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="service-7" title="service-7" /></a>
-                                              </li>
-                                   		</ul>
+            <ul class="overview">
+                {% for site in topPortfolio %}
+                <li style="margin:3px;">
+                    <div class="slider-item">
+                        <div class="prod-img">
+                            <a href="{{ site.translit }}">
+                                <img width="210" height="169" src="/images/icons/{{ asset(site.icon) }}" 
+                                     class="attachment-post-thumbnail wp-post-image" alt="{{ site.title }}" title="{{ site.title }}" />
+                            </a>
+                        </div>
+                     </div>
+                </li>
+                {% endfor %}
 	</div>
-   <ul class="pager">
-        <li><a rel="0" class="pagenum" href="#"></a></li>
-        <li><a rel="1" class="pagenum" href="#"></a></li>
-        <li><a rel="2" class="pagenum" href="#"></a></li>
     </ul>
-</div>
+    </div>
               <!-- end of portfolio_cycle -->
-            
-						              </div>           
-                 <div id="my_postwidget-2">                  <h2>Latest News</h2>						
-												
-                  
-                  
-                  
-                  
-                  
-                  
-<div id="showcase" class="showcase">
-    <!-- Each child div in #showcase represents a slide -->
-    
-	          
-    <div class="showcase-slide">
-    
-        <div class="showcase-content">
-            <div class="showcase-content-wrapper">
-					<figure class="big-thumbnail"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/"><img width="689" height="182" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1.jpg" class="attachment-post-thumbnail-xl wp-post-image" alt="picture-1" title="picture-1" /></a></figure>            </div>
-        </div>
-        
-        <div class="showcase-caption">
-            <div class="title"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/"><b>08 Feb, 2012</b> - Lorem ipsum dolor sit ametcos</a></div>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co nsequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsa.             <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/">Read More</a>
-        </div>
-        
-			<div class="showcase-thumbnail">
-					<figure class="small-thumbnail"><img width="49" height="49" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-49x49.jpg" class="attachment-small-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" /></figure>				<div class="showcase-thumbnail-caption">Lorem ipsum dolor sit ametcos<i>08 Feb, 2012</i></div>
-				<div class="showcase-thumbnail-cover"></div>
-			</div>
-        
-    </div>
-    
-	    
-    <div class="showcase-slide">
-    
-        <div class="showcase-content">
-            <div class="showcase-content-wrapper">
-					<figure class="big-thumbnail"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ectetuer-adipiscing-elitsed-diamn/"><img width="689" height="182" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-6-689x182.jpg" class="attachment-post-thumbnail-xl wp-post-image" alt="service-6" title="service-6" /></a></figure>            </div>
-        </div>
-        
-        <div class="showcase-caption">
-            <div class="title"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ectetuer-adipiscing-elitsed-diamn/"><b>08 Jan, 2012</b> - Ectetuer adipiscing elitsed diamn</a></div>
-            Vestibulum id erat nibh. Cras nunc ligula, pellentesque sed sodales vel, commodo et purus. In auctor est at sapien iaculis ornare. Ut neque mauris, convallis sed iaculis sit amet, consequat sed quam. Sed interdum porttitor blandit. Nulla lacinia odio quis velit hendrerit sed blandit arcu pretium. Mauris lacus justo, gravida mollis rhoncus nec, consectetur et libero. Proin ornare, eros vel dignissim semper, dolor purus porttitor lorem, vel lacinia             <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ectetuer-adipiscing-elitsed-diamn/">Read More</a>
-        </div>
-        
-			<div class="showcase-thumbnail">
-					<figure class="small-thumbnail"><img width="49" height="49" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-6-49x49.jpg" class="attachment-small-post-thumbnail wp-post-image" alt="service-6" title="service-6" /></figure>				<div class="showcase-thumbnail-caption">Ectetuer adipiscing elitsed diamn<i>08 Jan, 2012</i></div>
-				<div class="showcase-thumbnail-cover"></div>
-			</div>
-        
-    </div>
-    
-	    
-    <div class="showcase-slide">
-    
-        <div class="showcase-content">
-            <div class="showcase-content-wrapper">
-					<figure class="big-thumbnail"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ummy-nibh-euismod-tincidunt-ut/"><img width="689" height="182" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-7-689x182.jpg" class="attachment-post-thumbnail-xl wp-post-image" alt="service-7" title="service-7" /></a></figure>            </div>
-        </div>
-        
-        <div class="showcase-caption">
-            <div class="title"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ummy-nibh-euismod-tincidunt-ut/"><b>08 Dec, 2011</b> - Ummy nibh euismod tincidunt ut</a></div>
-            Morbi sagittis varius tincidunt. Suspendisse ultrices imperdiet tortor eget rhoncus. Vestibulum congue velit vitae metus sodales vehicula. Nullam egestas purus nec justo auctor et elementum justo tempor. Duis odio ligula, sagittis eget aliquam vel, lobortis eget sem. Nunc eleifend leo quis tellus congue dapibus. Nulla eu sapien lectus, ullamcorper placerat lacus. Proin viverra purus id sem accumsan vel rhoncus nunc viverra. Ut ac dui sed enim vulputate scelerisque             <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ummy-nibh-euismod-tincidunt-ut/">Read More</a>
-        </div>
-        
-			<div class="showcase-thumbnail">
-					<figure class="small-thumbnail"><img width="49" height="49" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-7-49x49.jpg" class="attachment-small-post-thumbnail wp-post-image" alt="service-7" title="service-7" /></figure>				<div class="showcase-thumbnail-caption">Ummy nibh euismod tincidunt ut<i>08 Dec, 2011</i></div>
-				<div class="showcase-thumbnail-cover"></div>
-			</div>
-        
-    </div>
-    
-	    
-    <div class="showcase-slide">
-    
-        <div class="showcase-content">
-            <div class="showcase-content-wrapper">
-					<figure class="big-thumbnail"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/laoreet-dolore-magna-aliqu/"><img width="689" height="182" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-2-689x182.jpg" class="attachment-post-thumbnail-xl wp-post-image" alt="service-2" title="service-2" /></a></figure>            </div>
-        </div>
-        
-        <div class="showcase-caption">
-            <div class="title"><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/laoreet-dolore-magna-aliqu/"><b>08 Nov, 2011</b> - Laoreet dolore magna aliqu</a></div>
-            Donec eget sapien ipsum, in condimentum nisl. Integer sodales mollis felis eget elementum. Nullam ut augue lectus, a imperdiet leo. Etiam laoreet ornare aliquam. Morbi mollis, felis vitae auctor luctus, quam sem venenatis ante, in commodo odio lacus id lectus. Aliquam mauris felis, egestas at laoreet ac, placerat vitae sem. Mauris posuere consectetur interdum. Sed sollicitudin ultricies ligula, vel mollis nisl euismod sagittis. Sed et odio quam, non             <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/laoreet-dolore-magna-aliqu/">Read More</a>
-        </div>
-        
-			<div class="showcase-thumbnail">
-					<figure class="small-thumbnail"><img width="49" height="49" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-2-49x49.jpg" class="attachment-small-post-thumbnail wp-post-image" alt="service-2" title="service-2" /></figure>				<div class="showcase-thumbnail-caption">Laoreet dolore magna aliqu<i>08 Nov, 2011</i></div>
-				<div class="showcase-thumbnail-cover"></div>
-			</div>
-        
-    </div>
-    
-	       
 </div>
-                  
-
-
-																
+                
+<div id="my_postwidget-2">
+    <h2>Последние новости</h2>						
+        <div id="showcase" class="showcase">
+            <!-- Each child div in #showcase represents a slide -->
+            {% for new in news %}
+            <div class="showcase-slide">
+                <div class="showcase-content">
+                    <div class="showcase-content-wrapper">
+                        <figure class="big-thumbnail">
+                            <a href="">
+                                <img width="689" height="182" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1.jpg" class="attachment-post-thumbnail-xl wp-post-image" alt="picture-1" title="picture-1" />
+                            </a>
+                        </figure>
+                    </div>
+                </div>
+        
+                <div class="showcase-caption">
+                    <div class="title">
+                        <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/">
+                            <b>{{ new.dateCreate|date('d-m-Y') }}</b>
+                            {{ new.title }}
+                        </a>
+                        </div>
+                            {{ new.description }}                 
+                        <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/">
+                            Read More</a>
+                </div>        
+                <div class="showcase-thumbnail">
+                    <figure class="small-thumbnail"
+                            <img width="49" height="49" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-49x49.jpg" class="attachment-small-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" />
+                    </figure>				
+                    <div class="showcase-thumbnail-caption">
+                        {{ new.title }}
+                        <i>{{ new.dateCreate|date('d-m-Y') }}</i>
+                    </div>
+                    <div class="showcase-thumbnail-cover"></div>
+                </div>        
+            </div>  
+            {% endfor %}
+        </div>	       
+</div>
 								
 								<!-- Link under post cycle -->
 								
@@ -237,7 +140,6 @@
             </div>
          </div>
       </div>
-   </div>
    
 	<footer id="footer">
    
