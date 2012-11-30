@@ -43,8 +43,9 @@ class DefaultController extends Controller
         
         $galleries = $entity->getGalleries();
         
-        $images = $news = $blog = array();
-        $images = $galleries[0]->getImages();
+        $images = $news = array();
+        
+        $images = isset($galleries[0]) ? $galleries[0]->getImages() :array();
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
@@ -59,35 +60,59 @@ class DefaultController extends Controller
                         ->createQueryBuilder('M')
                         ->select( 'M' )
                         ->innerJoin('M.parent', 'P',
-                                'WITH', "P.routing = 'news' ")                        
+                                'WITH', "P.routing IN ( 'news', 'blog') ")                        
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->orderBy('M.date_create', 'DESC')
-                        ->setMaxResults(1)
+                        ->setMaxResults(3)
                         ->setParameter('locale', $locale);
         
         $news = $queryBuilder->getQuery()->execute();
-        
-        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
-                        ->createQueryBuilder('M')
-                        ->select( 'M' )
-                        ->innerJoin('M.parent', 'P',
-                                'WITH', "P.routing = 'blog' ")                        
-                        ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
-                        ->orderBy('M.date_create', 'DESC')
-                        ->setMaxResults(1)
-                        ->setParameter('locale', $locale);
-        
-        $blog = $queryBuilder->getQuery()->execute();
-        
+                
         return array( 
             'entities'  => $entities,
             'entity'    => $entity,
             'images'    => $images,
             'childrens' => $childrens,
             'topPortfolio' => $topPortfolio,
-            'news'      => array_merge($news, $blog),
+            'news'      => $news,
+        );
+    }
+    /**
+     * @Route("/portfolio" , name="portfolio")
+     * @Template()
+     */
+    public function portfolioAction(){
+        
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M' )
+                        ->innerJoin('M.parent', 'P',
+                                'WITH', "P.routing IN ( 'portfolio') ")                        
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->orderBy('M.kod', 'DESC')
+                        ->setParameter('locale', $locale);
+
+        $entities = $queryBuilder->getQuery()->execute();
+
+        $images = array();
+        
+        foreach($entities as $entity ){
+            $galleries = $entity->getGalleries();
+            if (isset($galleries[0])){
+                $images[$galleries[0]->getMenuId()] = $galleries[0]->getImages();
+            print_r($galleries[0]->getMenuId());
+            }
+        }
+        
+        return array( 
+            'entities'  => $entities,
+            'entity'    => $entity,
+            'images'    => $images,
         );
     }
     
@@ -146,12 +171,23 @@ class DefaultController extends Controller
 
         $entities = $queryBuilder->getQuery()->execute();
         
-        $child_entities = array();
-/*
-        foreach($arr as $v)
-            if (is_null($v->getParentId()) )
-                $entities[] = $v;
-  */              
+        $child_entities = $child = array();
+
+        foreach($entities as $v)
+                array_push($child, $v->getId());
+        
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where('M.parent IN  ( '.implode(",", $child).' )')
+                        ->andWhere('M.visible = 1')
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale);
+
+        $child_entities = $queryBuilder->getQuery()->execute();
+            
         return array( 
             "entities"  => $entities,
             "locale"    => $locale,
@@ -159,10 +195,35 @@ class DefaultController extends Controller
             'languages' => $languages,
             'route'     => $request,
             'routing'   => $routing,
-            'req'       => $req
+            'req'       => $req,
+            'childs'    => $child_entities,
         );
     }
-    
+    /**
+     * @Template()
+     */
+    public function footerAction(){
+        
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where("M.routing = 'footer' ")
+                        ->setParameter('locale', $locale);
+
+        $entities = $queryBuilder->getQuery()->execute();
+        
+        $entity = isset($entities[0]) ? $entities[0] : array();
+        
+        return array( 
+            "entity"  => $entity,
+            );
+    }
+
     private $translitCollection = 
             array(
                     "translit"      => "menu",
