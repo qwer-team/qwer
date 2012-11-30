@@ -28,7 +28,14 @@ class MenuSys extends Content
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+        
+    /**
+     * @var int
+     * @ORM\Column(name="system_id", type="integer", nullable=true,
+     * unique=true) 
+     */
+    private $system_id;
+    
     /**
      * @var string $tag
      *
