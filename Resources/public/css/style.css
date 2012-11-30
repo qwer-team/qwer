@@ -301,10 +301,6 @@ h5 {
     width: 100%;
     z-index: 1;
 }
-.primary_content_wrap .indent {
-    padding: 52px 0 66px;
-    width: 100%;
-}
 ul.extra {
     overflow: hidden;
     padding: 0 0 39px;
@@ -1777,7 +1773,7 @@ ul.social-networks li a {
 .footer-info {
     background: url("/bundles/mainsite/image/footer-info.gif") repeat-x scroll 0 0 transparent;
     height: 41px;
-    padding: 25px 0 0;
+/*    padding: 25px 0 0;*/
 }
 .footer-info p {
     color: #333333;
@@ -2531,4 +2527,38 @@ h3 {
     color: #7A7A7A;
     font-size: 13px;
     line-height: 20px;
+}
+ul.extra li {
+    background: none repeat scroll 0 0 transparent;
+    color: #7A7A7A;
+    float: left;
+    font-size: 13px;
+    line-height: 20px;
+    padding: 0 0 0 20px;
+    width: 220px;
+}
+.showcase-thumbnail {
+    background: url("/bundles/mainsite/image/line-hor.gif") repeat-x scroll 0 100% transparent;
+    height: 84px;
+    position: relative;
+    width: 220px;
+}
+#gallery.four_columns .portfolio li a.image-wrap {
+    height: 120px;
+    width: 200px;
+}
+h1 {
+    background: url("../images/title-line.png") repeat-x scroll 0 100% transparent;
+    color: #2F2E2B;
+    font-family: 'Ubuntu',sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2em;
+    margin: 0 0 24px;
+    padding: 0 0 12px;
+}
+.primary_content_wrap .indent {
+    padding: 52px 0 66px;
+    width: 100%;
 }
