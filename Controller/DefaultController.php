@@ -43,8 +43,8 @@ class DefaultController extends Controller
         
         $galleries = $entity->getGalleries();
         
-        $images = $news = $blog = array();
-        $images = $galleries[0]->getImages();
+        $images = $news = $blog = $topPortfolio = array();
+        //$images = $galleries[0]->getImages();
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
@@ -53,7 +53,7 @@ class DefaultController extends Controller
         
         $portfolio = $queryBuilder->getQuery()->execute();
         
-        $topPortfolio = $portfolio[0]->getMenus();
+       // $topPortfolio = $portfolio[0]->getMenus();
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
@@ -96,6 +96,7 @@ class DefaultController extends Controller
      * @Template()
      */
     public function portfolioAction(){
+
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
@@ -105,7 +106,7 @@ class DefaultController extends Controller
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->where( "M.routing = :routing ")
-                        ->setParameter( "routing", "faq" )
+                        ->setParameter( "routing", "portfolio" )
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale);
 
@@ -116,6 +117,31 @@ class DefaultController extends Controller
         );
     }
     
+    /**
+     * @Route("/news", name="news")
+     * @Template()
+     */
+    public function newsAction(){
+
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where( "M.routing = :routing ")
+                        ->setParameter( "routing", "portfolio" )
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale);
+
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return array( 
+            'entity' => $entity,
+        );
+    }
     /**
      * @Route("/faq", name="faq")
      * @Template()
@@ -128,13 +154,45 @@ class DefaultController extends Controller
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M' )
-                        ->where( "M.id = 7");
+                        ->where( "M.routing = :routing ")
+                        ->setParameter( "routing", "faq" );
 
         $entity = $queryBuilder->getQuery()->getOneOrNullResult();
         
         return array( 
             'entity' => $entity,
         );
+    }
+    
+    /**
+     * @Route("/{translit}", name="other")
+     * @Template()
+     */
+    public function otherAction( $translit ){
+
+        $entity = $this->getEntityTranslit( $this->menu, $translit )
+                       ->getOneOrNullResult();
+
+        if( $entity === NULL ){
+
+            $r = "index";
+            $res = $this->redirect( $this->generateUrl( $r, array() ) );
+            
+        } elseif( ( $r = $entity->getRouting() ) !== NULL &&
+                    in_array( $r, $this->getRoutes() ) ){
+
+            $httpKernel = $this->container->get('http_kernel');
+            $res = $httpKernel->forward("MainSiteBundle:Default:{$r}", array(
+                "translit" => $translit,
+                "entity"   => $entity,
+            ));
+
+        } else {
+
+            $res = array( 'entity' => $entity );
+        }
+
+        return $res;
     }
     /**
      * @Route("/{translit}" , name="content")
@@ -212,14 +270,16 @@ class DefaultController extends Controller
      * @Template()
      */
     public function languagesAction($req, $routing){
-        if($routing == "site_index")
+        if($routing == "site_index" || ! isset( $routing ) )
         {
             $routing = "index";
-        }        
+        }
+        
         $pattern = $this->container->get('router')
                   ->getRouteCollection()
                   ->get($routing)
                   ->getPattern();
+
         $out = array();
         preg_match_all("/{([^}]*)}/", $pattern, $out, PREG_PATTERN_ORDER);
         
@@ -329,18 +389,25 @@ class DefaultController extends Controller
         if( $locale == LanguageHelper::getDefaultLocale() ){
 
             $table = $entity;
-
+            $qb = $em->getRepository( $table )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M' );
         } else {
             
             $table = $translation;
             $wheres[] = "M.locale = :locale";
             $parameters['locale'] = $locale;
+            $qb = $em->getRepository( $table )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M, T' )
+                     ->join('M.translations', 'T',
+                                'WITH', "T.locale = :locale");
         }
-
+        /*
         $qb = $em->getRepository( $table )
                      ->createQueryBuilder( 'M' )
                      ->select( 'M' );
-
+         */
         if( $wheres !== NULL ){
 
             $qb->where( implode( ' AND ', $wheres ) );
