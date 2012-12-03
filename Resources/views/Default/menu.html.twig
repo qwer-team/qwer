@@ -10,16 +10,22 @@
                     {% for entity in entities %}
                     <li id="menu-item" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item 
                         page_item page-item current_page_item menu-item">
-                        <a href="{{ entity.translit }}">
+                        {% if entity.routing %}
+                            {% set link = entity.routing %}
+                        {% else %}
+                            {% set link = entity.translit %}
+                        {% endif %}
+                        <a href="/{{ locale }}/{{ link }}">
                             {{entity.title}}
                         </a>
-                        {% if entity.children.isEmpty == false %} 
+                        {% set parent = entity.id %}
                         <ul class="sub-menu">
+                            {% for child in childs if child.parentid == parent %}
                             <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                                <a href="/{{ locale }}/{{ entity.translit }}">{{ entity.title }}</a>
+                                <a href="/{{ locale }}/{{ child.translit }}">{{ child.title }}</a>
                             </li>
+                            {% endfor %}
                         </ul>
-                        {% endif %}
                     </li>
                     {% endfor %}
                     {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}

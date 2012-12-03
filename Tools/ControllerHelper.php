@@ -86,9 +86,6 @@ class ControllerHelper extends Controller{
 
         } else {
 
-            $wheres[] = "T.locale = :locale";
-            $parameters['locale'] = $locale;
-            
             $qb = $em->getRepository( $entity )
                      ->createQueryBuilder( 'M' )
                      ->select( 'M, T' )
