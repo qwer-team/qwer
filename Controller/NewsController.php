@@ -34,9 +34,18 @@ class NewsController extends ControllerHelper //Controller
         $entity = $this->getEntities( $this->menu, $wheres, $parameters )
                        ->getOneOrNullResult();
         
+        $news = array();
+        
+        foreach( $entity->getChildren() as $k => $v ){
+            $news[] = $v;
+            //print_r( $v->translate('en')->getTranslit() );echo "<br/>";
+            //print_r( $v->getTranslit() );echo "<br/>";
+        }
+        
+        
         return array( 
             'entity' => $entity,
-            'news'   => $entity->getChildren(),
+            'news'   => $news,
             'locale' => $locale
         );
     }
@@ -56,7 +65,7 @@ class NewsController extends ControllerHelper //Controller
 
         $entity = $this->getEntityTranslit( $this->menu, $translit, $wheres, $parameters )
                        ->getOneOrNullResult();
-        if( ! $entity ) echo "llalaa";
+
         return array( 
             'entity' => $entity,
             'locale' => $locale
