@@ -43,9 +43,8 @@ class DefaultController extends ControllerHelper
         
         $galleries = $entity->getGalleries();
         
-        $images = $news = array();
-        
-        $images = isset($galleries[0]) ? $galleries[0]->getImages() :array();
+        $images = $news = $blog = $topPortfolio = array();
+        //$images = $galleries[0]->getImages();
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
