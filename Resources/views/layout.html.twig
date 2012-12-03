@@ -39,7 +39,7 @@
             
             {% set routing = app.request.attributes.get('_route') %}
             {{ routing }}
-            {#% render "MainSiteBundle:Default:menu" with {"routing" : routing, "req" : app.request}  %#}
+            {% render "MainSiteBundle:Default:menu" with {"routing" : routing, "req" : app.request}  %}
         </header>
         {% endblock %}
         {% block body %}    

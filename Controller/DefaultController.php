@@ -163,8 +163,11 @@ class DefaultController extends ControllerHelper
             ));
 
         } else {
-
-            $res = array( 'entity' => $entity );
+        $httpKernel = $this->container->get('http_kernel');
+            $res = $httpKernel->forward("MainSiteBundle:Default:content", array(
+                "translit" => $translit
+            ));
+           
         }
 
         return $res;
@@ -220,6 +223,7 @@ class DefaultController extends ControllerHelper
                   $parent_id=$entity->getId();  
                 }
                 $entities=$this->getMenus($parent_id);
+
         return array( 'entity' => $entity, 
                       'keywords' =>$keywords,
                       'menus' =>$entities,
