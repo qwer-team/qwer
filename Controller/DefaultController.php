@@ -190,15 +190,31 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function contentAction($translit){
-        
         $em = $this->getDoctrine()->getManager();
-        $entity = $this->getEntityTranslit( $this->menu, $translit )
-                       ->getOneOrNullResult();
-         if (!$entity) {
-            throw $this->createNotFoundException('Невозможно найти страницу.');
+        $locale =  LanguageHelper::getLocale();
+        $deflocale=LanguageHelper::getDefaultLocale();
+        $entity = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select('M, T')
+                        ->leftJoin('M.translations', 'T',
+                        'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale)  
+                        ->where("M.translit = :translit ")
+                        ->setParameter('translit', $translit);
+           $entity = $entity->getQuery()->getOneOrNullResult();
+                if( $locale == $deflocale ){
+                     $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
                 }
-                
-        $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
+                else{
+        $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                        ->createQueryBuilder('M')
+                        ->select('M, T.value')
+                        ->leftJoin('M.translations', 'T',
+                        'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale);
+      
+                       $keywords=$keywords ->getQuery()->execute();
+                }
                 $parent_id=$entity->getParent();
                 if ($parent_id === null ){
                   $parent_id=$entity->getId();  
@@ -206,7 +222,9 @@ class DefaultController extends ControllerHelper
                 $entities=$this->getMenus($parent_id);
         return array( 'entity' => $entity, 
                       'keywords' =>$keywords,
-                      'menus' =>$entities
+                      'menus' =>$entities,
+                      'locale' => $locale,
+                      'default' => $deflocale
                     );
     }
     
