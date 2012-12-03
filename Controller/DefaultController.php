@@ -76,6 +76,7 @@ class DefaultController extends Controller
             'childrens' => $childrens,
             'topPortfolio' => $topPortfolio,
             'news'      => $news,
+            'locale'    => $locale,
         );
     }
     /**
@@ -113,6 +114,7 @@ class DefaultController extends Controller
             'entities'  => $entities,
             'entity'    => $entity,
             'images'    => $images,
+            'locale'    => $locale,
         );
     }
         
@@ -203,7 +205,6 @@ class DefaultController extends Controller
             
         return array( 
             "entities"  => $entities,
-            "locale"    => $locale,
             'locale'    => $locale,
             'languages' => $languages,
             'route'     => $request,
