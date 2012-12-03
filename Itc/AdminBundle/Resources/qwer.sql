@@ -7,7 +7,7 @@ INSERT INTO `MenuSys` (`system_id`, `parent_id`, `tag`, `date_create`, `visible`
 (6, NULL, '', '2012-11-29 13:42:22', 1, 'units', 'Единицы измерения', 'Edinitsyi_izmereniya_6', NULL, NULL, 6, NULL, NULL, NULL, NULL, NULL),
 (7, NULL, '', '2012-11-30 15:57:23', 1, 'user', 'Пользователи', 'Polzovateli', NULL, NULL, 7, NULL, NULL, NULL, NULL, NULL),
 (8, NULL, '', '2012-11-30 15:57:45', 1, 'commands', 'Команды', 'Komandyi', NULL, NULL, 8, NULL, NULL, NULL, NULL, NULL)
-ON DUPLICATE KEY UPDATE UPDATE 
+ON DUPLICATE KEY UPDATE
 title = VALUES(title),
 tag = VALUES(tag),
 routing = VALUES(routing),
