@@ -27,7 +27,7 @@
         <div class="tagcloud">
             {% for keyword in keywords %}
                 <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="#">
-                    {{ keyword.keyword }}
+                  {{ default==locale ? keyword.keyword : keyword.value}}
                 </a>
             {% endfor %}
         </div>
