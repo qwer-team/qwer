@@ -1,0 +1,66 @@
+/*******************************************************************************
+********************************* More options *********************************
+*******************************************************************************/
+.clr, .clear{
+    clear: both;
+    font-size: 0;
+    line-height: 0;
+}
+.center{
+    text-align: center;
+}
+.right{
+    text-align: right;
+}
+.left{
+    text-align: left;
+}
+.float_left, .fl{
+    float: left;
+}
+
+.float_right, .fr{
+    float: right;
+}
+
+.transparent50{
+    opacity: 0.5 !important;
+}
+.hide, .hidden{
+    display: none;
+}
+.hidden_loader{
+    cursor:pointer; 
+    z-index: 0; 
+    opacity: 0; 
+    position: absolute; 
+    top:0; 
+    right: 0; 
+    font-size:100px;
+}
+.addbutton{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url( '/image/icon-32-new.png' ) scroll 0 32px transparent;
+    font: none;
+    text-indent:-9990px; 
+}
+.addbutton:hover{
+    background: url( '/image/icon-32-new.png' ) scroll 0 0px transparent;
+}
+.w50px{
+    width:50px;
+}
+.w100px{
+    width:100px;
+}
+.w150px{
+    width:150px;
+}
+.w200px{
+    width: 200px;
+}
+.w250px{
+    width: 250px;
+}

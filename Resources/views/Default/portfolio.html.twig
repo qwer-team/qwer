@@ -8,26 +8,28 @@
         <div class="grid_12">
             <div class="indent">
                 <div class="header-title">
-                    <h1>Services</h1>
+                    <h1>Portfolio</h1>
                 </div>   
 
     <div id="gallery" class="four_columns">
         <ul class="portfolio">
             {% for entity in entities %}
             <li class="">
-                <span class="image-border"><a class="image-wrap" href="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/service/service-1.jpg" rel="prettyPhoto[gallery]" title="Morbi ornare egestas urna"><img width="200" height="120" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/service-1-200x120.jpg" class="attachment-portfolio-post-thumbnail-small wp-post-image" alt="service-1" title="service-1" />
+                <span class="image-border">
+                    <a class="image-wrap" href="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/service/service-1.jpg" rel="prettyPhoto[gallery]" title="Morbi ornare egestas urna">
+                        <img width="200" height="120" src="/images/icons/{{ asset(entity.icon) }}" class="attachment-portfolio-post-thumbnail-small wp-post-image" alt="service-1" title="service-1" />
                         <span class="zoom-icon"></span>
                     </a>
                 </span>
                 <div class="folio-desc">
                     <h6>
                         <a href="http://livedemo00.template-help.com/wordpress_37934/services-view/morbi-ornare-egestas-urna/">
-                            Morbi ornare egestas urna
+                            {{ entity.title }}
                         </a>
                     </h6>
-                <p>Morbi ornare egestas urna, in eleifend urna euismod sit amet. Nulla aliquam </p>
-                <a href="http://livedemo00.template-help.com/wordpress_37934/services-view/morbi-ornare-egestas-urna/" class="button">
-                    Read more
+                <p> {{ entity.description|slice(1, 50) }}... </p>
+                <a href="/{{ locale }}/{{ entity.translit }}" class="button">
+                    Далее...
                 </a>
                 </div>
             </li>

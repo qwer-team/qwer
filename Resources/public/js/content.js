@@ -49,6 +49,11 @@ $( document ).ready(function() {
             buttonPrevHTML: ".prevBtn", 
             animation: "slow" }
     );
+    $("a[rel^='prettyPhoto']").prettyPhoto({
+            animation_speed:'normal',
+            slideshow:5000,
+            autoplay_slideshow: false
+    });
 
 });
 
@@ -58,4 +63,3 @@ $('#back-top a').click(function () {
         }, 1000);
         return false;
 });
-

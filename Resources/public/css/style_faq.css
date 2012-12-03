@@ -1,0 +1,35 @@
+@charset "utf-8";
+/* CSS Document */
+selector.faq a img {border: none;}
+selector.faq a {outline: none;}
+selector.faq a img {border: none;}
+selector.faq span{font-size:24px; font-weight: bold;}
+selector.faq #container {margin:0 auto; padding:0; width:940px; display:block;}
+selector.faq #content {margin:0; padding:0; width:940px; float:left;}
+#header{height: 128px; width:100%; padding:0; position: fixed; margin-bottom:140px; z-index: 15;}
+selector.faq #scrollPanel{ margin:0; padding:0; }
+selector.faq #clear{height:0; font-size:1px; line-height:0; clear:both;}
+selector.faq #footer {background: url(/bundles/mainsite/images/footer_bg.jpg) repeat-x; height:123px; position: relative; bottom: 0;}
+selector.faq #line {height:76px; width:940px; position: fixed; padding:0; margin-top:140px; z-index: 10;}
+selector.faq #line a {font-family: Arial, Helvetica, sans-serif; font-style:italic; color:#ffffff; font-size:18px; text-decoration: none; text-shadow: 1px 1px #000000;  }
+selector.faq #line a:hover {font-family: Arial, Helvetica, sans-serif; font-style:italic; color:#ffffff; font-size:18px; text-decoration: underline; text-shadow: 1px 1px #000000;}
+selector.faq p {margin:0; padding:0; font-family: Arial, Helvetica, sans-serif; font-style:italic; color:#636363; text-indent:30px; font-size:14px;}
+selector.faq .name {width:940px; height:33px; padding:0; margin:0; background: url(/bundles/mainsite/images/l_bg.png) bottom repeat-x; font-family: Arial, Helvetica, sans-serif; font-style:italic; font-weight:bold; font-size:24px; color: #2f2e2b;}
+selector.faq ul{margin:0; padding:5px 0px 5px 0px; font-family: Arial, Helvetica, sans-serif; font-style:italic; color:#636363; font-size:14px;}
+selector.faq h1{margin:0; padding-bottom:5px; font-family: Arial, Helvetica, sans-serif; font-style:italic; color:#0a6695; text-indent:30px; font-size:17px;}
+selector.faq .foto_bg_left {width:359px; height:204px; margin:0px 10px 4px 0px; padding:0; float: left; background-image:url(/bundles/mainsite/images/foto_bg.png);}
+selector.faq .foto_bg_right {width:359px; height:204px; margin:0px 0px 4px 10px; padding:0; float: right; background-image:url(/bundles/mainsite/images/foto_bg.png);}
+selector.faq .foto { padding:0; margin: 9px 0px 0px 9px;}
+selector.faq .text {width:930px; text-align:justify; padding: 7px 0px 20px 7px;}
+selector.faq span {font-family: Arial, Helvetica, sans-serif; font-style:italic; color:#ffffff; font-size:9px;}
+selector.faq b{ color:#0a6695;}
+selector.faq #line * { vertical-align: middle; }
+selector.faq .bg_shadow {
+    height: 95px;
+    margin-top: 128px;
+    padding: 0;
+    position: fixed;
+    z-index: 10;
+    width:100%;
+    background: url("/bundles/mainsite/image/content.gif") repeat scroll 50% 0 transparent;
+}
