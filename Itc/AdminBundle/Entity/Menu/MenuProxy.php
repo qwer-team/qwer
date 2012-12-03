@@ -1,6 +1,6 @@
 <?
 namespace Itc\AdminBundle\Entity\Menu;
-use \Gedmo\Translator\TranslationProxy;
+use Itc\AdminBundle\Entity\TranslationProxy;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class MenuProxy extends TranslationProxy
@@ -16,7 +16,7 @@ class MenuProxy extends TranslationProxy
          $title= $this->getTranslatedValue('title');
          if(null === $title)
          {
-             $title = "";
+             $title = $this->title;
          }
          return $title;
     }

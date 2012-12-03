@@ -97,6 +97,11 @@ class MenuSys extends Content
     {
         return $this->id;
     }
+    
+    public function getSystemId()
+    {
+        return $this->system_id;
+    }
 
     /**
      * Set tag
@@ -254,7 +259,7 @@ class MenuSys extends Content
     
     /**
     * @ORM\OneToMany(
-    *     targetEntity="MenuSysTranslation",
+    *     targetEntity="Itc\AdminBundle\Entity\MenuSys\MenuSysTranslation",
     *     mappedBy="translatable",
     *     cascade={"persist"}
     * )

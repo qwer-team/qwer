@@ -30,7 +30,6 @@ class FillSchemaCommand extends Command
     {
         $container = \Itc\AdminBundle\ItcAdminBundle::getContainer();
         $schemaName = $container->getParameter("schema_fill_file");
-        $versName = $container->getParameter("schema_version");
         
         $kernel = $container->get("kernel");
         $path       = 

@@ -546,11 +546,11 @@ class MenuSysController extends Controller
     private function getTranslit($title, $id)
     {
         $preTranslit = TranslitGenerator::getTranslit($title);
-        $count = $this->wasYet($preTranslit);
+        $count = $this->checkTranslitRepeat($preTranslit);
         return array( $preTranslit, ( $count != 0 ) );
     }
     
-    private function wasYet($preTranslit)
+    private function checkTranslitRepeat($preTranslit)
     {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->getLocale();
@@ -566,7 +566,7 @@ class MenuSysController extends Controller
         }
         else
         {
-            $queryBuilder = $em->getRepository('ItcAdminBundle:MenuSysTranslation')
+            $queryBuilder = $em->getRepository('ItcAdminBundle:MenuSys\MenuSysTranslation')
                                     ->createQueryBuilder('T')
                                     ->select('count(T.id)')
                                     ->where("T.locale = :locale 
