@@ -65,22 +65,17 @@ class ControllerHelper extends Controller{
         $em            = $this->getDoctrine()->getManager();
         $locale        = LanguageHelper::getLocale();
 
-        if( $locale == LanguageHelper::getDefaultLocale() ){
+        $qb = $em->getRepository( $entity );
 
-            $table = $entity;
-            $qb = $em->getRepository( $table )
-                     ->createQueryBuilder( 'M' )
-                     ->select( 'M' );
+        if( $locale == LanguageHelper::getDefaultLocale() ){
+            $qb->select( 'M' );
         } else {
-            
-            $table = $translation;
-            $wheres[] = "M.locale = :locale";
+
+            $wheres[] = "T.locale = :locale";
             $parameters['locale'] = $locale;
-            $qb = $em->getRepository( $table )
-                     ->createQueryBuilder( 'M' )
-                     ->select( 'M, T' )
-                     ->join('M.translations', 'T',
-                                'WITH', "T.locale = :locale");
+            
+             $qb->select( 'M, T' )
+                ->join('M.translations', 'T');
         }
         /*
         $qb = $em->getRepository( $table )
