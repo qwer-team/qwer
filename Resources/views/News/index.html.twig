@@ -17,7 +17,7 @@
                                 <div class="post-container">
                                     {% set onenewsT = onenews.translate( locale ) %}
                                     {% set title = onenewsT.getTitle() %}
-                                    {% set link  = onenewsT.getTranslit() %}
+                                    {% set link  = url( 'onenews', { 'translit': onenewsT.getTranslit() } ) %}
 
                                     <h2>
                                         <a href="{{ link }}" title="{{ title }}" rel="bookmark">
@@ -31,7 +31,9 @@
                                                 {% set date = entity.datecreate|date('F d, Y H:i a') %}
                                             {% endif %}
                                             <time datetime="2012-02-08T08:12">{{ date }}</time> , by 
-                                                <a href="" title="Posts by admin" rel="author">Admin</a>
+                                                <a href="" title="Posts by admin" rel="author">
+                                                    Admin
+                                                </a>
 
                                         </div>
                                         <div class="fright">
@@ -42,7 +44,7 @@
                                         <figure class="featured-thumbnail">
                                             <span class="img-wrap">
                                                 <a href="{{ link }}">
-                                                    <img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" />
+                                                    <img width="65" height="65" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" />
                                                 </a>
                                             </span>
                                         </figure> 
@@ -50,10 +52,9 @@
                                         <a href="{{ link }}">Read More</a>
                                         
                                     </div>
-
                                     
-
                                 </div>
+                                <div class="line_bottom"></div>
                             </article>
 
                         {% endfor %}

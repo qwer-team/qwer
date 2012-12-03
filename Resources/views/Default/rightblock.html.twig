@@ -4,10 +4,12 @@
     <h3>{{ entity.title }}</h3>
     <ul>
         {% for menu in menus %}
+            {% set menuT = menu.translate( locale ) %}
             {% set cur = entity.id == menu.id ? 'current': '' %}
-            {% set linknews = '/'~locale~'/'~link~'/'~menu.translit %}
+            {% set linknews = '/'~locale~'/'~link~'/'~menuT.getTranslit() %}
+
             <li>
-                <a class="{{ cur }}" href="{{ linknews }}"> {{ menu.title }}</a>
+                <a class="{{ cur }}" href="{{ linknews }}"> {{ menuT.getTitle() }}</a>
             </li>
             
         {% endfor %}

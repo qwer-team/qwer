@@ -36,16 +36,9 @@ class NewsController extends ControllerHelper //Controller
         
         $news = array();
         
-        foreach( $entity->getChildren() as $k => $v ){
-            $news[] = $v;
-            //print_r( $v->translate('en')->getTranslit() );echo "<br/>";
-            //print_r( $v->getTranslit() );echo "<br/>";
-        }
-        
-        
         return array( 
             'entity' => $entity,
-            'news'   => $news,
+            'news'   => $entity->getChildren(),
             'locale' => $locale
         );
     }
@@ -60,10 +53,10 @@ class NewsController extends ControllerHelper //Controller
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
-        $wheres[] = "M.parent_id = :parent_id";
-        $parameters["parent_id"] = 26;
+        $wheres[] = "M.parent = :parent";
+        $parameters["parent"] = 26;
 
-        $entity = $this->getEntityTranslit( $this->menu, $translit, $wheres, $parameters )
+        $entity = $this->getEntityTranslit( $this->menu, $translit )
                        ->getOneOrNullResult();
 
         return array( 
