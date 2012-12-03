@@ -115,17 +115,29 @@ class DefaultController extends Controller
             'images'    => $images,
         );
     }
-    
+        
     /**
      * @Route("/faq", name="faq")
      * @Template()
      */
     public function faqAction(){
         
-        return array( 'entity' => array() );
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M' )
+                        ->where( "M.id = 7");
+
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return array( 
+            'entity' => $entity,
+        );
     }
     /**
-     * @Route("/{translit}" , name="content")
+     * @Route("/{translit}",  name="content")
      * @Template()
      */
     public function contentAction($translit){
@@ -148,6 +160,7 @@ class DefaultController extends Controller
                       'menus' =>$entities
                     );
     }
+    
     
     /**     
      * Lists all Menu entities.
@@ -387,16 +400,9 @@ class DefaultController extends Controller
                         ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
-                        ->setParameter('locale', $locale);
-        if(null === $parent_id)
-        {
-            $qb->where('M.parent IS NULL');
-        }
-        else
-        {
-            $qb->where('M.parent = :parent')
-               ->setParameter('parent', $parent_id);
-        }
+                        ->setParameter('locale', $locale)
+                        ->where('M.parent = :parent')
+                        ->setParameter('parent', $parent_id);
         return $qb->getQuery()->execute();
     }
     
