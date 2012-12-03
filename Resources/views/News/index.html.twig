@@ -15,9 +15,9 @@
 
                             <article id="post-42" class="post-42 post type-post status-publish format-standard hentry category-in-sagittis-mi-rhoncus category-sed-tincidunt-mauris tag-at tag-curabitur tag-euismod tag-odio tag-sem tag-sit tag-tristique tag-ut tag-vel post-holder cat-5-id cat-1-id">
                                 <div class="post-container">
-
-                                    {% set title = onenews.title %}
-                                    {% set link  = "/"~"en"~"/news/"~onenews.translit%}
+                                    {% set onenewsT = onenews.translate( locale ) %}
+                                    {% set title = onenewsT.getTitle() %}
+                                    {% set link  = onenewsT.getTranslit() %}
 
                                     <h2>
                                         <a href="{{ link }}" title="{{ title }}" rel="bookmark">
@@ -46,7 +46,7 @@
                                                 </a>
                                             </span>
                                         </figure> 
-                                        {{ onenews.content |slice( 0, 600 )| raw }}...
+                                        {{ onenewsT.getContent() |slice( 0, 600 )| raw }}...
                                         <a href="{{ link }}">Read More</a>
                                         
                                     </div>

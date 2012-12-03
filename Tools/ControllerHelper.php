@@ -34,8 +34,8 @@ class ControllerHelper extends Controller{
 
         } else {
 
-            $wheres[] = "M.value    = :translit";
-            $wheres[] = "M.property = :property";
+            $wheres[] = "T.value    = :translit";
+            $wheres[] = "T.property = :property";
             
             $parameters['translit'] = $translit;
             $parameters['property'] = "translit";
@@ -45,6 +45,13 @@ class ControllerHelper extends Controller{
     }
     /**
      * Вытягивет сущьность по критериям
+     * 
+     * !!! Переводимые поля должны быть T.
+     * !!! Непереводимые M.
+     * 
+     * Можно прописать или вытягивать переводимые/непереводимые поля в массив, 
+     * но это потом...
+     * 
      * @param type $entities - сущьность с транслитом описана в массиве
      * пример $this->menu;
      * 
@@ -65,17 +72,28 @@ class ControllerHelper extends Controller{
         $em            = $this->getDoctrine()->getManager();
         $locale        = LanguageHelper::getLocale();
 
-        $qb = $em->getRepository( $entity );
-
         if( $locale == LanguageHelper::getDefaultLocale() ){
-            $qb->select( 'M' );
+
+            foreach( $wheres as $v ){
+                $w[] = str_replace( "T.", "M.", $v );
+            }
+
+            $wheres = $w;
+
+            $qb = $em->getRepository( $entity )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M' );
+
         } else {
 
             $wheres[] = "T.locale = :locale";
             $parameters['locale'] = $locale;
             
-             $qb->select( 'M, T' )
-                ->join('M.translations', 'T');
+            $qb = $em->getRepository( $entity )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M, T' )
+                     ->join( "M.translations", 'T' );
+
         }
         /*
         $qb = $em->getRepository( $table )

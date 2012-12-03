@@ -125,14 +125,18 @@ class DefaultController extends ControllerHelper
         
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
-
-        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
-                        ->createQueryBuilder('M')
-                        ->select( 'M' )
-                        ->where( "M.routing = :routing ")
-                        ->setParameter( "routing", "faq" );
-
-        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+//        
+//        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+//                        ->createQueryBuilder('M')
+//                        ->select( 'M' )
+//                        ->where( "M.routing = :routing ")
+//                        ->setParameter( "routing", "faq" );
+//
+//        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        $wheres[] = "M.routing = :routing ";
+        $parameters["routing"] = "faq";
+        $entity = $this->getEntities( $this->menu, $wheres, $parameters)
+                       ->getOneOrNullResult();
         
         return array( 
             'entity' => $entity,
@@ -144,7 +148,7 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function otherAction( $translit ){
-        echo "other";
+
         $entity = $this->getEntityTranslit( $this->menu, $translit )
                        ->getOneOrNullResult();
 
