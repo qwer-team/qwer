@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
-
+use Main\SiteBundle\Tools\ControllerHelper;
 /**
  * Default controller.
  * @Route("/")
  */
-class DefaultController extends Controller
+class DefaultController extends ControllerHelper
 {
     private $menu = array( 
         'ItcAdminBundle:Menu\Menu',
@@ -54,7 +54,7 @@ class DefaultController extends Controller
         
         $portfolio = $queryBuilder->getQuery()->execute();
         
-        $topPortfolio = $portfolio[0]->getMenus();
+       // $topPortfolio = $portfolio[0]->getMenus();
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
@@ -119,7 +119,33 @@ class DefaultController extends Controller
     }
         
     /**
-     * @Route("/faq", name="faq")
+     * @Route("/portfolio", name="portfolio")
+     * @Template()
+     */
+ /*   public function portfolioAction(){
+
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where( "M.routing = :routing ")
+                        ->setParameter( "routing", "portfolio" )
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale);
+
+        $entity = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return array( 
+            'entity' => $entity,
+        );
+    }
+    */
+    /**
+     * @Route("/{translit}",  name="content")
      * @Template()
      */
     public function faqAction(){
@@ -130,7 +156,8 @@ class DefaultController extends Controller
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M' )
-                        ->where( "M.id = 7");
+                        ->where( "M.routing = :routing ")
+                        ->setParameter( "routing", "faq" );
 
         $entity = $queryBuilder->getQuery()->getOneOrNullResult();
         
@@ -138,20 +165,83 @@ class DefaultController extends Controller
             'entity' => $entity,
         );
     }
+    
+    /**
+     * @Route("/{translit}", name="other")
+     * @Template()
+     */
+    public function otherAction( $translit ){
+        echo "other";
+        $entity = $this->getEntityTranslit( $this->menu, $translit )
+                       ->getOneOrNullResult();
+
+        if( $entity === NULL ){
+
+            $r = "index";
+            $res = $this->redirect( $this->generateUrl( $r, array() ) );
+            
+        } elseif( ( $r = $entity->getRouting() ) !== NULL &&
+                    in_array( $r, $this->getRoutes() ) ){
+
+            $httpKernel = $this->container->get('http_kernel');
+            $res = $httpKernel->forward("MainSiteBundle:Default:{$r}", array(
+                "translit" => $translit,
+                "entity"   => $entity,
+            ));
+
+        } else {
+
+            $res = array( 'entity' => $entity );
+        }
+
+        return $res;
+    }
+    /**
+     *
+     * @Template()
+     */
+    public function rightblockAction( $parent_id, $entity, $link = '/' ){
+        $em = $this->getDoctrine()->getManager();
+        $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
+        $entities = $this->getMenus($parent_id);
+        return array( 
+            'entity'    => $entity,
+            'keywords'  => $keywords,
+            'menus'     => $entities,
+            'link'      => $link,
+            'locale'    => LanguageHelper::getLocale(),
+        );
+    }
     /**
      * @Route("/{translit}",  name="content")
      * @Template()
      */
     public function contentAction($translit){
-        
         $em = $this->getDoctrine()->getManager();
-        $entity = $this->getEntityTranslit( $this->menu, $translit )
-                       ->getOneOrNullResult();
-         if (!$entity) {
-            throw $this->createNotFoundException('Невозможно найти страницу.');
+        $locale =  LanguageHelper::getLocale();
+        $deflocale=LanguageHelper::getDefaultLocale();
+        $entity = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select('M, T')
+                        ->leftJoin('M.translations', 'T',
+                        'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale)  
+                        ->where("M.translit = :translit ")
+                        ->setParameter('translit', $translit);
+           $entity = $entity->getQuery()->getOneOrNullResult();
+                if( $locale == $deflocale ){
+                     $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
                 }
-                
-        $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
+                else{
+        $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                        ->createQueryBuilder('M')
+                        ->select('M, T.value')
+                        ->leftJoin('M.translations', 'T',
+                        'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale);
+      
+                       $keywords=$keywords ->getQuery()->execute();
+                }
                 $parent_id=$entity->getParent();
                 if ($parent_id === null ){
                   $parent_id=$entity->getId();  
@@ -159,7 +249,9 @@ class DefaultController extends Controller
                 $entities=$this->getMenus($parent_id);
         return array( 'entity' => $entity, 
                       'keywords' =>$keywords,
-                      'menus' =>$entities
+                      'menus' =>$entities,
+                      'locale' => $locale,
+                      'default' => $deflocale
                     );
     }
     
@@ -249,14 +341,16 @@ class DefaultController extends Controller
      * @Template()
      */
     public function languagesAction($req, $routing){
-        if($routing == "site_index")
+        if($routing == "site_index" || ! isset( $routing ) )
         {
             $routing = "index";
-        }        
+        }
+        
         $pattern = $this->container->get('router')
                   ->getRouteCollection()
                   ->get($routing)
                   ->getPattern();
+
         $out = array();
         preg_match_all("/{([^}]*)}/", $pattern, $out, PREG_PATTERN_ORDER);
         
@@ -314,55 +408,7 @@ class DefaultController extends Controller
             );
         
     }
-            
-/************************ Вспомогательные методы ******************************/
-    /**
-     * Поиск по транслиту
-     * @param string $entities - сущьность с транслитом описана в массиве
-     * пример $this->menu;
-     * @param string $translit - транслит для поиска
-     * @return результат запроса
-     */
-    private function getEntityTranslit( $entities, $translit ){
-
-        if( LanguageHelper::getLocale() == LanguageHelper::getDefaultLocale() ){
-
-            $wheres[] = "M.translit = :translit";
-            $parameters['translit'] = $translit;
-
-        } else {
-
-            $wheres[] = "M.value    = :translit";
-            $wheres[] = "M.property = :property";
-            
-            $parameters['translit'] = $translit;
-            $parameters['property'] = "translit";
-        }
-
-        return $this->getEntities( $entities, $wheres, $parameters );
-    }
-    /**
-     * Вытягивет сущьность по критериям
-     * @param type $entities - сущьность с транслитом описана в массиве
-     * пример $this->menu;
-     * 
-     * @param array $wheres - массив с поиском [] = "M.locale = :locale" без AND;
-     * $qb->where( implode( ' AND ', $wheres ) );
-     * 
-     * @param array $parameters - парметры поиска, обязательное условие
-     * array( ['locale'] => $locale, ... )
-     * 
-     * @return $qb->getQuery();
-     */
-     
-     
-    private function getEntities( $entities, array $wheres = NULL, array $parameters = NULL ){
-        
-        list( $entity, $translation ) = $entities;
-
-        $em            = $this->getDoctrine()->getManager();
-        $locale        = LanguageHelper::getLocale();
-
+/*
         if( $locale == LanguageHelper::getDefaultLocale() ){
 
             $table = $entity;
@@ -386,7 +432,7 @@ class DefaultController extends Controller
         }
 
         return $qb->getQuery();
-    }
+    }*/
     /**
      * Для правого блока меню
      * 

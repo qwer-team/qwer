@@ -4,16 +4,13 @@
     <h3>{{ entity.title }}</h3>
     <ul>
         {% for menu in menus %}
-            {% if entity.id == menu.id %}
-                <li>
-                    <a class="current" href="/{{ menu.translit }}"> {{ menu.title }}</a>
-                </li>
-            {% else %}
+            {% set cur = entity.id == menu.id ? 'current': '' %}
+            {% set linknews = '/'~locale~'/'~link~'/'~menu.translit %}
             <li>
-                <a style="" href="/{{ menu.translit }}"> {{ menu.title }}</a>
+                <a class="{{ cur }}" href="{{ linknews }}"> {{ menu.title }}</a>
             </li>
-            {% endif %}
-            {% endfor %}
+            
+        {% endfor %}
     </ul>
     </div>
     <div id="text-4" class="widget">
@@ -27,7 +24,7 @@
         <div class="tagcloud">
             {% for keyword in keywords %}
                 <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="#">
-                    {{ keyword.keyword }}
+                  {{ default==locale ? keyword.keyword : keyword.value}}
                 </a>
             {% endfor %}
         </div>
