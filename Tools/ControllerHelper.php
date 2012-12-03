@@ -64,7 +64,9 @@ class ControllerHelper extends Controller{
      * @return $qb->getQuery();
      */
 
-    protected function getEntities( $entities, array $wheres = NULL, array $parameters = NULL ){
+    protected function getEntities( $entities, array $wheres = NULL, 
+                                               array $parameters = NULL, 
+                                               array $orderby = NULL ){
         
         list( $entity, $translation ) = $entities;
 
@@ -99,6 +101,12 @@ class ControllerHelper extends Controller{
             $qb->where( implode( ' AND ', $wheres ) );
             $qb->setParameters( $parameters );
 
+        }
+        
+        if( $orderby !== NULL ){
+            list( $sort, $order ) = $orderby;
+            echo $sort;
+            $qb->orderBy( $sort, $order );
         }
 
         return $qb->getQuery();

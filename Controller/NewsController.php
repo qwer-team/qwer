@@ -26,16 +26,14 @@ class NewsController extends ControllerHelper //Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
         $wheres[] = "M.routing = :routing ";
         $parameters["routing"] = "news";
-        $entity = $this->getEntities( $this->menu, $wheres, $parameters )
+        $orderby = array( "M.date_create", "DESC" );
+        $entity = $this->getEntities( $this->menu, $wheres, $parameters, $orderby )
                        ->getOneOrNullResult();
-        
-        $news = array();
-        
+
         return array( 
             'entity' => $entity,
             'news'   => $entity->getChildren(),
@@ -50,11 +48,7 @@ class NewsController extends ControllerHelper //Controller
     public function onenewsAction( $translit )
     {
 
-        $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
-
-        $wheres[] = "M.parent = :parent";
-        $parameters["parent"] = 26;
 
         $entity = $this->getEntityTranslit( $this->menu, $translit )
                        ->getOneOrNullResult();

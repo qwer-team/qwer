@@ -44,11 +44,17 @@
                                         <figure class="featured-thumbnail">
                                             <span class="img-wrap">
                                                 <a href="{{ link }}">
-                                                    <img width="65" height="65" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" />
+                                                    {% if onenews.iconImage is not null %}
+                                                        <img width="90" height="80" class = 'menu_sys_iconImage' style = 'z-index: 0;' 
+                                                              src = '{{ vich_uploader_asset( onenews, 'iconImage' ) }}?{{ random() }}'/>
+                                                    {% else %}
+                                                        <img style = 'z-index: 0;' src = '/bundles/itcadmin/images/m_menu.gif' />
+                                                    {% endif %}
+
                                                 </a>
                                             </span>
                                         </figure> 
-                                        {{ onenewsT.getContent() |slice( 0, 600 )| raw }}...
+                                        {{ onenewsT.getDescription() |slice( 0, 300 )| raw }}...
                                         <a href="{{ link }}">Read More</a>
                                         
                                     </div>
