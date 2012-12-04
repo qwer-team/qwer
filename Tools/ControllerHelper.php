@@ -17,6 +17,7 @@ use Itc\AdminBundle\Tools\LanguageHelper;
  * @author root
  */
 class ControllerHelper extends Controller{
+
     /************************ Вспомогательные методы ******************************/
     /**
      * Поиск по транслиту
@@ -63,11 +64,10 @@ class ControllerHelper extends Controller{
      * 
      * @return $qb->getQuery();
      */
-
     protected function getEntities( $entities, array $wheres = NULL, 
                                                array $parameters = NULL, 
                                                array $orderby = NULL ){
-        
+
         list( $entity, $translation ) = $entities;
 
         $em            = $this->getDoctrine()->getManager();
@@ -102,17 +102,17 @@ class ControllerHelper extends Controller{
             $qb->setParameters( $parameters );
 
         }
-        
+
         if( $orderby !== NULL ){
+
             list( $sort, $order ) = $orderby;
-            echo $sort;
             $qb->orderBy( $sort, $order );
         }
 
         return $qb->getQuery();
 
     }
-    
+
     protected function getLocale()
     {
         $locale = $this->getRequest()->getLocale();
