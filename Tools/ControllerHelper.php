@@ -17,6 +17,7 @@ use Itc\AdminBundle\Tools\LanguageHelper;
  * @author root
  */
 class ControllerHelper extends Controller{
+
     /************************ Вспомогательные методы ******************************/
     /**
      * Поиск по транслиту
@@ -63,10 +64,10 @@ class ControllerHelper extends Controller{
      * 
      * @return $qb->getQuery();
      */
-     
-     
-    protected function getEntities( $entities, array $wheres = NULL, array $parameters = NULL ){
-        
+    protected function getEntities( $entities, array $wheres = NULL, 
+                                               array $parameters = NULL, 
+                                               array $orderby = NULL ){
+
         list( $entity, $translation ) = $entities;
 
         $em            = $this->getDoctrine()->getManager();
@@ -86,17 +87,15 @@ class ControllerHelper extends Controller{
 
         } else {
 
+            $wheres[] = "T.locale = :locale";
+            $parameters['locale'] = $locale;
+            
             $qb = $em->getRepository( $entity )
                      ->createQueryBuilder( 'M' )
-                     ->select( 'M, T' )
+                     ->select( 'M' )
                      ->join( "M.translations", 'T' );
-
         }
-        /*
-        $qb = $em->getRepository( $table )
-                     ->createQueryBuilder( 'M' )
-                     ->select( 'M' );
-         */
+
         if( $wheres !== NULL ){
 
             $qb->where( implode( ' AND ', $wheres ) );
@@ -104,37 +103,17 @@ class ControllerHelper extends Controller{
 
         }
 
+        if( $orderby !== NULL ){
+
+            list( $sort, $order ) = $orderby;
+            $qb->orderBy( $sort, $order );
+        }
+
         return $qb->getQuery();
+
     }
-    /**
-     * Для правого блока меню
-     * 
-     * @param type $parent_id
-     * @return type 
-     */
-    protected function getMenus($parent_id){
-        $em     = $this->getDoctrine()->getManager();
-        $locale =  LanguageHelper::getLocale();
-        $repo   = $em->getRepository('ItcAdminBundle:Menu\Menu');
-        $qb = $repo->createQueryBuilder('M')
-                        ->select('M, T')
-                        ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
-                        ->setParameter('locale', $locale);
-        if(null === $parent_id)
-        {
-            $qb->where('M.parent IS NULL');
-        }
-        else
-        {
-            $qb->where('M.parent = :parent')
-               ->setParameter('parent', $parent_id);
-        }
-        return $qb->getQuery()->execute();
-    }
-    
-    
-        protected function getLocale()
+
+    protected function getLocale()
     {
         $locale = $this->getRequest()->getLocale();
         return $locale;
@@ -150,9 +129,18 @@ class ControllerHelper extends Controller{
         $routes = array();
 
         foreach ( $router->getRouteCollection()->all() as $name => $route ){
-            $routes[] = $name;
+           $routes[] = $name;
+          
         }
         return $routes;
+    }
+
+    protected function getController( $name ){
+
+        return $this->container->get( 'router' )
+                    ->getRouteCollection()
+                    ->get( $name )
+                    ->getDefault("_controller");
     }
 }
 

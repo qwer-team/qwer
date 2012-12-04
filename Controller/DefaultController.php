@@ -16,7 +16,7 @@ use Main\SiteBundle\Form\SendMailType;
  */
 class DefaultController extends ControllerHelper
 {
-    private $menu = array( 
+    protected $menu = array( 
         'ItcAdminBundle:Menu\Menu',
         'ItcAdminBundle:Menu\MenuTranslation'
     );
@@ -106,7 +106,7 @@ class DefaultController extends ControllerHelper
             $galleries = $entity->getGalleries();
             if (isset($galleries[0])){
                 $images[$galleries[0]->getMenuId()] = $galleries[0]->getImages();
-            print_r($galleries[0]->getMenuId());
+                print_r($galleries[0]->getMenuId());
             }
         }
         
@@ -169,13 +169,12 @@ class DefaultController extends ControllerHelper
             'entity' => $entity,
         );
     }
-    
     /**
      * @Route("/{translit}", name="other")
      * @Template()
      */
     public function otherAction( $translit ){
-
+        
         $entity = $this->getEntityTranslit( $this->menu, $translit )
                        ->getOneOrNullResult();
 
@@ -189,7 +188,8 @@ class DefaultController extends ControllerHelper
                     in_array( $r, $this->getRoutes() ) ){
 
             $httpKernel = $this->container->get('http_kernel');
-            $res = $httpKernel->forward("MainSiteBundle:Default:{$r}", array(
+            $controller = $this->getController( $r );
+            $res = $httpKernel->forward( $controller, array(
                 "translit" => $translit,
                 "entity"   => $entity,
             ));
@@ -211,14 +211,40 @@ class DefaultController extends ControllerHelper
     public function rightblockAction( $parent_id, $entity, $link = '/' ){
         $em = $this->getDoctrine()->getManager();
         $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
-        $entities = $this->getMenus($parent_id);
+        $entities = $this->getMenus( $parent_id );
+
         return array( 
             'entity'    => $entity,
             'keywords'  => $keywords,
-            'menus'     => $entities,
+            'menus'     => $entities,//$entity->getChildren(),
             'link'      => $link,
             'locale'    => LanguageHelper::getLocale(),
         );
+    }
+    /**
+     * Для правого блока меню
+     * 
+     * @param type $parent_id
+     * @return type 
+     */
+    protected function getMenus($parent_id){
+        
+        if(null === $parent_id)
+        {
+            $wheres[] = "M.parent IS NULL";
+            $parameters['parent'] = "";
+        }
+        else
+        {
+
+            $wheres[] = "M.parent = :parent";
+            $parameters['parent'] = $parent_id;
+        }
+
+        $entity = $this->getEntities( $this->menu, $wheres, $parameters )
+                       ->execute();
+
+        return $entity;
     }
     /**
      * @Route("/{translit}",  name="content")
