@@ -144,7 +144,7 @@ class DefaultController extends ControllerHelper
     }
     */
     /**
-     * @Route("/{translit}",  name="content")
+     * @Route("/faq",  name="faq")
      * @Template()
      */
     public function faqAction(){
@@ -194,7 +194,7 @@ class DefaultController extends ControllerHelper
 
         } else {
 
-            $res = array( 'entity' => $entity );
+            $res = $this->contentAction( $translit );//array( 'entity' => $entity );
         }
 
         return $res;
@@ -276,11 +276,12 @@ class DefaultController extends ControllerHelper
                   $parent_id=$entity->getId();  
                 }
                 $entities=$this->getMenus($parent_id);
-        return array( 'entity' => $entity, 
+        return array( 'entity'   => $entity, 
                       'keywords' =>$keywords,
-                      'menus' =>$entities,
-                      'locale' => $locale,
-                      'default' => $deflocale
+                      'menus'    =>$entities,
+                      'locale'   => $locale,
+                      'default'  => $deflocale,
+                      'link'     => "/",
                     );
     }
     

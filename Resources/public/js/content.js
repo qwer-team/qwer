@@ -3,7 +3,17 @@
  * and open the template in the editor.
  */
 $( document ).ready(function() {
-
+    /**
+     * Развертывлка меню
+     */
+    $('ul.sf-menu').superfish({
+        delay:       700, 		// one second delay on mouseout 
+        animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation 
+        speed:       'normal',  // faster animation speed 
+        autoArrows:  false,   // generation of arrow mark-up (for submenu) 
+        dropShadows: false   // drop shadows (for submenu)
+    });
+    
     $( '#index_slider' ).nivoSlider({
         effect: 'fold',
         slices:15,
