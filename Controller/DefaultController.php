@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
 use Main\SiteBundle\Tools\ControllerHelper;
+use Main\SiteBundle\Form\SendMailType;
 /**
  * Default controller.
  * @Route("/")
@@ -178,11 +179,11 @@ class DefaultController extends ControllerHelper
                        ->getOneOrNullResult();
 
         if( $entity === NULL ){
-
+           
             $r = "index";
             $res = $this->redirect( $this->generateUrl( $r, array() ) );
-            
-        } elseif( ( $r = $entity->getRouting() ) !== NULL &&
+      
+        }elseif( ( $r = $entity->getRouting() ) !== NULL &&
                     in_array( $r, $this->getRoutes() ) ){
 
             $httpKernel = $this->container->get('http_kernel');
@@ -193,8 +194,11 @@ class DefaultController extends ControllerHelper
             ));
 
         } else {
-
-            $res = $this->contentAction( $translit );//array( 'entity' => $entity );
+        $httpKernel = $this->container->get('http_kernel');
+            $res = $httpKernel->forward("MainSiteBundle:Default:content", array(
+                "translit" => $translit
+            ));
+           
         }
 
         return $res;
@@ -257,26 +261,24 @@ class DefaultController extends ControllerHelper
                         ->setParameter('locale', $locale)  
                         ->where("M.translit = :translit ")
                         ->setParameter('translit', $translit);
-           $entity = $entity->getQuery()->getOneOrNullResult();
-                if( $locale == $deflocale ){
-                     $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
-                }
-                else{
+        $entity = $entity->getQuery()->getOneOrNullResult();
         $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
-                        ->createQueryBuilder('M')
-                        ->select('M, T.value')
+                       ->createQueryBuilder('M')
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                         'WITH', "T.locale = :locale")
-                        ->setParameter('locale', $locale);
-      
-                       $keywords=$keywords ->getQuery()->execute();
-                }
-                $parent_id=$entity->getParent();
-                if ($parent_id === null ){
-                  $parent_id=$entity->getId();  
-                }
-                $entities=$this->getMenus($parent_id);
-        return array( 'entity'   => $entity, 
+                        ->setParameter('locale', $locale)
+                ->getQuery()->execute();
+   
+       
+        $parent_id=$entity->getParent();
+        if ($parent_id === null ){
+            $parent_id=$entity->getId();  
+        }
+        
+        $entities=$this->getMenus($parent_id);
+
+        return array( 'entity' => $entity, 
                       'keywords' =>$keywords,
                       'menus'    =>$entities,
                       'locale'   => $locale,
@@ -284,8 +286,137 @@ class DefaultController extends ControllerHelper
                       'link'     => "/",
                     );
     }
+    /**
+     *@Route("/tag/{keyword}",  name="tag")
+     *@Template()
+     */
+    public function tagAction($keyword){
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        $deflocale=LanguageHelper::getDefaultLocale();
+        if($locale == $deflocale){
+        $entity=$em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                       ->createQueryBuilder('M')
+                        ->select('M')
+                        ->where("M.translit = :translit ")
+                        ->setParameter('translit', $keyword)
+        ->getQuery()->getOneOrNullResult();    
+        }else{
+        $entity=$em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                       ->createQueryBuilder('M')
+                        ->select('M, T')
+                        ->leftJoin('M.translations', 'T',
+                        'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale)
+                        ->where("T.property='translit'")
+        ->getQuery()->getOneOrNullResult();    
+        }
+        if (!$entity) {
+            throw $this->createNotFoundException('The keyword does not exist');
+        }     
+        $entities=$entity->getMenus();
+        return array( 'entity'   => $entity,
+                       'locale'   => $locale,
+                       'entities' => $entities
+                    );
+    }
     
-    
+     /**
+     *@Route("/contacts",  name="contacts")
+     *@Template()
+     */
+    public function contactsAction(){
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        $entity=$em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where("M.routing = 'contacts'")
+                        ->setParameter('locale', $locale);
+
+        $entity = $entity->getQuery()->getOneOrNullResult();
+        if (!$entity) {
+            throw $this->createNotFoundException('The contact page does not exist');
+        }     
+        $sendMailType = new SendMailType( $locale );
+        $form = $this->createForm( $sendMailType );
+
+        return array( 'entity'   => $entity,
+                       'locale'   => $locale,
+                       'form'     => $form->createView()
+                    );
+    }
+    /**
+     *
+     *@Template("MainSiteBundle:Default:callback.html.twig")
+     */
+    public function callbackAction(){
+       
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        $deflocale=LanguageHelper::getDefaultLocale();
+        $entity=$em->getRepository('ItcAdminBundle:Menu\Menu')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->where("M.routing = 'contacts'")
+                        ->setParameter('locale', $locale);
+
+        $entity = $entity->getQuery()->getOneOrNullResult(); 
+        $sendMailType = new SendMailType( LanguageHelper::getLocale() );
+        $form = $this->createForm( $sendMailType );
+
+        return array( 'entity'   => $entity,
+                       'locale'   => $locale,
+                       'form'     => $form->createView()
+                    );
+    }
+        /**
+     * @Route("/{translit}/sendMail", name="sendMail")
+     * @Template("MainSiteBundle:Default:contacts.html.twig")
+     */
+    public function sendMailAction( $translit, Request $request ){
+         
+        $sendMailType = new SendMailType( LanguageHelper::getLocale() );
+        
+        $form = $this->createForm( $sendMailType );
+        $form->bind( $request );
+        $data = $form->getData();
+
+        if( $form->isValid() ) {
+            $body = $this->renderView( 'MainSiteBundle:Default:sendMail.txt.twig', 
+                                array( 'text' => "Пользователь ".$data['fio']." email:".$data['email'].".Телефон:".$data['telefon']."Оставил сообщение:".$data['body'] ) );
+
+            $message = \Swift_Message::newInstance()
+                        ->setSubject( $data['email'] )
+                        ->setFrom( $data['email'] )
+                        ->setTo( 'neversmoke@i.ua' )
+                        ->setBody( $body );
+
+            $this->get( 'mailer' )->send( $message );
+
+            $c = "index";
+            $url = $this->generateUrl( $c, array( "translit" => $translit, "locale" => LanguageHelper::getLocale() ) );
+            $res = $this->redirect( $url );
+
+            return $res;
+
+
+        }
+        $entity = $this->getEntityTranslit( $this->menu, $translit )
+                       ->getOneOrNullResult();
+
+        return array(
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'locale' => LanguageHelper::getLocale()
+        );
+        
+        
+    }
     /**     
      * Lists all Menu entities.
      * @Template()

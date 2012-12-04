@@ -27,8 +27,8 @@
         <h3>Облако тегов</h3>
         <div class="tagcloud">
             {% for keyword in keywords %}
-                <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="#">
-                  {{ default==locale ? keyword.keyword : keyword.value}}
+                <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="/{{ locale }}/tag/{{ keyword.translate(locale).getTranslit() }}">
+                  {{ keyword.translate(locale).getKeyword()}}
                 </a>
             {% endfor %}
         </div>

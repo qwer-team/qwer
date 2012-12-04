@@ -14,6 +14,12 @@ $( document ).ready(function() {
         dropShadows: false   // drop shadows (for submenu)
     });
     
+    $(".fancybox").fancybox({
+        'modal '        : true,
+        'transitionIn'  : 'none',
+        'transitionOut' : 'none'
+    });
+    
     $( '#index_slider' ).nivoSlider({
         effect: 'fold',
         slices:15,
@@ -57,13 +63,16 @@ $( document ).ready(function() {
             wrap: 'circular', 
             buttonNextHTML: ".nextBtn", 
             buttonPrevHTML: ".prevBtn", 
-            animation: "slow" }
+            animation: "slow"}
     );
     $("a[rel^='prettyPhoto']").prettyPhoto({
             animation_speed:'normal',
             slideshow:5000,
             autoplay_slideshow: false
     });
+
+
+
 
 });
 
@@ -73,3 +82,6 @@ $('#back-top a').click(function () {
         }, 1000);
         return false;
 });
+function InputReset(input){
+    input.val('');
+};
