@@ -29,7 +29,8 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "whiteoctober/breadcrumbs-bundle": "2.1.x-dev",
         "genemu/form-bundle": "2.1.*",
-        "friendsofsymfony/jsrouting-bundle": "dev-master"
+        "friendsofsymfony/jsrouting-bundle": "dev-master",
+        "gregwar/captcha-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": {

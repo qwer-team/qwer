@@ -2191,6 +2191,29 @@ nav.footer ul li a:hover {
     border-color: #A3C159;
     color: #5E6F33;
 }
+.wpcf7 textarea {
+    background: none repeat scroll 0 0 #F1F1F1;
+    border: 1px solid #FFFFFF;
+    color: #7A7A7A;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    height: 292px;
+    line-height: 1.4em;
+    overflow: auto;
+    padding: 4px;
+    resize: none;
+    width: 272px;
+    margin-bottom:10px;
+}
+.captcha input{
+    margin-top: -30px;
+    width:120px;
+    height:30px;
+    margin-left:10px;
+    text-align: center;
+    font-size:24px;
+}
 input, select, textarea {
     border: 1px solid #DBDBDB;
     font-family: Arial,Helvetica,sans-serif;

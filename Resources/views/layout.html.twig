@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
         <link rel="shortcut icon" href="/image/favicon.ico" />
 	<title>
-           {% if entity.metatitle is not empty %}
+           {% if entity.metatitle is defined and entity.metatitle is not empty %}
                 {{ entity.metatitle }}
             {% else %}
                 Title
@@ -22,6 +22,7 @@
             <script src="{{ asset ( 'bundles/itcadmin/js/plugins/jquery.fancybox-1.4.3/jquery.fancybox-1.3.4.pack.js' ) }}" ></script>
             <script src="{{ asset ( 'bundles/mainsite/js/content.js' ) }}" ></script>
             <script src="{{ asset ( 'bundles/mainsite/js/jquery.prettyPhoto.js' ) }}" ></script>
+            <script src="{{ asset ( 'bundles/mainsite/js/jquery.fancybox.js' ) }}" ></script>
             <script src='http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/js/jquery.loader.js?ver=1.0'></script>
         {% endblock %}
 
@@ -30,6 +31,7 @@
             <link rel="stylesheet" href="{{ asset ( 'bundles/mainsite/css/style.css' ) }}" />
             <link rel="stylesheet" href="{{ asset ( 'bundles/mainsite/css/prettyPhoto.css' ) }}" />
             <link rel="stylesheet" href="{{ asset ( 'bundles/itcadmin/css/morestyles.css' ) }}" />
+            <link rel="stylesheet" href="{{ asset ( 'bundles/mainsite/css/fancy.css' ) }}" />
             {# <link rel="stylesheet" href="{{ asset ( 'css/nivo-slider.css' ) }}" /> #}
             <link rel="stylesheet" href="{{ asset ( 'css/plugins/jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.css' ) }}"/>
         {% endblock %}
