@@ -349,8 +349,8 @@ class DefaultController extends ControllerHelper
                     );
     }
     /**
-     *@Route("/contacts",  name="contacts")
-     @Template("MainSiteBundle:Default:callback.html.twig")
+     *
+     *@Template("MainSiteBundle:Default:callback.html.twig")
      */
     public function callbackAction(){
        
