@@ -1,17 +1,15 @@
-    
-    <li id="menu-item" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item 
-        page_item page-item current_page_item menu-item">
-        <a href="#">
-            {{ locale }}
-        </a>
-        {% for key,url in urls %}
-                <ul class="sub-menu">
-                    <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                        <a href="{{ url }}">
-                            {{ key }}
-                        </a>
-                    </li>
-                </ul>
-        {% endfor %}
-    </li>
+<ul class="languages">
 
+    <a href="#">
+        <li id="" class="flag-{{ locale | upper }} transparent60">
+        </li>
+    </a>
+
+    {% for key, url in urls %}
+        <a href="{{ url }}">
+            <li id="" class="flag-{{ key | upper }}">
+            </li>
+         </a>
+    {% endfor %}
+
+</ul>

@@ -2609,3 +2609,13 @@ h1 {
     padding: 52px 0 66px;
     width: 100%;
 }
+ul.languages{
+    float: right;
+}
+ul.languages li{
+    /*background: url("/bundles/mainsite/image/menu-divider.gif") no-repeat scroll 0 6px transparent;*/
+    list-style: none outside none;
+    float:left;
+    margin: 20px 0 0 8px;
+    /*border: 2px #fff solid;*/
+}

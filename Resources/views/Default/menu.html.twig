@@ -27,16 +27,15 @@
                                 <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
                                     <a href="/{{ locale }}/{{ child.translit }}">{{ child.title }}</a>
                                 </li>
-                                {#{ loop.length }#}
-                                {#% if loop.last %} </ul> {% endif %#}
-                               
                             {% endfor %}
                          </ul>
                         
                     </li>
                     {% endfor %}
-                    {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
+                    
                     </ul>
+                    
                  </nav>
+                 {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
             </div>
         </div>
