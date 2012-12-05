@@ -21,7 +21,7 @@
                                 </a>
                                 <h5><a href="{{ link }}" title="{{ title }}" rel="bookmark">{{ title }}</a></h5>
                                 <div class="excerpt">{{ partner.description |slice( 0, 600 )| raw }}...</div>
-                                <a title="{{ title }}" class="button"  href="{{ link }}" >Read More</a>
+                                <a title="{{ title }}" class="button"  href="{{ link }}" >{% trans %}Read More{% endtrans %}</a>
                                 <div class="clear"></div>
                              </li><!-- .entry (end) -->
                         {% endfor %}
