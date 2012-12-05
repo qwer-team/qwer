@@ -96,6 +96,51 @@ class ControllerHelper extends Controller{
 
         return $qb->getQuery();
     }
+   /**
+     * Вытягивет сущьность или сущность с прямыми потомками по критериям, 
+     * возвращает также текущий язык.
+     * @param type $routing - парметр поиска (обязательное условие)
+     * 
+     * @param type $translit - парметр поиска (не обязательное условие), 
+     * если задано - вытягивает потомка, в противном случае сущность вместе с потомками и текущий routing
+     * 
+     * @return array 
+    */ 
+    protected function getPartners($routing, $translit=null)
+    {
+        $menu = array( 
+                'ItcAdminBundle:Menu\Menu',
+                'ItcAdminBundle:Menu\MenuTranslation'
+                );
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+            
+        $wheres[] = "M.routing = :routing";
+        $routingf["routing"] = $routing;
+        $entity = $this->getEntities( $menu, $wheres, $routingf )
+                       ->getOneOrNullResult();
+        if($translit==null)
+        {
+            return array( 
+                'entity' => $entity,
+                'partners'   => $entity->getChildren(),
+                'locale' => $locale, 
+                'routing' => $routing
+                );
+         }
+         else
+         {
+             $wheres2[] = "M.parent_id = :parent_id";
+             $parameters["parent_id"] = $entity->getId();
+             $entity2 = $this->getEntityTranslit( $menu, $translit, $wheres2, $parameters )
+                            ->getOneOrNullResult();
+             return array( 
+                 'entity' => $entity2,
+                 'locale' => $locale
+                    );
+         }
+    }
+    
     /**
      * Для правого блока меню
      * 
