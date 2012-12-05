@@ -116,7 +116,33 @@ class DefaultController extends ControllerHelper
             'entity' => $entity,
         );
     }
+    /**
+     * @Route("/partners", name="partners")
+     */
+    public function partnersAction(){
+       return $this->render('MainSiteBundle:Default:partners.html.twig', $this->getPartners("partners"));
+    }
+    /**
+     * @Route("/partners/{translit}", name="partner")
+     */
+    public function partnerAction($translit){
+       return $this->render('MainSiteBundle:Default:partner.html.twig', $this->getPartners("partners", $translit));
+    }
     
+    /**
+     * @Route("/clients", name="clients")
+     */
+    public function clientsAction(){
+        return $this->render('MainSiteBundle:Default:partners.html.twig', $this->getPartners("clients"));
+    }
+    /**
+     * @Route("/clients/{translit}", name="client")
+     */
+    public function clientAction($translit){
+        return $this->render('MainSiteBundle:Default:partner.html.twig', $this->getPartners("clients", $translit));
+    }
+
+
     /**
      * @Route("/faq", name="faq")
      * @Template()
