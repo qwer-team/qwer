@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="robots" content="noindex,nofollow" />
+        <title>    Невозможно найти страницу. (404 Not Found)
+</title>
+        <link href="/bundles/framework/css/exception_layout.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="/bundles/framework/css/exception.css" rel="stylesheet" type="text/css" media="all" />
+    </head>
+    <body>
+        <div id="content">
+            <div class="header clear_fix">
+                <div class="header_logo">
+                    <img src="/bundles/framework/images/logo_symfony.png" alt="Symfony" />
+                </div>
+
+                <div class="search">
+                  <form method="get" action="http://symfony.com/search">
+                    <div class="form_row">
+
+                      <label for="search_id">
+                          <img src="/bundles/framework/images/grey_magnifier.png" alt="Search on Symfony website" />
+                      </label>
+
+                      <input name="q" id="search_id" type="search" placeholder="Search on Symfony website" />
+
+                      <button type="submit">
+                        <span class="border_l">
+                          <span class="border_r">
+                            <span class="btn_bg">OK</span>
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                   </form>
+                </div>
+            </div>
+
+                <div class="sf-exceptionreset">
+
+    <div class="block_exception">
+        <div class="block_exception_detected clear_fix">
+            <div class="illustration_exception">
+                <img alt="Exception detected!" src="/bundles/framework/images/exception_detected.png"/>
+            </div>
+            <div class="text_exception">
+
+                <div class="open_quote">
+                    <img alt="" src="/bundles/framework/images/open_quote.gif"/>
+                </div>
+
+                <h1>
+                    Невозможно найти страницу.
+                </h1>
+
+                <div>
+                    <strong>404</strong> Not Found - <abbr title="Symfony\Component\HttpKernel\Exception\NotFoundHttpException">NotFoundHttpException</abbr>
+                </div>
+
+                                
+                <div class="close_quote">
+                    <img alt="" src="/bundles/framework/images/close_quote.gif"/>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+            <div class="block">
+            <h2>Stack Trace</h2>
+    
+    <a id="traces_link_0"></a>
+    <ol class="traces list_exception" id="traces_0" style="display: block">
+                    <li>
+                
+    
+    in /home/user/symf/test_symfony_121019/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/Controller.php at line 142&nbsp;
+    <a href="#" onclick="toggle('trace_0_0'); switchIcons('icon_0_0_open', 'icon_0_0_close'); return false;"><img class="toggle" id="icon_0_0_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: display" /><img class="toggle" id="icon_0_0_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: hidden; margin-left: -18px" /></a>    <div id="trace_0_0" style="display: block" class="trace">
+        <ol start="139"><li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #007700">public&nbsp;function&nbsp;</span><span style="color: #0000BB">createNotFoundException</span><span style="color: #007700">(</span><span style="color: #0000BB">$message&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Not&nbsp;Found'</span><span style="color: #007700">,&nbsp;\</span><span style="color: #0000BB">Exception&nbsp;$previous&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">)</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;{</code></li>
+<li class="selected"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;<span style="color: #0000BB">NotFoundHttpException</span><span style="color: #007700">(</span><span style="color: #0000BB">$message</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$previous</span><span style="color: #007700">);</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></li>
+<li><code></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FF8000">/**</span></code></li></ol>
+    </div>
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title="Symfony\Bundle\FrameworkBundle\Controller\Controller">Controller</abbr>
+        -&gt;createNotFoundException
+    </strong>
+    ('Невозможно найти страницу.')
+
+    <br />
+    in /home/user/symf/test_symfony_121019/src/Main/SiteBundle/Controller/DefaultController.php at line 112&nbsp;
+    <a href="#" onclick="toggle('trace_0_1'); switchIcons('icon_0_1_open', 'icon_0_1_close'); return false;"><img class="toggle" id="icon_0_1_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: hidden" /><img class="toggle" id="icon_0_1_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: display; margin-left: -18px" /></a>    <div id="trace_0_1" style="display: none" class="trace">
+        <ol start="109"><li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$entity&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getEntityTranslit</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">menu</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$translit&nbsp;</span><span style="color: #007700">)</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;<span style="color: #0000BB">getOneOrNullResult</span><span style="color: #007700">();</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!<span style="color: #0000BB">$entity</span><span style="color: #007700">)&nbsp;{</span></code></li>
+<li class="selected"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;<span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">createNotFoundException</span><span style="color: #007700">(</span><span style="color: #DD0000">'Невозможно&nbsp;найти&nbsp;страницу.'</span><span style="color: #007700">);</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$keywords&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$em</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getRepository</span><span style="color: #007700">(</span><span style="color: #DD0000">'ItcAdminBundle:Keyword\Keyword'</span><span style="color: #007700">)-&gt;</span><span style="color: #0000BB">findAll</span><span style="color: #007700">();</span></code></li></ol>
+    </div>
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title="Main\SiteBundle\Controller\DefaultController">DefaultController</abbr>
+        -&gt;contentAction
+    </strong>
+    ('routing')
+
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title=""></abbr>
+        call_user_func_array
+    </strong>
+    (<em>array</em>(<em>object</em>(<abbr title="Main\SiteBundle\Controller\DefaultController">DefaultController</abbr>), 'contentAction'), <em>array</em>('routing'))
+
+    <br />
+    in <abbr title="/home/user/symf/test_symfony_121019/app/">kernel.root_dir</abbr>/bootstrap.php.cache at line 1426&nbsp;
+    <a href="#" onclick="toggle('trace_0_3'); switchIcons('icon_0_3_open', 'icon_0_3_close'); return false;"><img class="toggle" id="icon_0_3_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: hidden" /><img class="toggle" id="icon_0_3_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: display; margin-left: -18px" /></a>    <div id="trace_0_3" style="display: none" class="trace">
+        <ol start="1423"><li><code></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$arguments&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">resolver</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getArguments</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$controller</span><span style="color: #007700">);</span></code></li>
+<li><code></code></li>
+<li class="selected"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">call_user_func_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$controller</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$arguments</span><span style="color: #007700">);</span></code></li>
+<li><code></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!<span style="color: #0000BB">$response&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">Response</span><span style="color: #007700">)&nbsp;{</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$event&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">GetResponseForControllerResultEvent</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$type</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$response</span><span style="color: #007700">);</span></code></li></ol>
+    </div>
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title="Symfony\Component\HttpKernel\HttpKernel">HttpKernel</abbr>
+        -&gt;handleRaw
+    </strong>
+    (<em>object</em>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr>), '1')
+
+    <br />
+    in <abbr title="/home/user/symf/test_symfony_121019/app/">kernel.root_dir</abbr>/bootstrap.php.cache at line 1390&nbsp;
+    <a href="#" onclick="toggle('trace_0_4'); switchIcons('icon_0_4_open', 'icon_0_4_close'); return false;"><img class="toggle" id="icon_0_4_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: hidden" /><img class="toggle" id="icon_0_4_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: display; margin-left: -18px" /></a>    <div id="trace_0_4" style="display: none" class="trace">
+        <ol start="1387"><li><code>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;<span style="color: #0000BB">handle</span><span style="color: #007700">(</span><span style="color: #0000BB">Request&nbsp;$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$type&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">HttpKernelInterface</span><span style="color: #007700">::</span><span style="color: #0000BB">MASTER_REQUEST</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$catch&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">)</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;{</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{</code></li>
+<li class="selected"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;<span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">handleRaw</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$type</span><span style="color: #007700">);</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;catch&nbsp;(\<span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(<span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">$catch</span><span style="color: #007700">)&nbsp;{</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;<span style="color: #0000BB">$e</span><span style="color: #007700">;</span></code></li></ol>
+    </div>
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title="Symfony\Component\HttpKernel\HttpKernel">HttpKernel</abbr>
+        -&gt;handle
+    </strong>
+    (<em>object</em>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr>), '1', <em>true</em>)
+
+    <br />
+    in <abbr title="/home/user/symf/test_symfony_121019/app/">kernel.root_dir</abbr>/bootstrap.php.cache at line 1566&nbsp;
+    <a href="#" onclick="toggle('trace_0_5'); switchIcons('icon_0_5_open', 'icon_0_5_close'); return false;"><img class="toggle" id="icon_0_5_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: hidden" /><img class="toggle" id="icon_0_5_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: display; margin-left: -18px" /></a>    <div id="trace_0_5" style="display: none" class="trace">
+        <ol start="1563"><li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">container</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #DD0000">'request'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'request'</span><span style="color: #007700">);</span></code></li>
+<li><code></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{</code></li>
+<li class="selected"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">parent</span><span style="color: #007700">::</span><span style="color: #0000BB">handle</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$type</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$catch</span><span style="color: #007700">);</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;catch&nbsp;(\<span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">container</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">leaveScope</span><span style="color: #007700">(</span><span style="color: #DD0000">'request'</span><span style="color: #007700">);</span></code></li>
+<li><code></code></li></ol>
+    </div>
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title="Symfony\Bundle\FrameworkBundle\HttpKernel">HttpKernel</abbr>
+        -&gt;handle
+    </strong>
+    (<em>object</em>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr>), '1', <em>true</em>)
+
+    <br />
+    in <abbr title="/home/user/symf/test_symfony_121019/app/">kernel.root_dir</abbr>/bootstrap.php.cache at line 617&nbsp;
+    <a href="#" onclick="toggle('trace_0_6'); switchIcons('icon_0_6_open', 'icon_0_6_close'); return false;"><img class="toggle" id="icon_0_6_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: hidden" /><img class="toggle" id="icon_0_6_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: display; margin-left: -18px" /></a>    <div id="trace_0_6" style="display: none" class="trace">
+        <ol start="614"><li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">boot</span><span style="color: #007700">();</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></li>
+<li><code></code></li>
+<li class="selected"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;<span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getHttpKernel</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">handle</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$type</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$catch</span><span style="color: #007700">);</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></li>
+<li><code></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;</code></li></ol>
+    </div>
+            </li>
+                    <li>
+                    at
+    <strong>
+        <abbr title="Symfony\Component\HttpKernel\Kernel">Kernel</abbr>
+        -&gt;handle
+    </strong>
+    (<em>object</em>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr>))
+
+    <br />
+    in /home/user/symf/test_symfony_121019/web/app_dev.php at line 28&nbsp;
+    <a href="#" onclick="toggle('trace_0_7'); switchIcons('icon_0_7_open', 'icon_0_7_close'); return false;"><img class="toggle" id="icon_0_7_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: hidden" /><img class="toggle" id="icon_0_7_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: display; margin-left: -18px" /></a>    <div id="trace_0_7" style="display: none" class="trace">
+        <ol start="25"><li><code><span style="color: #0000BB">$kernel&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">AppKernel</span><span style="color: #007700">(</span><span style="color: #DD0000">'dev'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);</span></code></li>
+<li><code><span style="color: #0000BB">$kernel</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">loadClassCache</span><span style="color: #007700">();</span></code></li>
+<li><code><span style="color: #0000BB">$request&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">Request</span><span style="color: #007700">::</span><span style="color: #0000BB">createFromGlobals</span><span style="color: #007700">();</span></code></li>
+<li class="selected"><code><span style="color: #0000BB">$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$kernel</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">handle</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">);</span></code></li>
+<li><code><span style="color: #0000BB">$response</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">send</span><span style="color: #007700">();</span></code></li>
+<li><code><span style="color: #0000BB">$kernel</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">terminate</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$response</span><span style="color: #007700">);</span></code></li>
+<li><code>
+</code></li></ol>
+    </div>
+            </li>
+            </ol>
+</div>
+    
+            <div class="block">
+            <div class="logs clear_fix">
+                <h2>
+                    Logs&nbsp;
+                    <a href="#" onclick="toggle('logs'); switchIcons('icon_logs_open', 'icon_logs_close'); return false;"><img class="toggle" id="icon_logs_open" alt="+" src="/bundles/framework/images/blue_picto_more.gif" style="visibility: hidden" /><img class="toggle" id="icon_logs_close" alt="-" src="/bundles/framework/images/blue_picto_less.gif" style="visibility: visible; margin-left: -18px" /></a></h2>
+                                    <div class="error_count">
+                        <span>
+                            1 error
+                        </span>
+                    </div>
+                
+            </div>
+
+            <div id="logs">
+                <ol class="traces logs">
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Bundle\FrameworkBundle\EventListener\SessionListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            INFO - Matched route &quot;content&quot; (parameters: &quot;_controller&quot;: &quot;Main\SiteBundle\Controller\DefaultController::contentAction&quot;, &quot;_locale&quot;: &quot;js&quot;, &quot;translit&quot;: &quot;routing&quot;, &quot;_route&quot;: &quot;content&quot;)
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\Security\Http\Firewall::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Read SecurityContext from the session
+        </li>
+            <li>
+            DEBUG - Reloading user from user provider.
+        </li>
+            <li>
+            DEBUG - SELECT t0.username AS username1, t0.username_canonical AS username_canonical2, t0.email AS email3, t0.email_canonical AS email_canonical4, t0.enabled AS enabled5, t0.salt AS salt6, t0.password AS password7, t0.last_login AS last_login8, t0.locked AS locked9, t0.expired AS expired10, t0.expires_at AS expires_at11, t0.confirmation_token AS confirmation_token12, t0.password_requested_at AS password_requested_at13, t0.roles AS roles14, t0.credentials_expired AS credentials_expired15, t0.credentials_expire_at AS credentials_expire_at16, t0.id AS id17, t0.status AS status18, t0.tel AS tel19, t0.address AS address20, t0.fio AS fio21, t0.date_registrate AS date_registrate22 FROM User t0 WHERE t0.id = ? LIMIT 1
+        </li>
+            <li>
+            DEBUG - Username &quot;babenko&quot; was reloaded from user provider.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Itc\AdminBundle\Listener\DoctrineExtensionListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Bundle\AsseticBundle\EventListener\RequestListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Knp\Bundle\PaginatorBundle\Subscriber\SlidingPaginationSubscriber::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Itc\AdminBundle\Listener\DoctrineExtensionListener::onLateKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Acme\DemoBundle\EventListener\ControllerListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Symfony\Component\HttpKernel\DataCollector\RequestDataCollector::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - SELECT m0_.id AS id0, m0_.locale AS locale1, m0_.property AS property2, m0_.value AS value3, m0_.translatable_id AS translatable_id4 FROM MenuTranslation m0_ WHERE m0_.value = ? AND m0_.property = ? AND m0_.locale = ?
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.exception&quot; to listener &quot;Symfony\Component\Security\Http\Firewall\ExceptionListener::onKernelException&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.exception&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelException&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.exception&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ExceptionListener::onKernelException&quot;.
+        </li>
+            <li class="error">
+            ERROR - Symfony\Component\HttpKernel\Exception\NotFoundHttpException: Невозможно найти страницу. (uncaught exception) at /home/user/symf/test_symfony_121019/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/Controller.php line 142
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Bundle\FrameworkBundle\EventListener\SessionListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\Security\Http\Firewall::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Itc\AdminBundle\Listener\DoctrineExtensionListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Bundle\AsseticBundle\EventListener\RequestListener::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Knp\Bundle\PaginatorBundle\Subscriber\SlidingPaginationSubscriber::onKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.request&quot; to listener &quot;Itc\AdminBundle\Listener\DoctrineExtensionListener::onLateKernelRequest&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Acme\DemoBundle\EventListener\ControllerListener::onKernelController&quot;.
+        </li>
+            <li>
+            DEBUG - Notified event &quot;kernel.controller&quot; to listener &quot;Symfony\Component\HttpKernel\DataCollector\RequestDataCollector::onKernelController&quot;.
+        </li>
+    </ol>
+            </div>
+
+        </div>
+    
+    
+</div>
+
+<script type="text/javascript">//<![CDATA[
+    function toggle(id, clazz) {
+        var el = document.getElementById(id),
+            current = el.style.display,
+            i;
+
+        if (clazz) {
+            var tags = document.getElementsByTagName('*');
+            for (i = tags.length - 1; i >= 0 ; i--) {
+                if (tags[i].className === clazz) {
+                    tags[i].style.display = 'none';
+                }
+            }
+        }
+
+        el.style.display = current === 'none' ? 'block' : 'none';
+    }
+
+    function switchIcons(id1, id2) {
+        var icon1, icon2, visibility1, visibility2;
+
+        icon1 = document.getElementById(id1);
+        icon2 = document.getElementById(id2);
+
+        visibility1 = icon1.style.visibility;
+        visibility2 = icon2.style.visibility;
+
+        icon1.style.visibility = visibility2;
+        icon2.style.visibility = visibility1;
+    }
+//]]></script>
+        </div>
+    
+<div id="sfwdt50b896df0ee97" class="sf-toolbar" style="display: none"></div><script type="text/javascript">/*<![CDATA[*/    Sfjs = (function() {        "use strict";        var noop = function() {},            request = function(url, onSuccess, onError, payload, options) {                var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');                options = options || {};                xhr.open(options.method || 'GET', url, true);                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');                xhr.onreadystatechange = function(state) {                    if (4 === xhr.readyState && 200 === xhr.status) {                        (onSuccess || noop)(xhr);                    } else if (4 === xhr.readyState && xhr.status != 200) {                        (onError || noop)(xhr);                    }                };                xhr.send(payload || '');            },            hasClass = function(el, klass) {                return el.className.match(new RegExp('\\b' + klass + '\\b'));            },            removeClass = function(el, klass) {                el.className = el.className.replace(new RegExp('\\b' + klass + '\\b'), ' ');            },            addClass = function(el, klass) {                if (!hasClass(el, klass)) { el.className += " " + klass; }            };        return {            hasClass: hasClass,            removeClass: removeClass,            addClass: addClass,            request: request,            load: function(selector, url, onSuccess, onError, options) {                var el = document.getElementById(selector);                if (el && el.getAttribute('data-sfurl') !== url) {                    request(                        url,                        function(xhr) {                            el.innerHTML = xhr.responseText;                            el.setAttribute('data-sfurl', url);                            removeClass(el, 'loading');                            (onSuccess || noop)(xhr, el);                        },                        function(xhr) { (onError || noop)(xhr, el); },                        options                    );                }                return this;            },            toggle: function(selector, elOn, elOff) {                var i,                    style,                    tmp = elOn.style.display,                    el = document.getElementById(selector);                elOn.style.display = elOff.style.display;                elOff.style.display = tmp;                if (el) {                    el.style.display = 'none' === tmp ? 'none' : 'block';                }                return this;            }        }    })();/*]]>*/</script><script type="text/javascript">/*<![CDATA[*/    (function () {                Sfjs.load(            'sfwdt50b896df0ee97',            '/_wdt/50b896df0ee97',            function(xhr, el) {                el.style.display = -1 !== xhr.responseText.indexOf('sf-toolbarreset') ? 'block' : 'none';            },            function(xhr) {                if (xhr.status !== 0) {                    confirm('An error occurred while loading the web debug toolbar (' + xhr.status + ': ' + xhr.statusText + ').\n\nDo you want to open the profiler?') && (window.location = '/_profiler/50b896df0ee97');                }            }        );    })();/*]]>*/</script>
+</body>
+</html>

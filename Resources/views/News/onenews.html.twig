@@ -1,8 +1,11 @@
 {% extends 'MainSiteBundle::layout.html.twig' %}
 {% block menu %}
-    {{parent()}}
+    {{ parent() }}
 {% endblock %}
+
 {% block body %}
+
+{% set entityT = entity.translate( locale ) %}
 
 <div class="primary_content_wrap">
     <div class="container_12 clearfix">
@@ -15,16 +18,13 @@
 
                         <article class="post-holder single-post">
                             <header>
-                                <h1>{{ entity.title }}</h1>
+                                <h1>{{ entityT.getTitle() }}</h1>
                             </header>
-                            <figure class="featured-thumbnail"><span class="img-wrap">
-                            <img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" /></span></figure>                
                             <div class="post-content">
-                                <h6>{{ entity.description | raw }}</h6>
-                                {{ entity.content | raw }}
+                                {#<h6>{{ entityT.getDescription() | raw }}</h6>#}
+                                    {{ entityT.getContent() | raw }}
                             </div><!--.post-content-->
                         </article>
-
 
 {#
                         <div id="disqus_thread"></div>
@@ -44,10 +44,9 @@
 #}
                     </div>
                 </div>
-
                 {% render "MainSiteBundle:Default:rightblock" 
                     with { 
-                        'parent_id' : entity.parent, 
+                        'parent_id' : entity.parentid,
                         'entity': entity, 
                         'link': 'news' 
                     } 

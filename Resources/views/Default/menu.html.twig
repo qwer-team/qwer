@@ -2,28 +2,40 @@
         <div class="grid_12">
             <div class="logo">
                 <a href="/" id="logo">
-                    <img src="/bundles/mainsite/image/logo01.png" alt="Case" title="">
+                    <img src="/bundles/mainsite/images/logo-qwer.png" alt="Case" title="">
                 </a>
-                </div>
+            </div>
                 <nav class="primary">
                     <ul id="topnav" class="sf-menu">
                     {% for entity in entities %}
                     <li id="menu-item" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item 
                         page_item page-item current_page_item menu-item">
-                        <a href="{{ entity.translit }}">
+                        {% if entity.routing %}
+                            {% set link = entity.routing %}
+                        {% else %}
+                            {% set link = entity.translit %}
+                        {% endif %}
+                        <a href="/{{ locale }}/{{ link }}">
                             {{entity.title}}
                         </a>
-                        {% if entity.children.isEmpty == false %} 
+                        {% set parent = entity.id %}
+                            
+                            
                         <ul class="sub-menu">
-                            <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                                <a href="/{{ locale }}/{{ entity.translit }}">{{ entity.title }}</a>
-                            </li>
-                        </ul>
-                        {% endif %}
+                            {% for child in childs if child.parentid == parent %}
+                                {% if loop.first %}  {% endif %}
+                                <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
+                                    <a href="/{{ locale }}/{{ child.translit }}">{{ child.title }}</a>
+                                </li>
+                            {% endfor %}
+                         </ul>
+                        
                     </li>
                     {% endfor %}
-                    {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
+                    
                     </ul>
+                    
                  </nav>
+                 {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
             </div>
         </div>

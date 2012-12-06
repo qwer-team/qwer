@@ -61,7 +61,9 @@
     </div>
                 
     <div style="padding-bottom: 5%;">
-        {{ entity.content }}
+        {% autoescape false %}
+            {{ entity.content }}
+        {% endautoescape %}
     </div>
              <div id="my_cyclewidget-2">                  <h2>Последние работы</h2>						
 						                  
@@ -86,52 +88,33 @@
 	</div>
     </ul>
     </div>
+    </div>
               <!-- end of portfolio_cycle -->
-</div>
                 
+{% if news|length > 0 %}                
 <div id="my_postwidget-2">
     <h2>Последние новости</h2>						
-        <div id="showcase" class="showcase">
-            <!-- Each child div in #showcase represents a slide -->
-            {% for new in news %}
-            <div class="showcase-slide">
-                <div class="showcase-content">
-                    <div class="showcase-content-wrapper">
-                        <figure class="big-thumbnail">
-                            <a href="">
-                                <img width="689" height="182" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1.jpg" class="attachment-post-thumbnail-xl wp-post-image" alt="picture-1" title="picture-1" />
-                            </a>
-                        </figure>
-                    </div>
-                </div>
-        
-                <div class="showcase-caption">
-                    <div class="title">
-                        <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/">
-                            <b>{{ new.dateCreate|date('d-m-Y') }}</b>
-                            {{ new.title }}
-                        </a>
-                        </div>
-                            {{ new.description }}                 
-                        <a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/">
-                            Read More</a>
-                </div>        
-                <div class="showcase-thumbnail">
-                    <figure class="small-thumbnail"
-                            <img width="49" height="49" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-49x49.jpg" class="attachment-small-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" />
-                    </figure>				
-                    <div class="showcase-thumbnail-caption">
-                        {{ new.title }}
-                        <i>{{ new.dateCreate|date('d-m-Y') }}</i>
-                    </div>
-                    <div class="showcase-thumbnail-cover"></div>
-                </div>        
-            </div>  
-            {% endfor %}
-        </div>	       
-</div>
+    <div class="showcase-content" style="width:700px;float:left">
+            <h5>{{ news.0.title }}</h5>
+            {% autoescape false %}
+            {{ news.0.content }}
+            {% endautoescape %}
+    </div>
+    <div style="float:left; width: 238px;">
+        {% for new in news %}
+            <div class="showcase-thumbnail" style="padding: 5px 0;height: 70px;">
+                <a href="">{{ new.title }}</a>
+                <br />
+                {{ new.description|slice(1, 50)}}...
+            </div>
+        {% endfor %}
+    </div>
+</div>	       
+{% endif %}                
 								
-								<!-- Link under post cycle -->
+</div>
+
+                <!-- Link under post cycle -->
 								
 								
               </div>			 
@@ -140,112 +123,11 @@
             </div>
          </div>
       </div>
-   
-	<footer id="footer">
-   
-      <div id="back-top-wrapper">
-         <p id="back-top">
-            <a href="#top"><span></span></a>
-         </p>
-      </div>
-         
-      <div class="footer-widget-area">
-         <div class="container_12 clearfix">
-            <div class="grid_12">
-            	<div class="wrapper">
       
-                  <div class="grid_3 alpha">
-                     <div id="text-2"><h4>Socialize With Us</h4>			<div class="textwidget">8901 Marmora Road,<br>Glasgow, D04 89GR.<br>Telephone:  +1 800 603 6035</div>
-		</div><div id="social_networks-2">		
-			<ul class="social-networks">
-				
-								    								<li>
-							<a rel="external" title="flickr" href="http://www.flickr.com">
-						    											<img src="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/icons/flickr.png" alt="">
-															</a>
-						</li>
-													    								<li>
-							<a rel="external" title="feed" href="feed">
-						    											<img src="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/icons/feed.png" alt="">
-															</a>
-						</li>
-													    								<li>
-							<a rel="external" title="stumble" href="http://stumble.com">
-						    											<img src="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/icons/stumble.png" alt="">
-															</a>
-						</li>
-													    								<li>
-							<a rel="external" title="technorati" href="http://technorati.com">
-						    											<img src="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/icons/technorati.png" alt="">
-															</a>
-						</li>
-													    								<li>
-							<a rel="external" title="twitter" href="http://twitter.com">
-						    											<img src="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/icons/twitter.png" alt="">
-															</a>
-						</li>
-													    										    										      
-      		</ul>
-      
-		</div>                  </div>
-                  
-                  <div class="grid_3">
-                     <div id="text-3"><h4>About</h4>			<div class="textwidget">Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diamnon
-ummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nost. <a href="company">Read More</a></div>
-		</div>                  </div>
-                  
-                  <div class="grid_3">
-                     		<div id="recent-posts-2">		<h4>Recent Posts</h4>		<ul>
-				<li><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/lorem-ipsum-dolor-sit-ametcos/" title="Lorem ipsum dolor sit ametcos">Lorem ipsum dolor sit ametcos</a></li>
-				<li><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ectetuer-adipiscing-elitsed-diamn/" title="Ectetuer adipiscing elitsed diamn">Ectetuer adipiscing elitsed diamn</a></li>
-				<li><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/ummy-nibh-euismod-tincidunt-ut/" title="Ummy nibh euismod tincidunt ut">Ummy nibh euismod tincidunt ut</a></li>
-				<li><a href="http://livedemo00.template-help.com/wordpress_37934/sed-tincidunt-mauris/laoreet-dolore-magna-aliqu/" title="Laoreet dolore magna aliqu">Laoreet dolore magna aliqu</a></li>
-				</ul>
-		</div>                  </div>
-                  
-                  <div class="grid_3 omega">
-                  	<div class="extra">
-								<div id="archives-2"><h4>Archive</h4>		<ul>
-			<li><a href='http://livedemo00.template-help.com/wordpress_37934/2012/02/' title='February 2012'>February 2012</a></li>
-	<li><a href='http://livedemo00.template-help.com/wordpress_37934/2012/01/' title='January 2012'>January 2012</a></li>
-	<li><a href='http://livedemo00.template-help.com/wordpress_37934/2011/12/' title='December 2011'>December 2011</a></li>
-	<li><a href='http://livedemo00.template-help.com/wordpress_37934/2011/11/' title='November 2011'>November 2011</a></li>
-		</ul>
-</div>                     </div>
-                  </div>
-         	
-            	</div>
-            </div>
-         </div>
-      </div>
-      
-      <div class="footer-info">
-         <div class="container_12 clearfix">
-            <div class="grid_12">
-            	<div class="wrapper">
-      	<p><a href="http://livedemo00.template-help.com/wordpress_37934/" title="Just another WordPress site" class="site-name">Case</a> (c) 2012 | <a href="privacy-policy">Privacy policy</a> </p>
-                           	
-            	</div>
-            </div>
-         </div>
-      </div>
-        
-	</footer>
-   
-</div><!--#main-->
-<script type='text/javascript' src='http://livedemo00.template-help.com/wordpress_37934/wp-content/plugins/contact-form-7/jquery.form.js?ver=2.52'></script>
-<script type='text/javascript' src='http://livedemo00.template-help.com/wordpress_37934/wp-content/plugins/contact-form-7/scripts.js?ver=3.0.2.1'></script>
- <!-- this is used by many Wordpress features and for plugins to work properly -->
-
-<!--LIVEDEMO_00 -->
-
-<script type="text/javascript">
- var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-7078796-5']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();</script>
 {% endblock %}
+      {#
+{% block footer %}
+      {{ parent() }}
+{% endblock %}      
+#}
+      

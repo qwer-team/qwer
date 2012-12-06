@@ -1,0 +1,76 @@
+/*******************************************************************************
+**************************************** Main **********************************
+*******************************************************************************/
+
+root { 
+    display: block;
+}
+
+body{
+    font-size: 12px;
+    font-family: arial;
+    padding: 0 10px;
+}
+/* link */
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+/* table */
+table, 
+table td, 
+table th{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #222;
+    border-collapse: collapse;
+}
+table{
+    width: 100% ;
+}
+table tr:hover,
+table tr:nth-of-type(2n):hover{
+    background-color: #FFD;
+}
+table tr:nth-of-type(2n){
+    background-color: #DDD;
+}
+table td{
+    border-width: 0px;
+    padding: 2px;
+}
+table th{
+    background-color: #DDD;
+    padding: 3px;
+    font-weight: bold;
+}
+/** form */
+form{
+}
+input, select{
+    border-width: 1px;
+    border-color: #CCCCCC;
+    border-style: solid;
+}
+input{
+    width: 100px;
+}
+select{
+    padding: 0;
+    font-size: 11px;
+}
+
+label{
+    display: block;
+    float: left;
+}
+textarea{
+    resize: none;
+}
+h1{
+  margin: 5px;
+  font-size: 14px;
+  font-weight: bold;    
+}

@@ -3,11 +3,15 @@
     <div id="archives-3" class="widget">
     <h3>{{ entity.title }}</h3>
     <ul>
+        
         {% for menu in menus %}
+            {% set menuT = menu.translate( locale ) %}
+          
             {% set cur = entity.id == menu.id ? 'current': '' %}
-            {% set linknews = '/'~locale~'/'~link~'/'~menu.translit %}
+            {% set linknews = '/'~locale~'/'~link~'/'~menuT.getTranslit() %}
+
             <li>
-                <a class="{{ cur }}" href="{{ linknews }}"> {{ menu.title }}</a>
+                <a class="{{ cur }}" href="{{ linknews }}"> {{ menuT.getTitle() }}</a>
             </li>
             
         {% endfor %}
@@ -23,8 +27,8 @@
         <h3>Облако тегов</h3>
         <div class="tagcloud">
             {% for keyword in keywords %}
-                <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="#">
-                    {{ keyword.keyword }}
+                <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="/{{ locale }}/tag/{{ keyword.translate(locale).getTranslit() }}">
+                  {{ keyword.translate(locale).getKeyword()}}
                 </a>
             {% endfor %}
         </div>
