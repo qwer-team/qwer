@@ -3,7 +3,23 @@
  * and open the template in the editor.
  */
 $( document ).ready(function() {
-
+    /**
+     * Развертывлка меню
+     */
+    $('ul.sf-menu').superfish({
+        delay:       700, 		// one second delay on mouseout 
+        animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation 
+        speed:       'normal',  // faster animation speed 
+        autoArrows:  false,   // generation of arrow mark-up (for submenu) 
+        dropShadows: false   // drop shadows (for submenu)
+    });
+    
+    $(".fancybox").fancybox({
+        'modal '        : true,
+        'transitionIn'  : 'none',
+        'transitionOut' : 'none'
+    });
+    
     $( '#index_slider' ).nivoSlider({
         effect: 'fold',
         slices:15,
@@ -47,7 +63,7 @@ $( document ).ready(function() {
             wrap: 'circular', 
             buttonNextHTML: ".nextBtn", 
             buttonPrevHTML: ".prevBtn", 
-            animation: "slow" }
+            animation: "slow"}
     );
     $("a[rel^='prettyPhoto']").prettyPhoto({
             animation_speed:'normal',
@@ -57,6 +73,9 @@ $( document ).ready(function() {
             social_tools: false
     });    
 
+
+
+
 });
 
 $('#back-top a').click(function () {        
@@ -65,6 +84,9 @@ $('#back-top a').click(function () {
         }, 1000);
         return false;
 });
+function InputReset(input){
+    input.val('');
+};
 $(".portfolio_filter").live("click", function(){
     var obj = $(this);
     var filter = obj.data("filter-param");

@@ -4,7 +4,7 @@
                 <a href="/{{ locale }}" id="logo">
                     <img src="/bundles/mainsite/image/logo01.png" alt="Case" title="">
                 </a>
-                </div>
+            </div>
                 <nav class="primary">
                     <ul id="topnav" class="sf-menu">
                     {% for entity in entities %}
@@ -20,18 +20,23 @@
                             {{entity.translate(locale).getTitle}}
                         </a>
                         {% set parent = entity.id %}
+                            
+                            
                         <ul class="sub-menu">
                             {% for child in childs if child.parentid == parent %}
                             <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
                                 <a href="/{{ locale }}/{{ child.translate(locale).getTranslit() }}">{{ child.title }}</a>
                             </li>
                             {% endfor %}
-                        </ul>
+                         </ul>
+                        
                     </li>
                     {% endif %}
                     {% endfor %}
-                    {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
+                    
                     </ul>
+                    
                  </nav>
+                 {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
             </div>
         </div>

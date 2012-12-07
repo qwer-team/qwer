@@ -1,0 +1,37 @@
+{% extends 'MainSiteBundle::layout.html.twig' %}
+
+{% block body %}
+<div class="container_12 clearfix">
+    <div class="grid_12">
+        <div class="indent">
+            <div class="post-11 page type-page status-publish hentry page" id="post-11">
+                <div class="wrapper">
+                    <div class="one_third ">{{entity.content|raw()}}</div>
+                    <div class="two_third last">
+                        <h2>{{entity.description}}</h2>
+                        <ul class="recent-posts clients">
+                        {% for partner in partners %}
+                            {% set title = partner.title %}
+                            {% set link  = "/"~locale~"/"~routing~"/"~partner.translit%}
+                            <li class="entry">
+                                <a title="{{ title }}" href="{{ link }}">
+                                    <div class="thumb-wrap">
+                                        <img width="190" height="143" title="{{ title }}"  class="thumb wp-post-image" src="/images/icons{{asset(partner.icon)}}">
+                                    </div>
+                                </a>
+                                <h5><a href="{{ link }}" title="{{ title }}" rel="bookmark">{{ title }}</a></h5>
+                                <div class="excerpt">{{ partner.description |slice( 0, 600 )| raw }}...</div>
+                                <a title="{{ title }}" class="button"  href="{{ link }}" >{% trans %}Read More{% endtrans %}</a>
+                                <div class="clear"></div>
+                             </li><!-- .entry (end) -->
+                        {% endfor %}
+                        </ul>
+                        <div class="pagination"></div><!--.pagination-->
+                    </div><!--#post-# .post-->
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

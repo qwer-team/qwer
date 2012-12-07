@@ -15,9 +15,9 @@
 
                             <article id="post-42" class="post-42 post type-post status-publish format-standard hentry category-in-sagittis-mi-rhoncus category-sed-tincidunt-mauris tag-at tag-curabitur tag-euismod tag-odio tag-sem tag-sit tag-tristique tag-ut tag-vel post-holder cat-5-id cat-1-id">
                                 <div class="post-container">
-
-                                    {% set title = onenews.title %}
-                                    {% set link  = "/"~"en"~"/news/"~onenews.translit%}
+                                    {% set onenewsT = onenews.translate( locale ) %}
+                                    {% set title = onenewsT.getTitle() %}
+                                    {% set link  = url( 'onenews', { 'translit': onenewsT.getTranslit() } ) %}
 
                                     <h2>
                                         <a href="{{ link }}" title="{{ title }}" rel="bookmark">
@@ -31,7 +31,9 @@
                                                 {% set date = entity.datecreate|date('F d, Y H:i a') %}
                                             {% endif %}
                                             <time datetime="2012-02-08T08:12">{{ date }}</time> , by 
-                                                <a href="" title="Posts by admin" rel="author">Admin</a>
+                                                <a href="" title="Posts by admin" rel="author">
+                                                    Admin
+                                                </a>
 
                                         </div>
                                         <div class="fright">
@@ -42,18 +44,23 @@
                                         <figure class="featured-thumbnail">
                                             <span class="img-wrap">
                                                 <a href="{{ link }}">
-                                                    <img width="210" height="169" src="http://livedemo00.template-help.com/wordpress_37934/wp-content/uploads/2012/02/picture-1-210x169.jpg" class="attachment-post-thumbnail wp-post-image" alt="picture-1" title="picture-1" />
+                                                    {% if onenews.iconImage is not null %}
+                                                        <img width="90" height="80" class = 'menu_sys_iconImage' style = 'z-index: 0;' 
+                                                              src = '{{ vich_uploader_asset( onenews, 'iconImage' ) }}?{{ random() }}'/>
+                                                    {% else %}
+                                                        <img style = 'z-index: 0;' src = '/bundles/itcadmin/images/m_menu.gif' />
+                                                    {% endif %}
+
                                                 </a>
                                             </span>
                                         </figure> 
-                                        {{ onenews.content |slice( 0, 600 )| raw }}...
+                                        {{ onenewsT.getDescription() |slice( 0, 300 )| raw }}...
                                         <a href="{{ link }}">Read More</a>
                                         
                                     </div>
-
                                     
-
                                 </div>
+                                <div class="line_bottom"></div>
                             </article>
 
                         {% endfor %}
