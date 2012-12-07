@@ -1013,7 +1013,7 @@ nav.oldernewer {
     width: 440px;
 }
 #gallery.four_columns .portfolio li {
-    margin-right: 22px;
+    margin-right: 27px;
     width: 210px;
 }
 #gallery.four_columns .portfolio li span.image-border {
@@ -2561,4 +2561,32 @@ h1 {
 .primary_content_wrap .indent {
     padding: 52px 0 66px;
     width: 100%;
+}
+.fly-border{
+/*    border: 1px solid rgba(0, 0, 0, 0.1);*/
+    width: 205px;
+    height: 125px !important;
+    background: #F5F5F5;    
+}
+.fly-border:after{
+    bottom: 15px;
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5);
+    content: "";
+    height: 20%;
+    position: absolute;
+    right: 10px;
+    transform: rotate(4deg);
+    width: 50%;
+    z-index: -1;
+}
+.fly-border:before{
+    bottom: 15px;
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5);
+    content: "";
+    height: 20%;
+    left: 10px;
+    position: absolute;
+    transform: rotate(-4deg);
+    width: 50%;
+    z-index: -1;    
 }

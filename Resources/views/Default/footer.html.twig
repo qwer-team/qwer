@@ -1,3 +1,4 @@
+{% if entity %}
 {% autoescape false %}
     {{ entity.content }}
 {% endautoescape %}
@@ -10,3 +11,4 @@
                                         {{ "develop" | trans }}
                                         {% endautoescape %}
             </p></div></div></div></div>
+{% endif %}

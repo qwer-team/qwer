@@ -52,8 +52,10 @@ $( document ).ready(function() {
     $("a[rel^='prettyPhoto']").prettyPhoto({
             animation_speed:'normal',
             slideshow:5000,
-            autoplay_slideshow: false
-    });
+            autoplay_slideshow: false,
+            theme: /*'dark_rounded',*/'pp_default',
+            social_tools: false
+    });    
 
 });
 
@@ -63,3 +65,148 @@ $('#back-top a').click(function () {
         }, 1000);
         return false;
 });
+$(".portfolio_filter").live("click", function(){
+    var obj = $(this);
+    var filter = obj.data("filter-param");
+    var filter_value = obj.data("filter-value");
+    $("#gallery").find(obj.data("link-object")).each(function(){
+        if ($(this).data(filter) != filter_value )
+                $(this).fadeOut("slow");
+        else if ($(this).data(filter) == filter_value )
+                $(this).fadeIn("slow");
+        else if (filter_value == 'all')
+                $(this).fadeIn("slow");
+    });
+});
+$(".portfolio_filter_keywors").live("click", function(){
+    var obj = $(this);
+    var filter = obj.data("filter-param");
+    var filter_value = obj.data("filter-value");    
+    var arr = [];
+    $("#gallery").find(obj.data("link-object")).each(function(){
+        arr = $(this).data(filter).toString().split(",");
+        if ($.inArray(String(filter_value), arr) == -1 ){
+                $(this).fadeOut("slow");
+        }else
+                $(this).fadeIn("slow");            
+    });
+    
+});
+/*
+$(".portfolio_filter").live("click", function(){
+    var obj = $(this);
+    var filter = obj.data("filter-param");
+    var filter_value = obj.data("filter-value");
+    var i = 0;
+    var key = 0;
+    var arr_obj;
+    
+    $("#gallery").find(obj.data("link-object")).each(function(){
+        if ($(this).data(filter) != filter_value ){
+            $(this).addClass("transparent");
+            if( pClick == 0)
+                $(this).animate({"opacity": 0 });
+        }
+        else if ($(this).data(filter) == filter_value ){
+            $(this).show();
+            $(this).removeClass("transparent");
+        }
+        if ( pClick != 0){            
+            $(this).animate({"opacity": 0});
+            if ($(this).is(":hidden"))
+                $(this).show();                
+        }
+    });
+    var count = $("#gallery").find(obj.data("link-object")+".transparent").length;
+    $("#gallery").find(obj.data("link-object")).delay(300).each(function(){
+        arr_obj = $(this);
+        if (arr_obj.data(filter) == filter_value ){
+            arr_obj.removeClass("transparent");
+            arr_obj.animate({"opacity": 1 });
+            arr_obj.show("slow");
+        }
+    });  
+   $("#gallery").find(obj.data("link-object")).delay(500).each(function(){
+        arr_obj = $(this);        
+        var hide_obj = $('#gallery '+obj.data('link-object')+".transparent:lt("+(key)+")");
+        if (arr_obj.data(filter) == filter_value ){
+                var link_obj = $('#gallery '+obj.data('link-object')+".transparent:eq("+(i)+")");
+                if (key != i && key != 0 ){
+                arr_obj.effect("transfer", { 
+                        className: "fly-border",
+                        to: $('#gallery '+obj.data('link-object')+":eq("+(i)+")") }, 
+                        500
+                        );}
+                i++;
+          }
+        key++;
+    });
+    $("#gallery").find(obj.data("link-object")).delay(650).each(function(){
+        if ($(this).data(filter) == filter_value ){
+            $(this).hide(10);
+        }
+    });
+    pClick++;
+
+});
+$(".portfolio_filter_keywors").live("click", function(){    
+    var obj = $(this);
+    var filter = obj.data("filter-param");
+    var filter_value = obj.data("filter-value");
+    var arr = [];
+    var i = 0;
+    var key = 0;
+    
+    $("#gallery").find(obj.data("link-object")).each(function(){
+        arr = $(this).data(filter).toString().split(",");
+        if ($.inArray(String(filter_value), arr) == -1 ){
+            $(this).addClass("transparent");
+            if( pClick == 0)
+                $(this).animate({"opacity": 0 });
+        }
+        else if ($.inArray(String(filter_value), arr) >= 0 ){
+            $(this).show();
+            $(this).removeClass("transparent");
+        }
+        if ( pClick != 0){            
+            $(this).animate({"opacity": 0});
+            if ($(this).is(":hidden"))
+                $(this).show();                
+        }
+    });
+    var count = $("#gallery").find(obj.data("link-object")+".transparent").length;
+    $("#gallery").find(obj.data("link-object")).delay(300).each(function(){
+        arr_obj = $(this);
+        arr = arr_obj.data(filter).toString().split(",");
+        if ($.inArray(String(filter_value), arr) >= 0 ){
+            arr_obj.removeClass("transparent");
+            arr_obj.animate({"opacity": 1 });
+            arr_obj.show("slow");
+        }
+    });  
+   $("#gallery").find(obj.data("link-object")).delay(500).each(function(){
+        var arr_obj = $(this);        
+        arr = arr_obj.data(filter).toString().split(",");        
+        var hide_obj = $('#gallery '+obj.data('link-object')+".transparent:lt("+(key)+")");
+        if ($.inArray(String(filter_value), arr) >= 0 ){
+                var link_obj = $('#gallery '+obj.data('link-object')+".transparent:eq("+(i)+")");
+                if (key != i && key != 0 ){
+                arr_obj.effect("transfer", { 
+                        className: "fly-border",
+                        to: $('#gallery '+obj.data('link-object')+":eq("+(i)+")") }, 
+                        500
+                        );}
+                i++;
+          }
+        key++;
+    });
+    $("#gallery").find(obj.data("link-object")).delay(650).each(function(){
+        var arr_obj = $(this);        
+        arr = arr_obj.data(filter).toString().split(",");        
+        if ($.inArray(String(filter_value), arr) == -1 ){
+            $(this).hide(10);
+        }
+    });
+    pClick++;
+});
+*/

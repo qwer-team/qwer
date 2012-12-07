@@ -102,7 +102,8 @@ class ControllerHelper extends Controller{
      * @param type $parent_id
      * @return type 
      */
-    protected function getMenus($parent_id){
+    public function getMenus($parent_id){
+        
         $em     = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
         $repo   = $em->getRepository('ItcAdminBundle:Menu\Menu');
