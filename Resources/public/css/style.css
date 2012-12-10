@@ -1461,7 +1461,8 @@ blockquote.testi-single p {
     text-decoration: none;
     vertical-align: top;
 }
-.tags-cloud a:hover, .tagcloud a:hover {
+.tags-cloud a:hover, .tagcloud a:hover, 
+span.portfolio_filter:hover, span.portfolio_filter_keywors:hover {
     background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
 }
@@ -2507,7 +2508,7 @@ h3 {
     margin: 0 0 24px;
     padding: 0 0 12px;
 }
-.tags-cloud a, .tagcloud a {
+.tags-cloud a, .tagcloud a, span.portfolio_filter, span.portfolio_filter_keywors{
     background: none repeat scroll 0 0 #E0E0E0;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);

@@ -11,9 +11,9 @@
                     <h1>Portfolio</h1>
                 </div>   
                     
-              <div class="header-title">
+              <div class="header-title tagcloud">
                   {% for entity in sites_types %}
-                  <span class="portfolio_filter" 
+                  <span class="portfolio_filter"
                         data-link-object=".portfolio_object" 
                         data-filter-param="site-type"
                         data-filter-value="{{ entity.tag }}">
@@ -22,9 +22,9 @@
                   {% endfor %}    
                 </div>   
 
-                <div class="header-title">
+                <div class="header-title tagcloud">
                   {% for entity in keywords %}
-                  <span class="portfolio_filter_keywors" 
+                  <span class="portfolio_filter_keywors"
                         data-link-object=".portfolio_object" 
                         data-filter-param="keywords"
                         data-filter-value="{{ entity.id }}">
