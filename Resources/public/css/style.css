@@ -57,7 +57,7 @@ html, body {
 .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
     display: inline;
     float: left;
-    margin-left: 10px;
+    margin-left: -50px;
     margin-right: 10px;
     position: relative;
 }
@@ -85,7 +85,7 @@ nav.primary {
     position: absolute;
     right: 2px;
     top: 65px;
-    left: 290px;
+    left: 260px;
     z-index: 2;
 }
 nav.primary ul li{
@@ -156,7 +156,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
 }
 .sf-menu li {
     background: url("/bundles/mainsite/image/menu-divider.gif") no-repeat scroll 0 6px transparent;
-    padding: 0 0 0 2px;
+    padding: 0 0 0 0px;
 }
 .sf-menu li:first-child {
     background: none repeat scroll 0 0 transparent;
