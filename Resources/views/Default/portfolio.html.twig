@@ -10,29 +10,69 @@
                 <div class="header-title">
                     <h1>Portfolio</h1>
                 </div>   
+                    
+              <div class="header-title tagcloud">
+                  {% for entity in sites_types %}
+                  <span class="portfolio_filter"
+                        data-link-object=".portfolio_object" 
+                        data-filter-param="site-type"
+                        data-filter-value="{{ entity.tag }}">
+                      {{ entity.translate(locale).getTitle }}
+                  </span>
+                  {% endfor %}    
+                </div>   
+
+                <div class="header-title tagcloud">
+                  {% for entity in keywords %}
+                  <span class="portfolio_filter_keywors"
+                        data-link-object=".portfolio_object" 
+                        data-filter-param="keywords"
+                        data-filter-value="{{ entity.id }}">
+                        {{ entity.Keyword }}_{{ entity.id }}
+                  </span>
+                  {% endfor %}    
+                </div>   
 
     <div id="gallery" class="four_columns">
         <ul class="portfolio">
-            {% for entity in entities %}
-            <li class="">
+            {% for entity in entities %}                
+                
+            {% if images[ entity.id ]|length > 0 %}
+            <li class="portfolio_object" data-site-type="{{ sites_types[entity.parentId].tag }}" 
+                data-keywords="{{ entities_keywords[entity.id] }}">
                 <span class="image-border">
-                    <a class="image-wrap" href="http://livedemo00.template-help.com/wordpress_37934/wp-content/themes/theme1466/images/service/service-1.jpg" rel="prettyPhoto[gallery]" title="Morbi ornare egestas urna">
-                        <img width="200" height="120" src="/images/icons/{{ asset(entity.icon) }}" class="attachment-portfolio-post-thumbnail-small wp-post-image" alt="service-1" title="service-1" />
+                    <a class="image-wrap" href="{{ vich_uploader_asset(images[ entity.id ].0, 'image' ) }}" 
+                       rel="prettyPhoto[gallery_{{entity.id}}]" title="{{ entity.translate(locale).getTitle() }}">
+                        <img width="200" height="120" src="{{ vich_uploader_asset(images[ entity.id ].0, 'smallImage' ) }}" 
+                             class="attachment-portfolio-post-thumbnail-small wp-post-image" 
+                             alt="{{ entity.translate(locale).getTitle() }}" title="{{ entity.translate(locale).getTitle() }}" />
                         <span class="zoom-icon"></span>
                     </a>
                 </span>
                 <div class="folio-desc">
-                    <h6>
-                        <a href="http://livedemo00.template-help.com/wordpress_37934/services-view/morbi-ornare-egestas-urna/">
-                            {{ entity.title }}
+                    <h6>{{ entities_keywords[entity.id] }}
+                        <a href="/{{ locale }}/{{ entity.translate(locale).getTranslit }}">
+                            {{ entity.translate(locale).getTitle() }}
                         </a>
                     </h6>
-                <p> {{ entity.description|slice(1, 50) }}... </p>
-                <a href="/{{ locale }}/{{ entity.translit }}" class="button">
-                    Далее...
+                <p> {{ entity.translate(locale).getDescription|slice(1, 50) }}... </p>
+                <a href="/{{ locale }}/{{ entity.translate(locale).getTranslit }}" class="button">
+                    {{ "Read More" | trans }}...
                 </a>
                 </div>
             </li>
+            <div class="hidden">
+                {% for image in images[ entity.id ] %}
+                    <a class="image-wrap" href="{{ vich_uploader_asset( image, 'image' ) }}" rel="prettyPhoto[gallery_{{entity.id}}]" title="{{ image.translate(locale).getTitle() }}">
+                        <img width="200" height="120" src="{{ vich_uploader_asset( image, 'image' ) }}" 
+                             class="attachment-portfolio-post-thumbnail-small wp-post-image" 
+                             alt="{{ image.translate(locale).getTitle() }}" title="{{ image.translate(locale).getTitle() }}" />
+                        <span class="zoom-icon"></span>
+                    </a>
+                {% endfor %}
+            </div>                    
+            {% endif %}
+            
             {% endfor %}
         </ul>
    </div>
