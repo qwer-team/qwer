@@ -349,7 +349,8 @@ class DefaultController extends ControllerHelper
             ));
 
         } else {
-        $httpKernel = $this->container->get('http_kernel');
+            
+            $httpKernel = $this->container->get('http_kernel');
             $res = $httpKernel->forward("MainSiteBundle:Default:content", array(
                 "translit" => $translit
             ));
@@ -627,7 +628,7 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function footerAction(){
-        
+    /*    
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
@@ -638,14 +639,15 @@ class DefaultController extends ControllerHelper
                                 'WITH', "T.locale = :locale")
                         ->where("M.routing = 'footer' ")
                         ->setParameter('locale', $locale);
-
-        $entities = $queryBuilder->getQuery()->execute();
+     */
+        $entity = $this->getEntityRouting($this->menu, 'footer')
+                       ->getOneOrNullResult();
         
-        $entity = isset($entities[0]) ? $entities[0] : array();
-        
+        //$entity = isset($entities[0]) ? $entities[0] : array();
         return array( 
-            "entity"  => $entity,
-            );
+            "entity" => $entity,
+            "locale" => LanguageHelper::getLocale(),
+        );
     }
 
     private $translitCollection = 

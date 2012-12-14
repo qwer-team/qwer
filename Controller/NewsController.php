@@ -24,12 +24,15 @@ class NewsController extends ControllerHelper //Controller
      * @Route("/", name="news")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction( $translit )
     {
         $locale =  LanguageHelper::getLocale();
 
         $wheres[] = "M.routing = :routing ";
         $parameters["routing"] = "news";
+        $wheres[] = "M.translit = :translit ";
+        $parameters["translit"] = $translit;
+
         $orderby = array( "M.date_create", "DESC" );
         $entity = $this->getEntities( $this->menu, $wheres, $parameters, $orderby )
                        ->getOneOrNullResult();

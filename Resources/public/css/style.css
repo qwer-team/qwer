@@ -57,7 +57,7 @@ html, body {
 .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
     display: inline;
     float: left;
-    margin-left: 10px;
+    margin-left: -50px;
     margin-right: 10px;
     position: relative;
 }
@@ -85,7 +85,7 @@ nav.primary {
     position: absolute;
     right: 2px;
     top: 65px;
-    left: 290px;
+    left: 260px;
     z-index: 2;
 }
 nav.primary ul li{
@@ -95,7 +95,7 @@ article, aside, dialog, figure, footer, header, hgroup, nav, section {
     display: block;
 }
 .container_12 .grid_12 {
-    width: 940px;
+    width: 1000px;
 }
 .sf-menu, .sf-menu * {
     list-style: none outside none;
@@ -156,7 +156,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
 }
 .sf-menu li {
     background: url("/bundles/mainsite/image/menu-divider.gif") no-repeat scroll 0 6px transparent;
-    padding: 0 0 0 2px;
+    padding: 0 0 0 0px;
 }
 .sf-menu li:first-child {
     background: none repeat scroll 0 0 transparent;
@@ -166,9 +166,9 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
     font-size: 14px;
     height: 30px;
     line-height: 30px;
-    margin: 0 8px;
+    margin: 0px;
     overflow: hidden;
-    padding: 0 10px;
+    padding: 0 6px;
     text-transform: uppercase;
 }
 .sf-menu li li {
@@ -261,7 +261,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     overflow: hidden;
     padding: 44px 0 0;
     position: relative;
-    width: 50%;
+    width: 940px;
 }
 #slider-wrapper .slider-bg {
     background: none repeat scroll 0 0 #F1F1F1;
@@ -2647,4 +2647,77 @@ ul.languages li{
     transform: rotate(-4deg);
     width: 50%;
     z-index: -1;    
+}
+blockquote {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../img/quote_left.gif) no-repeat scroll left top;
+ 
+font-size:12px;
+line-height:1.5;
+margin:0 0 30px;
+text-align:left;
+}
+blockquote div p {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../img/quote_right.gif) no-repeat scroll right bottom;
+}
+blockquote p {
+padding:0 35px; line-height:20px;
+margin:5px 0;
+}
+blockquote {font: italic 1.4em Georgia, "Times New Roman", Times, serif;
+background:#fafafa;
+border-left:10px solid #ccc;
+margin:0 0px 0px 35px;
+padding:.8em 10px .5em 10px;
+}
+blockquote:before {
+color:gray;
+content:open-quote;
+font-size:4em;
+line-height:.01em;
+margin-right:.25em;
+vertical-align:-.4em;
+}
+blockquote #p_auth {margin: 12px 0 0 0;
+text-align:right;
+color: #72a1b1;/* #60758a; */
+}
+.entry blockquote {font: italic 1em Georgia, "Times New Roman", Times, serif;
+background:#fafafa;
+border-left:3px solid #ccc;
+margin:0 0px 0px 35px;
+padding:15px 10px 15px 10px;
+}
+.entry blockquote:before { content:none !important;  
+}
+.entry blockquote p{ margin:0 0 5px 0;}
+.entry blockquote #p_auth {margin: 12px 0 0 0;
+text-align:right;
+color: #72a1b1;/* #60758a; */
+}
+.post .ind .title2 {
+    height: 1%;
+    margin-bottom: 10px;
+    position: relative;
+}
+.post .obslug {
+    color: hsl(0, 0%, 0%);
+    padding-left: 20px;
+}
+.podrobney {
+    cursor: pointer;
+    font-family: Trebuchet MS,sans-serif;
+    font-size: 10px;
+}
+element.style {
+    display: block;
+}
+.post .ind .entry {
+    color: hsl(0, 0%, 0%);
+    padding: 10px 0 10px 16px;
 }
