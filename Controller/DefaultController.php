@@ -330,14 +330,14 @@ class DefaultController extends ControllerHelper
      */
     public function otherAction( $translit ){
         
-        $entity = $this->getEntityTranslit( $this->menu, $translit )
-                       ->getOneOrNullResult();
+        $query = $this->getEntityTranslit( $this->menu, $translit );
+        $entity = $query->getOneOrNullResult();
 
         if( $entity === NULL ){
            
             $r = "index";
             $res = $this->redirect( $this->generateUrl( $r, array() ) );
-      
+            
         }elseif( ( $r = $entity->getRouting() ) !== NULL &&
                     in_array( $r, $this->getRoutes() ) ){
 
