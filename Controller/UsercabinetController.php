@@ -61,6 +61,7 @@ class UsercabinetController extends ControllerHelper //Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
         $editForm = $this->createForm(new UserType(), $entity);
+        $passForm = $this->createForm(new UserSysType(), $entity);
         $editForm->bind($request);
         $data = $editForm->getData();
         if ($editForm->isValid()) {
@@ -70,7 +71,9 @@ class UsercabinetController extends ControllerHelper //Controller
             return $this->redirect($this->generateUrl('usercabinet'));
         }
         return array(
-            'entity'      => $entity,
+            'user'        => $entity,
+            'entity'      => '',
+            'pass_form'   => $passForm->createView(),
             'edit_form'   => $editForm->createView()
         );
     }
@@ -106,7 +109,8 @@ class UsercabinetController extends ControllerHelper //Controller
         }
         
         return array(
-            'entity'      => $entity,
+            'user'        => $entity,
+            'entity'      => '',
             'pass_form'   => $editForm->createView(),
             'edit_form'   => $editForm1->createView(),
         );
