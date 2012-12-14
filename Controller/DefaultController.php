@@ -45,16 +45,16 @@ class DefaultController extends ControllerHelper
         $galleries = $entity->getGalleries();
         
         $images = $news = $blog = $topPortfolio = array();
-        //$images = $galleries[0]->getImages();
+        $images = ($galleries[0] !== NULL ) ? $galleries[0]->getImages() : array();
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
                         ->select( 'M' )
                         ->where("M.keyword = 'showcase' ");
         
-        $portfolio = $queryBuilder->getQuery()->execute();
+        $portfolio = $queryBuilder->getQuery()->getOneOrNullResult();
         
-       // $topPortfolio = $portfolio[0]->getMenus();
+        $topPortfolio = $portfolio !== NULL ? $portfolio->getMenus(): array();
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
@@ -194,7 +194,8 @@ class DefaultController extends ControllerHelper
             ));
 
         } else {
-        $httpKernel = $this->container->get('http_kernel');
+            
+            $httpKernel = $this->container->get('http_kernel');
             $res = $httpKernel->forward("MainSiteBundle:Default:content", array(
                 "translit" => $translit
             ));
@@ -470,7 +471,7 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function footerAction(){
-        
+    /*    
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
@@ -481,14 +482,15 @@ class DefaultController extends ControllerHelper
                                 'WITH', "T.locale = :locale")
                         ->where("M.routing = 'footer' ")
                         ->setParameter('locale', $locale);
-
-        $entities = $queryBuilder->getQuery()->execute();
+     */
+        $entity = $this->getEntityRouting($this->menu, 'footer')
+                       ->getOneOrNullResult();
         
-        $entity = isset($entities[0]) ? $entities[0] : array();
-        
+        //$entity = isset($entities[0]) ? $entities[0] : array();
         return array( 
-            "entity"  => $entity,
-            );
+            "entity" => $entity,
+            "locale" => LanguageHelper::getLocale(),
+        );
     }
 
     private $translitCollection = 

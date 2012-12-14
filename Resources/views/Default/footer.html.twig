@@ -1,7 +1,7 @@
 <div class="footer-widget-area">
-    {% autoescape false %}
-        {#{ entity.content }#}
-    {% endautoescape %}
+    {% if entity is not empty %}
+        {{ entity.translate( locale ).getContent() | raw }}
+    {% endif %}
 </div>
 
 <div class="footer-info">

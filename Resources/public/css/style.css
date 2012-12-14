@@ -261,7 +261,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
     overflow: hidden;
     padding: 44px 0 0;
     position: relative;
-    width: 50%;
+    width: 940px;
 }
 #slider-wrapper .slider-bg {
     background: none repeat scroll 0 0 #F1F1F1;
