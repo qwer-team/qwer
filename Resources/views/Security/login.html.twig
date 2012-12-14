@@ -1,0 +1,20 @@
+
+{% if error %}
+    <div id="error_logout">{{ error|trans({}, 'FOSUserBundle') }}</div>
+{% endif %}
+        <form action="{{ path("fos_user_security_check") }}" method="post" id="authfrm">
+          
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <div class="form_item last">
+            <label id="dogovor" for="username">Логин:</label>
+            <input type="text" id="login" name="_username" value="{{ last_username }}"
+                   class="input" style="width: 110px; margin-left: 14px;" required="required" />
+           </div>
+            <div class="form_item last">
+            <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+            <input  id="pswo" style="width: 110px; margin-left: 14px;" 
+                    type="password" id="password" name="_password" required="required" />
+            </div>
+
+            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+        </form>
