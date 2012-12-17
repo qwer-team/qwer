@@ -23,4 +23,11 @@ usercabinet:
     type:     annotation
     #defaults: { _controller: MainSiteBundle:News:index, _locale: %locale% }
     requirements:
-      _locale : \w{2}       
+      _locale : \w{2}   
+pdpay:
+    prefix:   /{_locale}/pdpay/
+    resource: "@MainSiteBundle/Controller/PdpayController.php"
+    type:     annotation
+    #defaults: { _controller: MainSiteBundle:News:index, _locale: %locale% }
+    requirements:
+      _locale : \w{2} 
