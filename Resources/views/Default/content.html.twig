@@ -11,11 +11,11 @@
                     <div id="post-60" class="post-60 extra type-extra status-publish hentry post">
                         <article class="post-holder single-post">                   
                             <header>
-                                <h1> {{ entity.title }}</h1>
+                                <h1> {{ entity.translate(locale).getTitle }}</h1>
                             </header>
                             <div class="post-content">
                                 {% autoescape false %}
-                                    {{ entity.content }}
+                                    {{ entity.translate(locale).getContent }}
                                 {% endautoescape %}
                             </div>  
                         </article>

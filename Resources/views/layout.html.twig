@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/image/favicon.ico" />
     <title>
-       {% if entity.metatitle is not empty %}
-            {{ entity.metatitle }}
+       {% if entity.translate(locale).getMetatitle is not empty %}
+            {{ entity.translate(locale).getMetatitle }}
         {% else %}
-            Title
+            translate(locale).getTitle
         {% endif %}  
     </title>
     {% block javascript %}

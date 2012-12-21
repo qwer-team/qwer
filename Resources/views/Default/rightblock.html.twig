@@ -1,7 +1,7 @@
 <aside id="sidebar" class="grid_3 omega">
 <div class="indent-left">
     <div id="archives-3" class="widget">
-    <h3>{{ entity.title }}</h3>
+    <h3>{{ entity.translate(locale).getTitle }}</h3>
     <ul>
         
         {% for menu in menus %}
@@ -18,13 +18,13 @@
     </ul>
     </div>
     <div id="text-4" class="widget">
-        <h3>Контакты</h3>
+        <h3>{{  "contacts_title" | trans }}</h3>
             <div class="textwidget">
                 {{  "contacts" | trans }}
             </div>
     </div>
     <div id="tag_cloud-2" class="widget">
-        <h3>Облако тегов</h3>
+        <h3>{{  "cloud_tags" | trans }}</h3>
         <div class="tagcloud">
             {% for keyword in keywords %}
                 <a class="tag-link-25" style="font-size: 8pt;" title="1 topic" href="/{{ locale }}/tag/{{ keyword.translate(locale).getTranslit() }}">

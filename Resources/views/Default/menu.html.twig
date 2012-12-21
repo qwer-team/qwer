@@ -5,6 +5,7 @@
                     <img src="/bundles/mainsite/image/logo01.png" alt="Case" title="">
                 </a>
             </div>
+                 {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
                 <nav class="primary">
                     <ul id="topnav" class="sf-menu">
                     {% for entity in entities %}
@@ -19,13 +20,12 @@
                         <a href="/{{ locale }}/{{ link }}">
                             {{entity.translate(locale).getTitle}}
                         </a>
-                        {% set parent = entity.id %}
-                            
+                        {% set parent = entity.id %}                            
                             
                         <ul class="sub-menu">
                             {% for child in childs if child.parentid == parent %}
                             <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47">
-                                <a href="/{{ locale }}/{{ child.translate(locale).getTranslit() }}">{{ child.title }}</a>
+                                <a href="/{{ locale }}/{{ child.translate(locale).getTranslit() }}">{{ child.translate(locale).getTitle }}</a>
                             </li>
                             {% endfor %}
                          </ul>
@@ -37,6 +37,5 @@
                     </ul>
                     
                  </nav>
-                 {% render "MainSiteBundle:Default:languages" with { "routing" : routing, 'req' : req, 'locale': locale }  %}
             </div>
         </div>

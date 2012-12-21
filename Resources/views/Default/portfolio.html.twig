@@ -55,7 +55,7 @@
                             {{ entity.translate(locale).getTitle() }}
                         </a>
                     </h6>
-                <p> {{ entity.translate(locale).getDescription|slice(1, 50) }}... </p>
+                <p> {{ entity.translate(locale).getDescription|slice(0, 50) }}... </p>
                 <a href="/{{ locale }}/{{ entity.translate(locale).getTranslit }}" class="button">
                     {{ "Read More" | trans }}...
                 </a>

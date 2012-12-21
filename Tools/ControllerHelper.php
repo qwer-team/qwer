@@ -92,8 +92,9 @@ class ControllerHelper extends Controller{
             
             $qb = $em->getRepository( $entity )
                      ->createQueryBuilder( 'M' )
-                     ->select( 'M' )
-                     ->join( "M.translations", 'T' );
+                     ->select( 'M, TR' )
+                     ->innerJoin('M.translations', 'T')
+                     ->leftJoin( "M.translations", 'TR' );
         }
 
         if( $wheres !== NULL ){
@@ -109,7 +110,8 @@ class ControllerHelper extends Controller{
             $qb->orderBy( $sort, $order );
         }
 
-        return $qb->getQuery();
+        $query =  $qb->getQuery();
+        return $query;
 
     }
 
@@ -142,6 +144,7 @@ class ControllerHelper extends Controller{
                     ->get( $name )
                     ->getDefault("_controller");
     }
+    
 }
 
 ?>

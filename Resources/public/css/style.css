@@ -2612,6 +2612,7 @@ h1 {
 }
 ul.languages{
     float: right;
+    margin: 0 10px 0 0 ;    
 }
 ul.languages li{
     /*background: url("/bundles/mainsite/image/menu-divider.gif") no-repeat scroll 0 6px transparent;*/
