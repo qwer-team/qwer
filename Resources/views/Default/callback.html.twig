@@ -12,7 +12,7 @@
                                <p><span > {{ form_widget(form.email,{ 'attr' : { 'size' : '40', 'onclick' : 'InputReset($(this))' } })  }}</span></p>
                                <p><span > {{ form_widget(form.telefon,{ 'attr' : { 'size' : '40' , 'onclick' : 'InputReset($(this))'} })  }}</span></p>
                                <p><span > {{ form_widget(form.body,{ 'attr' : { 'cols' : '40', 'rows' : '10' } })  }}</span></p>
-                               <p><span class="captcha"> {{ form_widget(form.captcha,{ 'attr' : { 'maxlength' : '5' } })  }}</span></p>
+                               {#<p><span class="captcha"> {{ form_widget(form.captcha,{ 'attr' : { 'maxlength' : '5' } })  }}</span></p>#}
                                
                                 {{ form_rest( form ) }}
                                 <p><input type="submit" class="wpcf7-submit" value="Submit"></p>

@@ -4,7 +4,7 @@ site_index:
     
 site:
     prefix:   /{_locale}
-    resource: "@MainSiteBundle/Controller/"
+    resource: "@MainSiteBundle/Controller/DefaultController.php"
     type:     annotation
     defaults: {_locale: %locale% }
     requirements:
@@ -17,4 +17,17 @@ news:
     #defaults: { _controller: MainSiteBundle:News:index, _locale: %locale% }
     requirements:
       _locale : \w{2}        
-      
+usercabinet:
+    prefix:   /{_locale}/news/
+    resource: "@MainSiteBundle/Controller/UsercabinetController.php"
+    type:     annotation
+    #defaults: { _controller: MainSiteBundle:News:index, _locale: %locale% }
+    requirements:
+      _locale : \w{2}   
+pdpay:
+    prefix:   /{_locale}/pdpay/
+    resource: "@MainSiteBundle/Controller/PdpayController.php"
+    type:     annotation
+    #defaults: { _controller: MainSiteBundle:News:index, _locale: %locale% }
+    requirements:
+      _locale : \w{2} 

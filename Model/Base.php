@@ -1,24 +1,15 @@
 <?php
 
-namespace Main\SiteBundle\Tools;
+namespace Main\SiteBundle\Model;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Itc\AdminBundle\Tools\LanguageHelper;
-
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+use Doctrine\ORM\EntityRepository;
 /**
- * Description of ControllerHelper
- *
- * @author root
+ * @entity(repositoryClass="Main\SiteBundle\Model\BaseRepository")
  */
-class ControllerHelper extends Controller{
+class Base {}
 
-/************************ Вспомогательные методы ******************************/
+class BaseRepository extends EntityRepository {
+    /************************ Вспомогательные методы ******************************/
     /**
      * Поиск сущности по роутингу
      * @param string $entities - сущьность с транслитом описана в массиве
@@ -89,7 +80,7 @@ class ControllerHelper extends Controller{
 
         list( $entity, $translation ) = $entities;
 
-        $em            = $this->getDoctrine()->getManager();
+        $em            = $this->_em;//getDoctrine()->getManager();
         $locale        = LanguageHelper::getLocale();
 
         if( $locale == LanguageHelper::getDefaultLocale() ){
@@ -111,9 +102,8 @@ class ControllerHelper extends Controller{
 
             $qb = $em->getRepository( $entity )
                      ->createQueryBuilder( 'M' )
-                     ->select( 'M, TR' )
-                     ->innerJoin('M.translations', 'T')
-                     ->leftJoin( "M.translations", 'TR' );
+                     ->select( 'M' )
+                     ->join( "M.translations", 'T' );
         }
 
         if( $wheres !== NULL ){
@@ -129,41 +119,10 @@ class ControllerHelper extends Controller{
             $qb->orderBy( $sort, $order );
         }
 
-        $query =  $qb->getQuery();
-        return $query;
+        return $qb->getQuery();
 
     }
-
-    protected function getLocale()
-    {
-        $locale = $this->getRequest()->getLocale();
-        return $locale;
-    }
-     /**
-     * есть в ITC
-     * @return type
-     */
-    protected function getRoutes()
-    {
-        $router = $this->container->get( 'router' );
-        
-        $routes = array();
-
-        foreach ( $router->getRouteCollection()->all() as $name => $route ){
-           $routes[] = $name;
-          
-        }
-        return $routes;
-    }
-
-    protected function getController( $name ){
-
-        return $this->container->get( 'router' )
-                    ->getRouteCollection()
-                    ->get( $name )
-                    ->getDefault("_controller");
-    }
-    
+    //put your code here
 }
 
 ?>

@@ -28,12 +28,14 @@
                                     <div class="post-meta">
                                         <div class="fleft">
                                             {% if entity.datecreate %}
-                                                {% set date = entity.datecreate|date('F d, Y H:i a') %}
+                                                {%set month = entity.datecreate | date('F')%}
+                                                {% set date = entity.datecreate | date('d, Y H:i') %}
                                             {% endif %}
-                                            <time datetime="2012-02-08T08:12">{{ date }}</time> , by 
+                                            <time datetime="2012-02-08T08:12">{{ month | trans }} {{ date }}</time>{#, by 
                                                 <a href="" title="Posts by admin" rel="author">
                                                     Admin
                                                 </a>
+                                            #}
 
                                         </div>
                                         <div class="fright">

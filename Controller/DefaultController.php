@@ -329,13 +329,15 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function otherAction( $translit ){
-        $entity = $this->getEntityTranslit( $this->menu, $translit )
-                       ->getOneOrNullResult();
+        
+        $query = $this->getEntityTranslit( $this->menu, $translit );
+        $entity = $query->getOneOrNullResult();
+
         if( $entity === NULL ){
            
             $r = "index";
             $res = $this->redirect( $this->generateUrl( $r, array() ) );
-      
+            
         }elseif( ( $r = $entity->getRouting() ) !== NULL &&
                     in_array( $r, $this->getRoutes() ) ){
 
@@ -347,7 +349,8 @@ class DefaultController extends ControllerHelper
             ));
 
         } else {
-        $httpKernel = $this->container->get('http_kernel');
+            
+            $httpKernel = $this->container->get('http_kernel');
             $res = $httpKernel->forward("MainSiteBundle:Default:content", array(
                 "translit" => $translit
             ));
@@ -623,7 +626,7 @@ echo $enti->translate('en')->getTranslit();
      * @Template()
      */
     public function footerAction(){
-        
+    /*    
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
@@ -634,14 +637,15 @@ echo $enti->translate('en')->getTranslit();
                                 'WITH', "T.locale = :locale")
                         ->where("M.routing = 'footer' ")
                         ->setParameter('locale', $locale);
-
-        $entities = $queryBuilder->getQuery()->execute();
+     */
+        $entity = $this->getEntityRouting($this->menu, 'footer')
+                       ->getOneOrNullResult();
         
-        $entity = isset($entities[0]) ? $entities[0] : array();
-        
+        //$entity = isset($entities[0]) ? $entities[0] : array();
         return array( 
-            "entity"  => $entity,
-            );
+            "entity" => $entity,
+            "locale" => LanguageHelper::getLocale(),
+        );
     }
 
     private $translitCollection = 
