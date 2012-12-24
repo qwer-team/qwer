@@ -1,6 +1,6 @@
 <?php
 
-namespace HOffice\SiteBundle\Controller;
+namespace Main\SiteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Itc\AdminBundle\Tools\LanguageHelper;

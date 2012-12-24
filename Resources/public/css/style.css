@@ -1034,8 +1034,11 @@ nav.oldernewer {
     width: 440px;
 }
 #gallery.four_columns .portfolio li {
-    margin-right: 27px;
-    width: 210px;
+/*    margin-right: 27px;
+    width: 210px;*/
+    margin-right: 50px;
+    padding-left: 25px;
+    width: 250px;
 }
 #gallery.four_columns .portfolio li span.image-border {
     height: 130px;
