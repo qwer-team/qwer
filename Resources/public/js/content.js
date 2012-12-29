@@ -117,6 +117,37 @@ $(".portfolio_filter_keywors").live("click", function(){
     });
     
 });
+$(".obslug").live("click", function(){
+    var link = $("#hidden_story");
+    if ( link.is(":hidden") )
+           link.slideDown(1000);
+       else
+           link.slideUp(500);    
+    var objClass = "open";
+    if ($(".changeCss").hasClass(objClass))
+        $(".changeCss").removeClass(objClass);
+    else
+        $(".changeCss").addClass(objClass);
+});/*
+$(".show_target_toggle").live("click", function(){
+    var link = $($(this).data("link"));
+    if ( link.is(":hidden") )
+        link.slideDown(1000);
+    else
+        link.slideUp(500);
+});
+$(".changeCss").live("click", function(){
+    var objClass = $(this).data("class");
+    //console.log(objClass);
+    if ($(this).hasClass(objClass))
+        $(this).removeClass(objClass);
+    else
+        $(this).addClass(objClass);
+});
+$(".trigger_click").live("click", function(){
+    var link = $($(this).data("trigger-link"));
+    link.trigger("click");
+});
 /*
 $(".portfolio_filter").live("click", function(){
     var obj = $(this);

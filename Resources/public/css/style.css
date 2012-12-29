@@ -70,7 +70,8 @@ label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside,
 dialog, figure, footer, header, hgroup, nav, section 
 {
     border: 0 none;
-    font-family: inherit;
+/*    font-family: inherit;*/
+    font-family: 'Ubuntu',sans-serif;
     font-size: 100%;
     font-style: inherit;
     font-weight: inherit;
@@ -1591,7 +1592,8 @@ ul.clients li .excerpt {
     height: 187px;
     overflow: hidden;
     position: relative;
-    width: 944px;
+    width: 99%;
+    margin-left: 1%;    
 }
 #slider-code .overview {
     left: 0;
@@ -1605,7 +1607,7 @@ ul.clients li .excerpt {
     background: url("/bundles/mainsite/image/pic-bg.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 169px;
-    margin: 0 10px 0 -2px;
+    margin: 0 20px 0 -2px;
     padding: 9px 9px 9px 7px;
     width: 216px;
 }
@@ -1741,7 +1743,7 @@ div.link a:hover {
     font-size: 13px;
     line-height: 20px;
     overflow: hidden;
-    padding: 54px 0 45px;
+    padding: 0px 0 45px;
     width: 100%;
 }
 .footer-widget-area a {
@@ -2531,9 +2533,10 @@ h3 {
 
 #sidebar {
     float: left;
+    margin-left: -10px;    
 }
 .container_12 .grid_3 {
-    width: 220px;
+    width: 270px;
 }
 .omega {
     margin-right: 0;
@@ -2724,4 +2727,17 @@ element.style {
 .post .ind .entry {
     color: hsl(0, 0%, 0%);
     padding: 10px 0 10px 16px;
+}
+.post .title2 span {
+    color: #984806;
+}
+.post .title2 span#text_link {
+    background: url("/bundles/mainsite/image/trigger.gif") no-repeat scroll 0px -14px transparent;
+    cursor: pointer;
+    padding-left: 14px;
+}
+.post .title2 span#text_link.open {
+    background: url("/bundles/mainsite/image/trigger.gif") no-repeat scroll 0 1px transparent;
+    cursor: pointer;
+    padding-left: 14px;
 }
