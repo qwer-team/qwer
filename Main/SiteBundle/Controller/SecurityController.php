@@ -39,7 +39,7 @@ class SecurityController extends SC
                 
                     
                 }
-        $template = sprintf('HOfficeSiteBundle:Security:login.html.%s', $this->container->getParameter('fos_user.template.engine'));
+        $template = sprintf('LegoSiteBundle:Security:login.html.%s', $this->container->getParameter('fos_user.template.engine'));
 
         return $this->container->get('templating')->renderResponse($template, $data);
     }
