@@ -33,7 +33,7 @@ class SecurityController extends SC
                     $user= $securityContext->getToken()->getUser();
                     $arr=array("error"=> $data["error"],"last_username" => $user->getFIO(), "csrf_token"=>$data["csrf_token"]);
                     
-                    $template = sprintf('HOfficeSiteBundle:Security:auth.html.%s', $this->container->getParameter('fos_user.template.engine'));
+                    $template = sprintf('LegoSiteBundle:Security:auth.html.%s', $this->container->getParameter('fos_user.template.engine'));
 
                     return $this->container->get('templating')->renderResponse($template, $arr);
                 
