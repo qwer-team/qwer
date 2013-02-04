@@ -504,7 +504,7 @@ echo $enti->translate('en')->getTranslit();
     }
     /**
      *
-     *@Template("MainSiteBundle:Default:callback.html.twig")
+     *@Template()
      */
     public function callbackAction(){
        
@@ -530,7 +530,7 @@ echo $enti->translate('en')->getTranslit();
     }
         /**
      * @Route("/{translit}/sendMail", name="sendMail")
-     * @Template("MainSiteBundle:Default:contacts.html.twig")
+     * @Template()
      */
     public function sendMailAction( $translit, Request $request ){
          
@@ -539,35 +539,24 @@ echo $enti->translate('en')->getTranslit();
         $form = $this->createForm( $sendMailType );
         $form->bind( $request );
         $data = $form->getData();
-
-        if( $form->isValid() ) {
             $body = $this->renderView( 'MainSiteBundle:Default:sendMail.txt.twig', 
-                                array( 'text' => "Пользователь ".$data['fio']." email:".$data['email'].".Телефон:".$data['telefon']."Оставил сообщение:".$data['body'] ) );
+                                array( 'text' => "Пользователь ".$_POST['fio']." email:".$_POST['email'].".Телефон:".$_POST['telefon']."Оставил сообщение:".$_POST['body'] ) );
 
             $message = \Swift_Message::newInstance()
-                        ->setSubject( $data['email'] )
-                        ->setFrom( $data['email'] )
-                        ->setTo( 'neversmoke@i.ua' )
+                        ->setSubject( $_POST['email'] )
+                        ->setFrom( $_POST['email'] )
+                        ->setTo( 'lenkov.alex@itcompany.kiev.ua' )
                         ->setBody( $body );
-
             $this->get( 'mailer' )->send( $message );
-
             $c = "index";
-            $url = $this->generateUrl( $c, array( "translit" => $translit, "locale" => LanguageHelper::getLocale() ) );
-            $res = $this->redirect( $url );
+           $url = $this->generateUrl( $c, array( "translit" => $translit, "locale" => LanguageHelper::getLocale() ) );
+           $res = $this->redirect( $url );
 
-            return $res;
+           return $res;
 
 
-        }
-        $entity = $this->getEntityTranslit( $this->menu, $translit )
-                       ->getOneOrNullResult();
+        
 
-        return array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'locale' => LanguageHelper::getLocale()
-        );
         
         
     }
