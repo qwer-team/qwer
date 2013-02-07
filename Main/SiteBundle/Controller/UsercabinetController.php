@@ -26,14 +26,13 @@ class UsercabinetController extends ControllerHelper //Controller
         $securityContext = $this->container->get('security.context');
          if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
                     $user= $securityContext->getToken()->getUser();
-                    $editForm = $this->createForm(new UserType(), $user);
-                    $passForm = $this->createForm(new UserSysType(), $user);
-                    $arr=array("user" => $user, 'entity' =>"", 'edit_form' => $editForm->createView(),
+                    $editForm = $this->createForm(new UserType(), $user, array("attr" => array("new" => false)));
+                    $passForm = $this->createForm(new UserSysType(), $user, array("attr" => array("new" => false)));
+                    $arr=array("user" => $user, 'entity' =>"", 'form' => $editForm->createView(),
                                'pass_form'=> $passForm->createView());
                     
-                    $template = sprintf('MainSiteBundle:Usercabinet:index.html.%s', $this->container->getParameter('fos_user.template.engine'));
-
-                    return $this->container->get('templating')->renderResponse($template, $arr);
+                   
+                    return $arr;
                 
                     
                 }
@@ -50,7 +49,7 @@ class UsercabinetController extends ControllerHelper //Controller
      *
      * @Route("{id}/update", name="update_usercab")
      * @Method("POST")
-     * @Template("HOfficeSiteBundle:Usercabinet:index.html.twig")
+     * @Template("")
      */
     public function updateAction(Request $request, $id)
     {
@@ -60,8 +59,8 @@ class UsercabinetController extends ControllerHelper //Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        $editForm = $this->createForm(new UserType(), $entity);
-        $passForm = $this->createForm(new UserSysType(), $entity);
+        $editForm = $this->createForm(new UserType(), $entity, array("attr" => array("new" => false)));
+        $passForm = $this->createForm(new UserSysType(), $entity, array("attr" => array("new" => false)));
         $editForm->bind($request);
         $data = $editForm->getData();
         if ($editForm->isValid()) {
@@ -82,7 +81,7 @@ class UsercabinetController extends ControllerHelper //Controller
      *
      * @Route("/{id}/usercab_pass", name="usercab_update_pass")
      * @Method("POST")
-     * @Template("HOfficeSiteBundle:Usercabinet:index.html.twig")
+     * @Template("")
      */
     public function updatePassAction(Request $request, $id)
     {
@@ -113,6 +112,64 @@ class UsercabinetController extends ControllerHelper //Controller
             'entity'      => '',
             'pass_form'   => $editForm->createView(),
             'edit_form'   => $editForm1->createView(),
+        );
+    }
+      /**
+     * Displays a form to create a new User entity.
+     *
+     * @Route("/registration", name="registration")
+     * @Template()
+     */
+    public function registrationAction()
+    {
+        $entity = new User();
+        $form   = $this->createForm(new UserType(), $entity, array("attr" => array("new" => true)));
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Creates a new User entity.
+     *
+     * @Route("/registration/create", name="registrations_create")
+     * @Method("POST")
+     * @Template("ItcAdminBundle:User:new.html.twig")
+     */
+    public function createAction(Request $request)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $group = $em->getRepository('ItcAdminBundle:Group')->findBy(array('role'=>'ROLE_USER'));
+        foreach($group as $g)
+        {
+            $group=$g;
+        }
+        $entity = new User();
+        $form = $this->createForm(new UserType(), $entity, array("attr" => array("new" => true)));
+        $form->bind($request);
+        $data = $form->getData();
+        $passwd = $data->getPassword();
+            $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
+            $encodedPass = $encoder->encodePassword($passwd, $entity->getSalt());  
+            $entity->setPassword($encodedPass);
+            $entity->setGroup($group);
+            $entity->setEnabled(true);
+            $entity->setFIO($data->getSurname()." ".$data->getName()." ".$data->getPatronymic());
+        if ($form->isValid()) {
+            
+            $em->persist($entity);
+            $em->flush();
+            
+            
+            return $this->redirect($this->generateUrl('index'));
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
         );
     }
 }

@@ -31,7 +31,7 @@ news:
     requirements:
       _locale : \w{2}        
 usercabinet:
-    prefix:   /{_locale}/news/
+    prefix:   /{_locale}/
     resource: "@MainSiteBundle/Controller/UsercabinetController.php"
     type:     annotation
     #defaults: { _controller: MainSiteBundle:News:index, _locale: %locale% }

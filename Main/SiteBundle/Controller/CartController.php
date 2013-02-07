@@ -7,9 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use \Doctrine\Common\Collections\ArrayCollection;
 use \Symfony\Component\HttpFoundation\Request;
-
-//use Itc\DocumentsBundle\Entity\Pd\Pd;
-//use Itc\DocumentsBundle\Entity\Pd\Pdl;
+use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
+use Main\SiteBundle\Form\SendMailType;
+use Itc\DocumentsBundle\Entity\Pd\Pd;
+use Itc\DocumentsBundle\Entity\Pd\Pdl;
+use Itc\DocumentsBundle\Entity\PdOrder\PdOrder;
 
 class CartController extends Controller {
 
@@ -118,21 +120,27 @@ class CartController extends Controller {
         $cart = $this->getCartSession();
 
         if( ! $cart ) return $this->redirectToCart();
-
+        
         $summa1 = $summa2 = 0;
-
-        $pd = new Pd();
+        $pd = new PdOrder();
         $pdlines = new ArrayCollection();
-
+        $securityContext = $this->container->get('security.context');
+        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+             $user= $securityContext->getToken()->getUser();
+             $pd->setUser($user);
+        }
+        $mainproducts="Пользователь {$user->getFIO()} c номером телефона {$user->getTel()} проживающий по адресу: {$user->getAddress()}";
+        $mainproducts.="<table border='1'><tr><td>Товар</td><td>Цена за шт.</td><td>Количество</td><td>Итого</td></tr>";
+        
         foreach( $cart as $key => $product ){
-
+            
+            
             $priceOne = $product['price'];
             $amount = $product['amount'];
             $price = $priceOne * $amount;
-
             $summa1 += $price;
             $summa2 += $amount;
-
+            $mainproducts.="<tr><td>{$product['title']}</td><td>{$product['price']}</td><td>{$product['amount']}</td><td>".$product['amount']*$product['price']."</td></tr>";
             $pdline = new Pdl();
             $pdline->setPd( $pd );
             $pdline->setSumma1( $price );
@@ -140,7 +148,7 @@ class CartController extends Controller {
 
             $pdlines->set( $key, $pdline );
         }
-
+        $mainproducts.="<tr><td></td><td></td><td>{$summa2}</td><td>Общая сумма: {$summa1}</td></tr></table><br/> Поступил в: ".date( 'Y-m-d H:i:s' );
         $pd->setPdtypeId( self::PDTYPE );
         $pd->setN( 'cart' );
         $pd->setPdlines( $pdlines );
@@ -148,15 +156,28 @@ class CartController extends Controller {
         $pd->setSumma1( $summa1 );
         $pd->setSumma2( $summa2 );
         $pd->setDtcor( date( "Y-m-d H:i:s" ) );
-
+        
         $em = $this->getDoctrine()->getManager();
         $em->persist( $pd );
         $em->flush();
-
+        $email="lenkov.alex@itcompany.kiev.ua";
+        $this->sendMailAction($mainproducts, $user, $user->getEmail(), $email);
+        $this->sendMailAction($mainproducts, $user, $email, $user->getEmail());
         $this->setCartSession( NULL );
-        return $this->redirectIndex();
+        return $this->redirectToCart();
     }
-    
+        public function sendMailAction($body, $user, $from, $to){
+         
+        $sendMailType = new SendMailType( LanguageHelper::getLocale() );
+        
+            $message = \Swift_Message::newInstance()
+                        ->setSubject( 'Новый заказ' )
+                        ->setFrom( $from )
+                        ->setTo( $to )
+                        ->setBody( $body );
+            $this->get( 'mailer' )->send( $message );
+
+    }
     /**
 * Показать карзину
 * @param type $respons

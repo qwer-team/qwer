@@ -11,12 +11,44 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add( 'website' )
-            ->add( 'skype' )
-            ->add('email')
-            ->add('date_birth', 'date', array('years'=> range(1909,2013)));
-            
+            ->add('username', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )))
+            ->add('email', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )))
+            ->add('tel', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )))
+            ->add('address', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )))
+            ->add('surname', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )))
+            ->add('name', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )))
+            ->add('patronymic', null, array( 
+                            'attr' => array(
+                                'class' => 'input-text required-entry'
+                            )));
+             if($options["attr"]["new"]){
+                $builder->add('password', 'repeated', array(
+                'type' => 'password',
+                'first_options' => array('label' => 'password','attr' => array(
+                                'class' => 'input-text required-entry'
+                            )),
+                'second_options' => array('label' => 'password_confirmation','attr' => array(
+                                'class' => 'input-text required-entry'
+                            )),
+            ));}
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

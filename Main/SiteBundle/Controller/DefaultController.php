@@ -553,11 +553,6 @@ echo $enti->translate('en')->getTranslit();
            $res = $this->redirect( $url );
 
            return $res;
-
-
-        
-
-        
         
     }
     /**     
