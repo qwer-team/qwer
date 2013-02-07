@@ -1,0 +1,141 @@
+{% extends 'MainSiteBundle::layout.html.twig' %}
+{% block menu %}
+    {{parent()}}
+{% endblock %}
+{% block body %}
+    
+    <section id="slider-wrapper">
+            <a id="playPauseButton" class="show" href="#" data-link="#index_slider">
+                <span class="hide-text" style="opacity: 1;">{{ "Hide Slideshow" | trans }}</span>
+                <span class="show-text" style="opacity: 0;">{{ "Show Slideshow" | trans }}</span>
+            </a>
+    <div class="slider-bg">
+        <div class="wrapper" >    
+            {% if images|length > 0%}
+            <div id="index_slider">            
+                {% for image in images %}
+                    <img src = '{{ vich_uploader_asset(image, 'image' ) }}' alt="" title="#image_text_{{ image.id }}" style="float: right;"  />
+                {% endfor %}
+                <div style="opacity: 1;" class="nivo-caption">
+                    <div style="display: block;" class="nivo-caption-inner">                               
+                    </div>                    
+                </div>    
+            </div>
+            {% for image in images %}
+                    <div id="image_text_{{ image.id }}" class="hidden">
+                        <h5> {{ image.translate(locale).getTitle }} </h5>
+                    </div>
+            {% endfor %}
+            {% else %}
+                {{ "No picture" | trans }}
+            {% endif %}
+        </div>
+    </div>
+    </section>          
+    <div class="primary_content_wrap">
+   	<div class="container_12 clearfix">
+      	<div class="grid_12">
+            <div class="indent">
+	<div id="my_poststypewidget-2">
+            <ul class='post_list extra'>
+                {% for child in childrens %}
+                <li class="cat_post_item-1 clearfix">
+                    <h2>
+                        <a href="/{{ locale }}/{{ child.translate(locale).getTranslit }}">
+                            {{ child.translate(locale).getTitle }}
+                        </a>                            
+                    </h2>			            
+                    <div class="post_content">
+                        {{ child.translate(locale).getContent|raw() }}
+                    </div>			                         
+                    <a href="/{{ locale }}/{{ child.translate(locale).getTranslit }}" class="link">
+                       {{ "Read More" | trans }}...
+                    </a>
+                    <div class="picture">
+                        <a href="/{{ locale }}/{{ child.translate(locale).getTranslit }}">
+                            <img width="107" height="107" src="/images/icons/{{ asset(child.icon) }}" 
+                                 class="attachment-post-thumbnail wp-post-image" alt="img-1" title="img-1" />              			                  
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+		
+        </div>   
+    </div>
+                
+    <div style="padding-bottom: 5%;">
+        {% autoescape false %}
+            {{ entity.translate(locale).getContent() }}
+        {% endautoescape %}
+    </div>
+             <div id="my_cyclewidget-2">                  
+                 <h2>{{ "Last works" | trans }}</h2>											                 
+                  
+    <div id="slider-code">
+        <a id="prevBtn" class="pagenum prevBtn" style="margin-top:-240px;float:right; margin-right: 20px;"></a>
+        <a id="nextBtn" class="pagenum nextBtn" style="margin-top:-240px;float: right; "></a>
+	<div class="viewport">
+            <ul class="overview">
+                {% for site in topPortfolio %}
+                {% if site.icon != null %}
+                <li style="margin:3px;">
+                    <div class="slider-item">
+                        <div class="prod-img">
+                            <a href="/{{locale}}/{{ site.translate(locale).Translit }}">
+                                <img width="210" height="169" src="/images/icons/{{ asset(site.icon) }}" 
+                                     class="attachment-post-thumbnail wp-post-image" 
+                                     alt="{{ site.translate(locale).getTitle }}"
+                                     title="{{ site.translate(locale).getTitle }}" />
+                            </a>
+                        </div>
+                     </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+	</div>
+    </div>
+    </div>
+              <!-- end of portfolio_cycle -->
+                
+{% if news|length > 0 %}                
+<div id="my_postwidget-2">
+    <h2>{{ "Last news" | trans }}</h2>						
+    <div class="showcase-content" style="width:700px;float:left">
+            <h5>{{ news.0.translate(locale).getTitle() }}</h5>
+            {% autoescape false %}
+            {{ news.0.translate(locale).getContent }}
+            {% endautoescape %}
+    </div>
+    <div style="float:left; width: 238px;">
+        {% for new in news %}
+            <div class="showcase-thumbnail" style="padding: 5px 0;height: 70px;">
+                <a href="/{{ locale }}/{{ new.translate(locale).getTranslit }}">{{ new.translate(locale).getTitle }}</a>
+                <br />
+                {{ new.translate(locale).getDescription|slice(1, 50)}}...
+            </div>
+        {% endfor %}
+    </div>
+</div>	       
+{% endif %}                
+								
+</div>
+
+                <!-- Link under post cycle -->
+								
+								
+              </div>			 
+           
+            	<div class="clear"></div>
+            </div>
+         </div>
+      </div>
+      
+{% endblock %}
+      {#
+{% block footer %}
+      {{ parent() }}
+{% endblock %}      
+#}
+      

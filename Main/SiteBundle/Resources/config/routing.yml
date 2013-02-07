@@ -9,7 +9,20 @@ site:
     defaults: {_locale: %locale% }
     requirements:
       _locale : \w{2}        
-
+site_catalog:
+    prefix:   /{_locale}/
+    resource: "@MainSiteBundle/Controller/CatalogController.php"
+    type:     annotation
+    defaults: {_locale: %locale% }
+    requirements:
+      _locale : \w{2} 
+site_cart:
+    prefix:   /{_locale}/
+    resource: "@MainSiteBundle/Controller/CartController.php"
+    type:     annotation
+    defaults: {_locale: %locale% }
+    requirements:
+      _locale : \w{2} 
 news:
     prefix:   /{_locale}/news/
     resource: "@MainSiteBundle/Controller/NewsController.php"
