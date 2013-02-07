@@ -32,6 +32,7 @@ class CartController extends Controller {
         $ids="";
         $products="";
         $sum=0;
+        $auth=0;
         if($this->getCartSession()!=""){
         foreach($this->getCartSession() as $product){
             $ids[]=$product['id'];
@@ -41,11 +42,13 @@ class CartController extends Controller {
             $products = $em->getRepository($this->product)->findBy(
                 array('id' => $ids));
         }
-        
+        $securityContext = $this->container->get('security.context');
+        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){$auth=1;}
         return array(
             'cart'          => $this->getCartSession(),
             'products'      => $products,
-            'total_price'   => $sum
+            'total_price'   => $sum,
+            'auth'          => $auth
             );
     }
 
