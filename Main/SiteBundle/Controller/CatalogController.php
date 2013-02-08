@@ -57,7 +57,8 @@ class CatalogController extends ControllerHelper //Controller
         return array( 
             'entity'     => $entity,
             'entities'   => $entities,
-            'locale'     => $locale
+            'locale'     => $locale,
+            'sort'       => $sort
         );
     }
     
