@@ -179,7 +179,7 @@ class CartController extends Controller {
                         ->setSubject( 'Новый заказ' )
                         ->setFrom( $from )
                         ->setTo( $to )
-                        ->setBody( $body );
+                        ->setBody( $body , 'text/html');
             $this->get( 'mailer' )->send( $message );
 
     }
