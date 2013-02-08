@@ -12,30 +12,31 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', null, array( 
+                'required'=>true,
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )))
-            ->add('email', null, array( 
+            ->add('email', null, array( 'required'=>true,
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )))
-            ->add('tel', null, array( 
+            ->add('tel', null, array( 'required'=>true,
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )))
-            ->add('address', null, array( 
+            ->add('address', null, array('required'=>true, 
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )))
-            ->add('surname', null, array( 
+            ->add('surname', null, array( 'required'=>true,
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )))
-            ->add('name', null, array( 
+            ->add('name', null, array( 'required'=>true,
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )))
-            ->add('patronymic', null, array( 
+            ->add('patronymic', null, array( 'required'=>true,
                             'attr' => array(
                                 'class' => 'input-text required-entry'
                             )));
