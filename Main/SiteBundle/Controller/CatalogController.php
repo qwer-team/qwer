@@ -20,11 +20,12 @@ class CatalogController extends ControllerHelper //Controller
         'ItcAdminBundle:Product\ProductGroupTranslation'
     );
      /**
-     * @Route("catalog/{translit}/{sort}", name="catalog", 
-     * defaults={"sort"=null})
+     * @Route("catalog/{translit}/{sort}/{coulonpage}/{page}/", name="catalog",
+     * requirements={"coulonpage" = "\d+","page" = "\d+"}, 
+     * defaults={ "sort" = "kod", "coulonpage" = "10", "page"=1})
      * @Template()
      */
-    public function CurrentCatalogAction( $translit, $sort = null )
+    public function CurrentCatalogAction($translit, $page, $sort = 'kod', $coulonpage = 10)
     {
       $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
@@ -45,8 +46,14 @@ class CatalogController extends ControllerHelper //Controller
                         ->setParameter('locale', $locale)
                         ->orderBy('M.'.$sort, 'ASC')
                         ->where('M.productGroup = :productGroup')
-                        ->setParameter('productGroup', $entity->getId())
-                        ->getQuery()->execute();
+                        ->setParameter('productGroup', $entity->getId());
+                        $paginator = $this->get('knp_paginator');
+        $entities = $paginator->paginate(
+                        $entities,
+                        $this->get('request')->query->get('page', $page)/*page number*/,
+                        $coulonpage,
+                        array('distinct' => false)
+        );
         return array( 
             'entity'     => $entity,
             'entities'   => $entities,
