@@ -172,7 +172,9 @@ class CartController extends Controller {
         public function sendMailAction($body, $user, $from, $to){
          
         $sendMailType = new SendMailType( LanguageHelper::getLocale() );
-        
+        $body = $this->renderView( 'MainSiteBundle:Default:OrderMail.html.twig', 
+                                array( 'text' => $body) );
+
             $message = \Swift_Message::newInstance()
                         ->setSubject( 'Новый заказ' )
                         ->setFrom( $from )
