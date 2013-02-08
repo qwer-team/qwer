@@ -20,10 +20,11 @@ class CatalogController extends ControllerHelper //Controller
         'ItcAdminBundle:Product\ProductGroupTranslation'
     );
      /**
-     * @Route("catalog/{translit}/", name="catalog")
+     * @Route("catalog/{translit}/{sort}", name="catalog", 
+     * defaults={"sort"=null})
      * @Template()
      */
-    public function CurrentCatalogAction( $translit )
+    public function CurrentCatalogAction( $translit, $sort = null )
     {
       $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
@@ -42,7 +43,7 @@ class CatalogController extends ControllerHelper //Controller
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->setParameter('locale', $locale)
-                        ->orderBy('M.kod', 'ASC')
+                        ->orderBy('M.'.$sort, 'ASC')
                         ->where('M.productGroup = :productGroup')
                         ->setParameter('productGroup', $entity->getId())
                         ->getQuery()->execute();
