@@ -92,7 +92,7 @@ class DefaultController extends ControllerHelper
                         ->setParameter('locale', $locale);
         
         $news = $queryBuilder->getQuery()->execute();
-                
+       
         return array( 
             'entity'    => $entity,
             'images'    => $images,
@@ -522,10 +522,13 @@ echo $enti->translate('en')->getTranslit();
         $entity = $entity->getQuery()->getOneOrNullResult(); 
         $sendMailType = new SendMailType( LanguageHelper::getLocale() );
         $form = $this->createForm( $sendMailType );
-
-        return array( 'entity'   => $entity,
+        
+        $securityContext = $this->container->get('security.context');
+        $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')==TRUE ? $auth=1: $auth=0;
+        return array(  'entity'   => $entity,
                        'locale'   => $locale,
-                       'form'     => $form->createView()
+                       'form'     => $form->createView(),
+                       'auth'     => $auth
                     );
     }
         /**
@@ -534,26 +537,43 @@ echo $enti->translate('en')->getTranslit();
      */
     public function sendMailAction( $translit, Request $request ){
          
+        $securityContext = $this->container->get('security.context');
+        
+         if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+         $user= $securityContext->getToken()->getUser();
+         $fio=$user->getFio();
+         $email=$user->getEmail();
+         $tel=$user->getTel();
+         }
+         
+        else{
+             $fio=$_POST['fio'];
+             $email=$_POST['email'];
+             $tel=$_POST['telefon'];
+        }
+        
         $sendMailType = new SendMailType( LanguageHelper::getLocale() );
         
         $form = $this->createForm( $sendMailType );
         $form->bind( $request );
         $data = $form->getData();
             $body = $this->renderView( 'MainSiteBundle:Default:sendMail.txt.twig', 
-                                array( 'text' => "Пользователь ".$_POST['fio']." email:".$_POST['email'].".Телефон:".$_POST['telefon']."Оставил сообщение:".$_POST['body'] ) );
-
+                                array( 'text' => "Пользователь ".$fio." email:".$email.".Телефон:".$tel."Оставил сообщение:".$_POST['body'] ) );
+       
+            
             $message = \Swift_Message::newInstance()
-                        ->setSubject( $_POST['email'] )
-                        ->setFrom( $_POST['email'] )
+                        ->setSubject( $email )
+                        ->setFrom( $email )
                         ->setTo( 'lenkov.alex@itcompany.kiev.ua' )
                         ->setBody( $body );
             $this->get( 'mailer' )->send( $message );
             $c = "index";
-           $url = $this->generateUrl( $c, array( "translit" => $translit, "locale" => LanguageHelper::getLocale() ) );
-           $res = $this->redirect( $url );
+           
+            $url = $this->generateUrl( $c, array( "translit" => $translit, "locale" => LanguageHelper::getLocale() , "error"=>"0" ) );
+            $res = $this->redirect( $url );
 
            return $res;
-        
+       
     }
     /**     
      * Lists all Menu entities.
