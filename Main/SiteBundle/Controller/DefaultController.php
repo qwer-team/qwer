@@ -27,6 +27,7 @@ class DefaultController extends ControllerHelper
      */
     public function indexAction()
     {
+        $messa="";
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
         
@@ -92,7 +93,7 @@ class DefaultController extends ControllerHelper
                         ->setParameter('locale', $locale);
         
         $news = $queryBuilder->getQuery()->execute();
-       
+        if(isset($_GET['error'])){$_GET['error']==0 ? $messa=1: $messa=0;}
         return array( 
             'entity'    => $entity,
             'images'    => $images,
@@ -100,6 +101,7 @@ class DefaultController extends ControllerHelper
             'topPortfolio' => $topPortfolio,
             'news'      => $news,
             'locale'    => $locale,
+            'message'   => $messa
         );
     }
     /**
@@ -547,9 +549,9 @@ echo $enti->translate('en')->getTranslit();
          }
          
         else{
-             $fio=$_POST['fio'];
-             $email=$_POST['email'];
-             $tel=$_POST['telefon'];
+             $fio=$_POST['main_sitebundle_sendmail']['fio'];
+             $email=$_POST['main_sitebundle_sendmail']['email'];
+             $tel=$_POST['main_sitebundle_sendmail']['telefon'];
         }
         
         $sendMailType = new SendMailType( LanguageHelper::getLocale() );
@@ -558,7 +560,7 @@ echo $enti->translate('en')->getTranslit();
         $form->bind( $request );
         $data = $form->getData();
             $body = $this->renderView( 'MainSiteBundle:Default:sendMail.txt.twig', 
-                                array( 'text' => "Пользователь ".$fio." email:".$email.".Телефон:".$tel."Оставил сообщение:".$_POST['body'] ) );
+                                array( 'text' => "Пользователь ".$fio." email:".$email.".Телефон:".$tel."Оставил сообщение:".$_POST['main_sitebundle_sendmail']['body'] ) );
        
             
             $message = \Swift_Message::newInstance()
