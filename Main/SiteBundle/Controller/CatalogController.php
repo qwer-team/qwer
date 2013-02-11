@@ -212,10 +212,22 @@ class CatalogController extends ControllerHelper //Controller
     public function SearchPageAction()
     {
         $em = $this->getDoctrine()->getManager();
-        if($_POST['productid']!=''){
-            $product = $em->getRepository('ItcAdminBundle:Product\Product')->find($_POST['productid']);
-             return $this->redirect($this->generateUrl('product', array('translit' => $product->getTranslit())));
+        $members = $qb = $em->getRepository( 'ItcAdminBundle:Product\Product' )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M' );
+        $qb->where( "M.title LIKE :value" );
+        $qb->setParameter( 'value', "%".$_POST['q']."%" );
+
+        $members = $qb->getQuery()->execute();
+        if(count($members)==1){
+             return $this->redirect($this->generateUrl('product', array('translit' =>  $members[0]->getTranslit())));
         }
+        else{
+             return array( 
+            'entities'   => $members
+            );
+            
+          }
     }
     /**
      * @Template()
