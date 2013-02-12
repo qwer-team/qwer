@@ -105,12 +105,14 @@ class CatalogController extends ControllerHelper //Controller
         $galary_images=$em->getRepository('ItcAdminBundle:Product\ProductImage')
                         ->findByGallery($galary->getId());
         }
+        $keywords=$entity->getKeywords();
         
         return array( 
             'entity'     => $entity,
             'relatives'  => $relatives,
             'images'     => $galary_images,
-            'locale'     => $locale
+            'locale'     => $locale,
+            'keywords'   => $keywords
         );
     }
     
