@@ -144,9 +144,6 @@ class CatalogController extends ControllerHelper //Controller
             throw $this->createNotFoundException('The keyword does not exist');
         }     
         $entities=$entity->getProducts();
-        foreach($entities as $val){
-            echo $val->getId();
-        }
         return array( 'entity'   => $entity,
                        'entities' => $entities
                     );
