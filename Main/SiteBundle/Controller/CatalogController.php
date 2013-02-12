@@ -115,7 +115,42 @@ class CatalogController extends ControllerHelper //Controller
             'keywords'   => $keywords
         );
     }
-    
+    /**
+     *@Route("/producttag/{keyword}",  name="product_tag")
+     *@Template()
+     */
+    public function ProductTagAction($keyword){
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        $deflocale=LanguageHelper::getDefaultLocale();
+        if($locale == $deflocale){
+        $entity=$em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                       ->createQueryBuilder('M')
+                        ->select('M')
+                        ->where("M.translit = :translit ")
+                        ->setParameter('translit', $keyword)
+        ->getQuery()->getOneOrNullResult();    
+        }else{
+        $entity=$em->getRepository('ItcAdminBundle:Keyword\Keyword')
+                       ->createQueryBuilder('M')
+                        ->select('M, T')
+                        ->leftJoin('M.translations', 'T',
+                        'WITH', "T.locale = :locale")
+                        ->setParameter('locale', $locale)
+                        ->where("T.property='translit'")
+        ->getQuery()->getOneOrNullResult();    
+        }
+        if (!$entity) {
+            throw $this->createNotFoundException('The keyword does not exist');
+        }     
+        $entities=$entity->getProducts();
+        foreach($entities as $val){
+            echo $val->getId();
+        }
+        return array( 'entity'   => $entity,
+                       'entities' => $entities
+                    );
+    }
     /**
      * @Template()
      */
