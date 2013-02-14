@@ -19,7 +19,9 @@ class CatalogController extends ControllerHelper //Controller
         'ItcAdminBundle:Product\ProductGroup',
         'ItcAdminBundle:Product\ProductGroupTranslation'
     );
-     /**
+    private $menu = 'ItcAdminBundle:Menu\Menu';
+
+    /**
      * @Route("catalog/{translit}/{sort}/{coulonpage}/{page}/", name="catalog",
      * requirements={"coulonpage" = "\d+","page" = "\d+"}, 
      * defaults={ "sort" = "kod", "coulonpage" = "10", "page"=1})
@@ -149,6 +151,16 @@ class CatalogController extends ControllerHelper //Controller
                     );
     }
     /**
+     * @Route("/{translit}",  name="categories")
+     * @Template()
+     */
+    
+    public function CategoriesPageAction(){
+        
+        return $this->CategoriesBlockAction();
+    }
+    
+    /**
      * @Template()
      */
     public function CategoriesBlockAction()
@@ -234,9 +246,12 @@ class CatalogController extends ControllerHelper //Controller
 
         $entities = $queryBuilder->getQuery()->execute();
 
+        $categories = $em->getRepository($this->menu)->findOneBy(array('routing'=>'categories'));
+
         return array( 
-            'entities' => $entities,
-            'locale' => $locale
+            'entities'   => $entities,
+            'locale'     => $locale,
+            'categories' => $categories,
         );
     }
     /**

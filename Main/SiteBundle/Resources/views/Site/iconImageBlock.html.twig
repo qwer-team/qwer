@@ -1,0 +1,9 @@
+{% if entity.iconImage is not null %}
+    <a class="fancybox" href="{{ vich_uploader_asset(entity, 'iconImage') }}" >
+        <img src = '{{ vich_uploader_asset(entity, 'iconImage') }}'
+             width="{{ width }}" height="{{ height }}"
+        />
+    </a>
+{% else %}
+    <img src='{{ entity.smallIcon }}' width="{{ width }}px" height="{{ height }}px"/>
+{% endif %}
