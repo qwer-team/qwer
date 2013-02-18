@@ -5,6 +5,7 @@ namespace Main\SiteBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
@@ -284,5 +285,36 @@ class CatalogController extends ControllerHelper //Controller
    private function getCartSession(){
 
         return $this->getRequest()->getSession()->get('cart_user');
+    }
+    /**
+     * @Route("/auto/ajax_search_product.{_format}", name="ajax_search_product",
+     * defaults={"_format" = "json"})
+     */
+    public function ajaxProductSearchAction(Request $request)
+    {
+        $value = $request->get('term');
+        $em = $this->getDoctrine()->getEntityManager();
+        $qb = $em->getRepository( 'ItcAdminBundle:Product\Product' )
+                     ->createQueryBuilder( 'M' )
+                     ->select( 'M' )
+                    ->where( "M.title LIKE :value" )
+                    ->setParameter( 'value', "%".$value."%" );
+
+        $members = $qb->getQuery()->execute();
+
+        $json = array();
+        foreach ($members as $member) {
+           
+                $json[] = array(
+                'label' => $member->getArticle()." ".$member->getTitle(),
+                'value' => $member->getId(),
+                        );
+            
+        }
+
+        $response = new Response();
+        $response->setContent( json_encode( $json ) );
+
+        return $response;
     }
 }
