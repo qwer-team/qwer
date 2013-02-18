@@ -578,16 +578,19 @@ echo $enti->translate('en')->getTranslit();
        
     }
     /**     
+     * @param int $limit лимит пунктов меню
+     * @param boolean $separator для разделителя меню 
      * Lists all Menu entities.
      * @Template()
      */
-    public function menuAction($routing, $req){
+    public function menuAction($routing, $req, $limit=false, $separator=false){
 
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
         $languages  = LanguageHelper::getLanguages();
-        $request = "";
-        
+        $request = $this->getRequest();
+        $translit = $request->get('req')->attributes->get('translit');
+
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M, T' )
@@ -598,6 +601,8 @@ echo $enti->translate('en')->getTranslit();
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale);
 
+        if($limit) $queryBuilder->setMaxResults($limit);
+
         $entities = $queryBuilder->getQuery()->execute();
         
         $child_entities = array();
@@ -605,7 +610,7 @@ echo $enti->translate('en')->getTranslit();
 
         foreach($entities as $v)
                 array_push($parents, $v->getId());
-        
+
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M, T' )
@@ -617,7 +622,7 @@ echo $enti->translate('en')->getTranslit();
                         ->setParameter('locale', $locale);
 
         $child_entities = $queryBuilder->getQuery()->execute();
-        
+
         return array( 
             "entities"  => $entities,
             'locale'    => $locale,
@@ -626,6 +631,9 @@ echo $enti->translate('en')->getTranslit();
             'routing'   => $routing,
             'req'       => $req,
             'childs'    => $child_entities,
+            'request'   => $request,
+            'translit'  => $translit,
+            'separator' => $separator
         );
     }
     /**
