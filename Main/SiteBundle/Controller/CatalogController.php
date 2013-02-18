@@ -21,7 +21,15 @@ class CatalogController extends ControllerHelper //Controller
         'ItcAdminBundle:Product\ProductGroupTranslation'
     );
     private $menu = 'ItcAdminBundle:Menu\Menu';
-
+    
+    public function CurrentUser() {
+      
+       $securityContext = $this->container->get('security.context');
+       if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+             $user= $securityContext->getToken()->getUser();
+       }else{ $user=""; }
+       return $user;
+    }
     /**
      * @Route("catalog/{translit}/{sort}/{coulonpage}/{page}/", name="catalog",
      * requirements={"coulonpage" = "\d+","page" = "\d+"}, 
