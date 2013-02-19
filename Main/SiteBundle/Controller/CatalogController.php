@@ -262,11 +262,16 @@ class CatalogController extends ControllerHelper //Controller
     public function SearchPageAction()
     {
         $em = $this->getDoctrine()->getManager();
+        
+        $val=explode("  ",$_POST['q']);
+        
+        $variable=isset($val[1])? $val[1] : $val[0];
+        
         $members = $qb = $em->getRepository( 'ItcAdminBundle:Product\Product' )
                      ->createQueryBuilder( 'M' )
                      ->select( 'M' );
         $qb->where( "M.title LIKE :value" );
-        $qb->setParameter( 'value', "%".$_POST['q']."%" );
+        $qb->setParameter( 'value', "%".$variable."%" );
 
         $members = $qb->getQuery()->execute();
         if(count($members)==1){
@@ -312,7 +317,7 @@ class CatalogController extends ControllerHelper //Controller
         $qb = $em->getRepository( 'ItcAdminBundle:Product\Product' )
                      ->createQueryBuilder( 'M' )
                      ->select( 'M' )
-                    ->where( "M.title LIKE :value" )
+                    ->where( "M.title LIKE :value or M.article LIKE :value" )
                     ->setParameter( 'value', "%".$value."%" );
 
         $members = $qb->getQuery()->execute();
@@ -321,7 +326,7 @@ class CatalogController extends ControllerHelper //Controller
         foreach ($members as $member) {
            
                 $json[] = array(
-                'label' => $member->getArticle()." ".$member->getTitle(),
+                'label' => $member->getArticle()."  ".$member->getTitle(),
                 'value' => $member->getId(),
                         );
             
