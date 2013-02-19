@@ -240,7 +240,7 @@ class CatalogController extends ControllerHelper //Controller
     /**
      * @Template()
      */
-    public function BrandsAction()
+    public function BrandAction()
     {
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
