@@ -249,7 +249,6 @@ class CatalogController extends ControllerHelper //Controller
                         ->select( 'M, T' )
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
-                        ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale)
                         ->setMaxResults( 5 );
 
