@@ -240,6 +240,29 @@ class CatalogController extends ControllerHelper //Controller
     /**
      * @Template()
      */
+    public function BrandsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $locale =  LanguageHelper::getLocale();
+        $queryBuilder = $em->getRepository('ItcAdminBundle:Product\Brand')
+                        ->createQueryBuilder('M')
+                        ->select( 'M, T' )
+                        ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                        ->orderBy('M.kod', 'ASC')
+                        ->setParameter('locale', $locale)
+                        ->setMaxResults( 5 );
+
+        $entities = $queryBuilder->getQuery()->execute();
+
+        return array( 
+            'entities' => $entities,
+            'locale' => $locale
+        );
+    }
+    /**
+     * @Template()
+     */
     public function TopSalesBlockAction()
     {
         $em = $this->getDoctrine()->getManager();
