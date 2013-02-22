@@ -9,6 +9,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Main\SiteBundle\Form\SendMailType;
+use Itc\DocumentsBundle\Entity\Pd\Trans;
 use Itc\DocumentsBundle\Entity\Pd\Pd;
 use Itc\DocumentsBundle\Entity\Pd\Pdl;
 use Itc\DocumentsBundle\Entity\PdOrder\PdOrder;
@@ -20,6 +21,15 @@ class CartController extends Controller {
     const CART = 'cart_user';
     const PDTYPE = 1;
 
+   public function __construct($container)
+    {
+        $this->container = $container;
+    }
+    
+    public function get($service)
+    {
+        return $this->container->get($service);
+    }
     /**
 * ХТМЛ страничка
 * @Route("/cart/checkout" ,name="cart")
@@ -124,14 +134,14 @@ class CartController extends Controller {
 
         if( ! $cart ) return $this->redirectToCart();
         
-        $summa1 = $summa2 = 0;
-        $pd = new PdOrder();
-        $pdlines = new ArrayCollection();
         $securityContext = $this->container->get('security.context');
         if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
              $user= $securityContext->getToken()->getUser();
-             $pd->setUser($user);
         }
+        $summa1 = $summa2 = 0;
+        $pd = new PdOrder();
+        $pdlines = new ArrayCollection();
+       
         $mainproducts="Пользователь {$user->getFIO()} c номером телефона {$user->getTel()} проживающий по адресу: {$user->getAddress()}";
         $mainproducts.="<table border='1'><tr><td>Товар</td><td>Цена за шт.</td><td>Количество</td><td>Итого</td></tr>";
         
@@ -159,6 +169,18 @@ class CartController extends Controller {
         $pd->setSumma1( $summa1 );
         $pd->setSumma2( $summa2 );
         $pd->setDtcor( date( "Y-m-d H:i:s" ) );
+        
+        if( is_object($user) ){
+             
+             $pd->setUser($user);
+                    
+                    $transaction= new Trans();
+                    $transaction->setPd($pd);
+                    $transaction->setSumma($summa1);
+                    $transaction->setIL2($user->getId());
+                    $transaction->setOL2($user->getId());
+             $pd->addTransaction($transaction);
+        }
         
         $em = $this->getDoctrine()->getManager();
         $em->persist( $pd );
