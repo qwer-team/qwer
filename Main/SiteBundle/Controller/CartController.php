@@ -20,8 +20,9 @@ class CartController extends Controller {
 
     const CART = 'cart_user';
     const PDTYPE = 1;
+ 
 
-   public function __construct($container)
+    public function __construct($container=NULL)
     {
         $this->container = $container;
     }
