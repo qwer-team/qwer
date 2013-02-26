@@ -33,7 +33,9 @@ class ControllerHelper extends Controller{
             $wheres[] = "M.routing = :routing";
             $parameters['routing'] = $routing;
 
-        return $this->getEntities( $entities, $wheres, $parameters )->getOneOrNullResult();
+        return $this->getEntities( $entities, $wheres, $parameters )
+                    ->setMaxResults(1)
+                    ->getOneOrNullResult();
     }
     /**
      * Поиск сущности по транслиту
@@ -117,11 +119,8 @@ class ControllerHelper extends Controller{
                      ;
         }
 
-        if( $wheres !== NULL ){
-
-            $qb->where( implode( ' AND ', $wheres ) );
-            $qb->setParameters( $parameters );
-        }
+        if($wheres)     $qb->where( implode( ' AND ', $wheres ) );
+        if($parameters) $qb->setParameters( $parameters );
 
         if( $orderby !== NULL ){
 

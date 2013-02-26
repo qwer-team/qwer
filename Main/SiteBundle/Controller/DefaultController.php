@@ -656,8 +656,7 @@ echo $enti->translate('en')->getTranslit();
                         ->where("M.routing = 'footer' ")
                         ->setParameter('locale', $locale);
      */
-        $entity = $this->getEntityRouting($this->menu, 'footer')
-                       ->getOneOrNullResult();
+        $entity = $this->getEntityRouting($this->menu, 'footer');
         
         //$entity = isset($entities[0]) ? $entities[0] : array();
         return array( 

@@ -53,36 +53,35 @@ class CatalogController extends ControllerHelper //Controller
         $wheres = NULL;
         $params = NULL;
         $route  = NULL;
-        
+
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
-        
+
         $entity = $this->getEntityTranslit($this->productGroup, $translit)
-                       ->getOneOrNullResult();
+                       ->setMaxResults(1)->getOneOrNullResult();
         if($entity){
             $wheres[] = "M.productGroup = :productGroup";
             $params['productGroup'] = $entity->getId();
         }
-        
+
         if($param !== NULL) $wheres[] = "M.$param = 1";
 
         $order = array('M.'. $sort, $sortType);
-        
+
         $entities = $this->getEntities($this->product, $wheres, $params, $order);
 
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
+        $products = $this->get('knp_paginator')->paginate(
                         $entities,
                         $this->get('request')->query->get('page', $page)/*page number*/,
                         $coulonpage,
                         array('distinct' => false)
         );
 
-        $totalPages = ceil($entities->getTotalItemCount() / $coulonpage);
+        $totalPages = ceil($products->getTotalItemCount() / $coulonpage);
 
         return array(
             'entity'      => $entity,
-            'entities'    => $entities,
+            'entities'    => $products,
             'locale'      => $locale,
             'sort'        => $sort,
             'coulonpage'  => $coulonpage,
