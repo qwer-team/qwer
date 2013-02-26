@@ -190,6 +190,10 @@ class UsercabinetController extends ControllerHelper //Controller
 
         $entity = $em->getRepository('ItcAdminBundle:User')
                      ->findOneBy(array('confirmationToken' => $token));
+
+        if(!$entity) 
+            return $this->forward($this->getController ("remember_password"));
+
         $form = $this->createForm(new UserSysType(), $entity);
         $entity->setConfirmationToken(NULL);
         
@@ -213,7 +217,7 @@ class UsercabinetController extends ControllerHelper //Controller
 
         return array();
     }
-    
+    var $newUser = array("attr" => array("new" => true));
     /**
      * Displays a form to create a new User entity.
      *
@@ -223,10 +227,12 @@ class UsercabinetController extends ControllerHelper //Controller
     public function LoginPageAction(){
 
         $securityContext = $this->container->get('security.context');
+
         if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){
             return $this->redirect($this->generateUrl("usercabinet"));
         }
-        return $this->loginBlockAction();
+
+         return $this->loginHelp();
     }
     /**
      * Displays a form to create a new User entity.
@@ -236,13 +242,19 @@ class UsercabinetController extends ControllerHelper //Controller
      */
     public function LoginBlockAction()
     {
-        $entity = new User();
-        $form   = $this->createForm(new UserType(), $entity, array("attr" => array("new" => true)));
+        if($this->getRequest()->getMethod() == "GET") 
+            return $this->forward($this->getController("login_page"));
 
-        $intention = "";
-        $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-//        $csrf = $this->get('form.csrf_provider');
-//        $token = $csrf->generateCsrfToken($intention);
+        return $this->loginHelp();
+    }
+    
+    private function loginHelp(){
+
+        $entity = new User();
+        $form   = $this->createForm(new UserType(), $entity, $this->newUser);
+
+        $csrfToken = $this->container->get('form.csrf_provider')
+                          ->generateCsrfToken('authenticate');
         
         return array(
             'entity'     => $entity,
@@ -250,7 +262,7 @@ class UsercabinetController extends ControllerHelper //Controller
             'csrf_token' => $csrfToken
         );
     }
-    
+
     /**
      * Displays a form to create a new User entity.
      *
@@ -259,8 +271,10 @@ class UsercabinetController extends ControllerHelper //Controller
      */
     public function registrationAction()
     {
+        $request = $this->getRequest();
+        if($request->getMethod() == "GET") return $this->forward($this->getController("registrations_new"));
         $entity = new User();
-        $form   = $this->createForm(new UserType(), $entity, array("attr" => array("new" => true)));
+        $form   = $this->createForm(new UserType(), $entity, $this->newUser);
 
         return array(
             'entity' => $entity,
@@ -276,7 +290,13 @@ class UsercabinetController extends ControllerHelper //Controller
      */
     public function registrationPageAction()
     {
-        return $this->registrationAction();
+        $entity = new User();
+        $form   = $this->createForm(new UserType(), $entity, $this->newUser);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
     }
     /**
      * Creates a new User entity.
@@ -287,12 +307,11 @@ class UsercabinetController extends ControllerHelper //Controller
      */
     public function createAction(Request $request)
     {
-        
         $em = $this->getDoctrine()->getManager();
         $group = $em->getRepository('ItcAdminBundle:Group')->findOneBy(array('role'=>'ROLE_USER'));
 
         $entity = new User();
-        $form = $this->createForm(new UserType(), $entity, array("attr" => array("new" => true)));
+        $form = $this->createForm(new UserType(), $entity, $this->newUser);
         $form->bind($request);
         $data = $form->getData();
         $passwd = $data->getPassword();
@@ -305,6 +324,7 @@ class UsercabinetController extends ControllerHelper //Controller
         }
         $entity->setEnabled(true);
         $entity->setFIO($data->getSurname()." ".$data->getName()." ".$data->getPatronymic());
+
         if ($form->isValid()) {
             
             $em->persist($entity);

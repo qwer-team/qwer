@@ -18,11 +18,8 @@ use Main\SiteBundle\Tools\ControllerHelper;
 class CartController extends ControllerHelper {
 
     private $product = 'Itc\AdminBundle\Entity\Product\Product';
-    private $menu    = array( 
-        'ItcAdminBundle:Menu\Menu',
-        'ItcAdminBundle:Menu\MenuTranslation'
-    );
-    private $pdtype = "ItcDocumentsBundle:Pd\Pdtype";
+    private $menu    = 'ItcAdminBundle:Menu\Menu';
+    private $pdtype  = "ItcDocumentsBundle:Pd\Pdtype";
 
     const CART   = 'cart_user';
     const PDTYPE = 1;
@@ -276,6 +273,7 @@ class CartController extends ControllerHelper {
         $cart="";
         if($this->getCartSession()!=''){
             $cart=$this->getCartSession();
+            
             foreach($this->getCartSession() as $product){
                 $col=$col+1;
                 $sum=$sum+$product['price'];
