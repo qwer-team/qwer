@@ -17,10 +17,17 @@ use Itc\AdminBundle\Tools\TranslitGenerator;
  */
 class DefaultController extends ControllerHelper
 {
-    protected $menu = array( 
-        'ItcAdminBundle:Menu\Menu',
-        'ItcAdminBundle:Menu\MenuTranslation'
-    );
+    protected $menu = 'ItcAdminBundle:Menu\Menu';
+    
+    
+    /**
+     * @Route("/login", name="login")
+     * @Template()
+     */
+    public function loginAction(){
+        
+        return $this->forward($this->getController("login_page"));
+    }
     /**
      * @Route("/", defaults={ "_locale" = "ru"}, name="index")
      * @Template()
@@ -101,7 +108,8 @@ class DefaultController extends ControllerHelper
             'topPortfolio' => $topPortfolio,
             'news'      => $news,
             'locale'    => $locale,
-            'message'   => $messa
+            'message'   => $messa,
+            'indexPage' => 1
         );
     }
     /**
@@ -320,7 +328,7 @@ class DefaultController extends ControllerHelper
         $wheres[] = "M.routing = :routing ";
         $parameters["routing"] = "faq";
         $entity = $this->getEntities( $this->menu, $wheres, $parameters)
-                       ->getOneOrNullResult();
+                       -> setMaxResults(1)->getOneOrNullResult();
         
         return array( 
             'entity' => $entity,
@@ -333,7 +341,7 @@ class DefaultController extends ControllerHelper
     public function otherAction( $translit ){
         
         $query = $this->getEntityTranslit( $this->menu, $translit );
-        $entity = $query->getOneOrNullResult();
+        $entity = $query->setMaxResults(1)->getOneOrNullResult();
 
         if( $entity === NULL ){
            
@@ -578,35 +586,37 @@ echo $enti->translate('en')->getTranslit();
        
     }
     /**     
+     * @param int $limit лимит пунктов меню
+     * @param boolean $separator для разделителя меню 
      * Lists all Menu entities.
      * @Template()
      */
-    public function menuAction($routing, $req){
+    public function menuAction($routing, $req, $limit=false, $separator=false){
 
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
         $languages  = LanguageHelper::getLanguages();
-        $request = "";
-        
-        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
-                        ->createQueryBuilder('M')
-                        ->select( 'M, T' )
-                        ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
-                        ->where('M.parent IS NULL')
-                        ->andWhere('M.visible = 1')
-                        ->orderBy('M.kod', 'ASC')
-                        ->setParameter('locale', $locale);
+        $request = $this->getRequest();
+        $translit = $request->get('req')->attributes->get('translit');
 
-        $entities = $queryBuilder->getQuery()->execute();
-        
-        $child_entities = array();
+        $qb = $em->getRepository('ItcAdminBundle:Menu\Menu')
+                 ->createQueryBuilder('M')
+                 ->select( 'M' )
+                 ->where('M.parent IS NULL')
+                 ->andWhere('M.visible = 1')
+                 ->orderBy('M.kod', 'ASC');
+
+        if($limit) $qb->setMaxResults($limit);
+
+        $entities = $qb->getQuery()->execute();
+
         $parents = array();
+        foreach($entities as $v) $parents[] = $v->getId();
 
-        foreach($entities as $v)
-                array_push($parents, $v->getId());
-        
-        $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
+        $child_entities = array();
+
+        if($entities)
+            $child_entities = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
                         ->select( 'M, T' )
                         ->leftJoin('M.translations', 'T',
@@ -614,10 +624,9 @@ echo $enti->translate('en')->getTranslit();
                         ->where('M.parent IN  ( '.implode(",", $parents).' )')
                         ->andWhere('M.visible = 1')
                         ->orderBy('M.kod', 'ASC')
-                        ->setParameter('locale', $locale);
+                        ->setParameter('locale', $locale)
+                        ->getQuery()->execute();
 
-        $child_entities = $queryBuilder->getQuery()->execute();
-        
         return array( 
             "entities"  => $entities,
             'locale'    => $locale,
@@ -626,6 +635,9 @@ echo $enti->translate('en')->getTranslit();
             'routing'   => $routing,
             'req'       => $req,
             'childs'    => $child_entities,
+            'request'   => $request,
+            'translit'  => $translit,
+            'separator' => $separator
         );
     }
     /**
@@ -659,6 +671,7 @@ echo $enti->translate('en')->getTranslit();
                     "translit"      => "menu",
                     "kwd_translit"  => "kwd"
                 );
+
     /**
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -696,6 +709,7 @@ echo $enti->translate('en')->getTranslit();
             $wasLocale = false;
             if($lang == $locale)
             {
+                $urls[$lang] = "";
                 continue;
             }
             $values = array();
@@ -706,8 +720,8 @@ echo $enti->translate('en')->getTranslit();
                 {  
                     
                     $entity = $this->getEntityTranslit( $this->menu, $value )
-                       ->getOneOrNullResult();
-                    $value = $entity->translate($lang)->getTranslit();
+                                   ->getOneOrNullResult();
+                    $value = $entity?$entity->translate($lang)->getTranslit():"";
                 }else 
                     if($param == "_locale")
                 {
@@ -762,11 +776,11 @@ echo $enti->translate('en')->getTranslit();
         if($translit==null)
         {
             return array( 
-                'entity' => $entity,
-                'partners'   => $entity->getChildren(),
-                'locale' => $locale, 
-                'routing' => $routing
-                );
+                'entity'   => $entity,
+                'partners' => $entity->getChildren(),
+                'locale'   => $locale, 
+                'routing'  => $routing
+            );
          }
          else
          {
@@ -775,10 +789,10 @@ echo $enti->translate('en')->getTranslit();
              $entity2 = $this->getEntityTranslit( $menu, $translit, $wheres2, $parameters )
                             ->getOneOrNullResult();
              return array( 
-                 'entity' => $entity2,
-                 'locale' => $locale,
+                 'entity'  => $entity2,
+                 'locale'  => $locale,
                  'routing' => $routing
-                    );
+             );
          }
     }
 

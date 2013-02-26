@@ -5,3 +5,7 @@ services:
 #    main_site.example:
 #        class: %main_site.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+     checkout.handler:
+         class: Main\SiteBundle\Controller\CartController
+         arguments:
+                container: "@service_container"

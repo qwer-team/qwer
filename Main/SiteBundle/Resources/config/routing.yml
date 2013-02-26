@@ -9,6 +9,13 @@ site:
     defaults: {_locale: %locale% }
     requirements:
       _locale : \w{2}        
+site_brand:
+    prefix:   /{_locale}
+    resource: "@MainSiteBundle/Controller/BrandController.php"
+    type:     annotation
+    defaults: {_locale: %locale% }
+    requirements:
+      _locale : \w{2}        
 site_catalog:
     prefix:   /{_locale}/
     resource: "@MainSiteBundle/Controller/CatalogController.php"

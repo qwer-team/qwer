@@ -5,7 +5,66 @@
 'Read More': Далее
 'Show Slideshow': Показать
 contacts: "Тел.: (044) 277-37-79       Факс: (044) 277-37-73&nbsp;&nbsp; \t\t\tМоб.: (097) 120-39-39, (066) 08-38-999&nbsp;&nbsp; \t\t\tE-mail: info@hansa-flame.com.ua "
-copyright: '© Праkkkkвами на размещенную на сайте информацию владеет ООО ...'
+copyright: '© Правами на размещенную на сайте информацию владеет ООО ...'
 develop: 'Разработка QWER!!!-team'
 cloud_tags: Облако тегов
 contacts_title: Контакты
+
+
+login: Логин
+email: E-mail
+phone: Телефон
+address: Адресс
+surname: Фамилия
+name: Имя
+patronymic: Отчество
+password: Пароль
+password_confirmation: Подтверждение пароля
+registration: Зарегистрироваться
+remember_password: Забыли пароль
+enter: Войти
+send: Отправить
+prev: Прев.
+next: След.
+more: Подробнее
+price: Цена
+uah: грн
+order: Заказать
+sorting: Сортировать
+on_growth_rates: По росту цены
+descending_price: По убыванию цен
+by_popularity: По популярности
+view_list: В виде списка
+view_grid: В виде галереи
+your_basket: Ваша корзина
+in_the_cart: В корзине
+products: товаров
+to_the_amount_of: На сумму
+total: Сумма
+welcome_you: Приветствуем Вас
+private_office: Личный кабинет
+logout: Выход
+copyright(c): © Правами на размещенную на сайте информацию владеет sazhotrus.ua
+development: Разработка QWER-team
+read_more: Подробнее
+navigate_to_the_directory: Перейти в каталог
+bestsellers: Лидеры продаж
+first_in_site: Первый раз на сайте
+remember: Запомнить
+FIO: ФИО
+enter_email: Введите e-mail
+delivery_address: Адресс доставки
+contact_phone: Контактный телефон
+additional_information: Дополнительная информация
+drawing_up_of_an_order: Оформление заказа
+fields_are_mandatory: поля являються обязательными для заполнения
+description_of_goods: Наименование товара
+amountetc: Кол-во
+measure: Ед.измерения
+price: Цена
+summa: Сумма
+cart_products: Корзина заказов
+enter_code: Введите код
+link_generate_successful_and_send_to_your_email: Ссылка успешно сгенерирована и отправлена на Вашу почту
+change_password: Изменить пароль
+edit_personal_information: Редактировать информацию

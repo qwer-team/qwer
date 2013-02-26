@@ -15,9 +15,9 @@ $( document ).ready(function() {
     });
     
     $(".fancybox").fancybox({
-        'modal '        : true,
-        'transitionIn'  : 'none',
-        'transitionOut' : 'none'
+        'modal '       : true,
+        'transitionIn' : 'none',
+        'transitionOut': 'none'
     });
     
     $( '#index_slider' ).nivoSlider({

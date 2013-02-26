@@ -33,7 +33,7 @@ class ControllerHelper extends Controller{
             $wheres[] = "M.routing = :routing";
             $parameters['routing'] = $routing;
 
-        return $this->getEntities( $entities, $wheres, $parameters );
+        return $this->getEntities( $entities, $wheres, $parameters )->getOneOrNullResult();
     }
     /**
      * Поиск сущности по транслиту
@@ -87,8 +87,9 @@ class ControllerHelper extends Controller{
                                                array $parameters = NULL, 
                                                array $orderby = NULL ){
 
-        list( $entity, $translation ) = $entities;
-
+        list( $entity, $translation ) = (!is_array($entities))? 
+                array($entities, $entities."Translation"): $entities;
+            
         $em            = $this->getDoctrine()->getManager();
         $locale        = LanguageHelper::getLocale();
 
@@ -103,24 +104,23 @@ class ControllerHelper extends Controller{
             $qb = $em->getRepository( $entity )
                      ->createQueryBuilder( 'M' )
                      ->select( 'M' );
-
         } else {
 
-            $wheres[] = "T.locale = :locale";
+            //$wheres[] = "T.locale = :locale";
             $parameters['locale'] = $locale;
 
             $qb = $em->getRepository( $entity )
                      ->createQueryBuilder( 'M' )
-                     ->select( 'M, TR' )
-                     ->innerJoin('M.translations', 'T')
-                     ->leftJoin( "M.translations", 'TR' );
+                     ->select( 'M, T' )
+                     ->leftJoin('M.translations', 'T',
+                                'WITH', "T.locale = :locale")
+                     ;
         }
 
         if( $wheres !== NULL ){
 
             $qb->where( implode( ' AND ', $wheres ) );
             $qb->setParameters( $parameters );
-
         }
 
         if( $orderby !== NULL ){
