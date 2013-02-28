@@ -18,11 +18,11 @@ class SendMailType extends AbstractType
     {
         $builder
         
-            ->add( 'fio', null ,array('attr' => array('value' => 'Введите имя:')))
-            ->add( 'email', null ,array('attr' => array('value' => 'Введите email:')) )
-            ->add( 'telefon', null ,array('attr' => array('value' => 'Введите телефон:')) )
-            ->add( 'body', 'textarea');
-           // ->add( 'captcha', 'captcha', array( 'keep_value' => false, ) );
+            ->add('fio', null ,array('attr' => array('label' => 'Введите имя:')))
+            ->add('email', null ,array('attr' => array('label' => 'Введите email:')) )
+            ->add('telefon', null ,array('attr' => array('label' => 'Введите телефон:')) )
+            ->add('body', 'textarea')
+            ->add('captcha', 'captcha', array( 'keep_value' => false, ) );
             
     }
 

@@ -54,7 +54,7 @@ FIO: ФИО
 enter_email: Введите e-mail
 delivery_address: Адресс доставки
 contact_phone: Контактный телефон
-additional_information: Дополнительная информация
+Additional Information: Дополнительная информация
 drawing_up_of_an_order: Оформление заказа
 fields_are_mandatory: поля являються обязательными для заполнения
 description_of_goods: Наименование товара
@@ -71,3 +71,11 @@ phones_top_block: <ul class="phones"><li><div>(044) 277-37-79</div>ТЕЛЕФО�
 phones_bottom_block: <div><span>Телефон.:</span>(044) 277-37-79,</div><div><span>Факс:</span>(044) 277-37-73,</div><div><span>Мобильный.:</span>(097) 120-39-39,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(066) 08-38-999.</div><div>E-mail:info@sazhotrus.ua</div>
 contact: Контакты
 download_price: Cкачать прайс лист
+Videos: Видео ролики
+Photo gallery: Фото галерея
+Photo-Video: Фото-Видео
+Question: Вопрос
+Answer: Ответ
+Captcha: Защитный код
+User: Пользователь
+Leave a message: Оставил сообщение

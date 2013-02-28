@@ -17,9 +17,9 @@ use Main\SiteBundle\Form\AcceptOrderType;
  */
 class CatalogController extends ControllerHelper //Controller
 {
-    private $productGroup = 'ItcAdminBundle:Product\ProductGroup';
-    private $product      = 'ItcAdminBundle:Product\Product';
-    private $menu         = 'ItcAdminBundle:Menu\Menu';
+    protected  $productGroup = 'ItcAdminBundle:Product\ProductGroup';
+    protected  $product      = 'ItcAdminBundle:Product\Product';
+    protected  $menu         = 'ItcAdminBundle:Menu\Menu';
 
     const VIEW_CATALOG = "view_catalog";
     const SORT_CATALOG = "sort_catalog";
@@ -276,14 +276,14 @@ class CatalogController extends ControllerHelper //Controller
         $locale =  LanguageHelper::getLocale();
         
         $entity = $this->GetCategory();
-        //$em->getRepository($this->menu)->findOneBy(array('routing'=>"categories"));
-        $entities = $em->getRepository('ItcAdminBundle:Product\ProductGroup')
+
+        $entities = $em->getRepository($this->productGroup)
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
-                        ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
+                        ->select( 'M' )
+//                        ->leftJoin('M.translations', 'T',
+//                                'WITH', "T.locale = :locale")
                         ->orderBy('M.kod', 'ASC')
-                        ->setParameter('locale', $locale)
+//                        ->setParameter('locale', $locale)
                         ->getQuery()->execute();
 
         return array( 
