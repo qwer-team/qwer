@@ -11,7 +11,9 @@ class UserRememberPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('email')
-                //->add('captcha', NULL)
+                ->add('captcha', 'captcha', 
+                        array('width'  => 100,
+                              'height' => 40,))
         ;
     }
 

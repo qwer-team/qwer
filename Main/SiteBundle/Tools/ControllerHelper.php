@@ -5,7 +5,6 @@ namespace Main\SiteBundle\Tools;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Itc\AdminBundle\Tools\LanguageHelper;
 
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -18,6 +17,8 @@ use Itc\AdminBundle\Tools\LanguageHelper;
  */
 class ControllerHelper extends Controller{
 
+    protected $menu = 'ItcAdminBundle:Menu\Menu';
+
 /************************ Вспомогательные методы ******************************/
     /**
      * Поиск сущности по роутингу
@@ -26,15 +27,15 @@ class ControllerHelper extends Controller{
      * @param string $translit - транслит для поиска
      * @return результат запроса
      */
-    protected function getEntityRouting( $entities, $routing, 
-                                            array $wheres = NULL, 
-                                            array $parameters = NULL,
-                                            array $orderby = NULL ){
+    protected function getEntityRouting($entities, $routing){
             $wheres[] = "M.routing = :routing";
             $parameters['routing'] = $routing;
 
-        return $this->getEntities( $entities, $wheres, $parameters )->getOneOrNullResult();
+        return $this->getEntities($entities, $wheres, $parameters)
+                    ->setMaxResults(1)
+                    ->getOneOrNullResult();
     }
+    
     /**
      * Поиск сущности по транслиту
      * @param string $entities - сущьность с транслитом описана в массиве
@@ -61,7 +62,7 @@ class ControllerHelper extends Controller{
             $parameters['property'] = "translit";
         }
 
-        return $this->getEntities( $entities, $wheres, $parameters );
+        return $this->getEntities( $entities, $wheres, $parameters, $orderby );
     }
     /**
      * Вытягивет сущьность по критериям
@@ -83,9 +84,9 @@ class ControllerHelper extends Controller{
      * 
      * @return $qb->getQuery();
      */
-    protected function getEntities( $entities, array $wheres = NULL, 
+    protected function getEntities( $entities, array $wheres     = NULL, 
                                                array $parameters = NULL, 
-                                               array $orderby = NULL ){
+                                               array $orderby    = NULL ){
 
         list( $entity, $translation ) = (!is_array($entities))? 
                 array($entities, $entities."Translation"): $entities;
@@ -113,15 +114,11 @@ class ControllerHelper extends Controller{
                      ->createQueryBuilder( 'M' )
                      ->select( 'M, T' )
                      ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
-                     ;
+                                'WITH', "T.locale = :locale");
         }
 
-        if( $wheres !== NULL ){
-
-            $qb->where( implode( ' AND ', $wheres ) );
-            $qb->setParameters( $parameters );
-        }
+        if($wheres)     $qb->where( implode( ' AND ', $wheres ) );
+        if($parameters) $qb->setParameters( $parameters );
 
         if( $orderby !== NULL ){
 

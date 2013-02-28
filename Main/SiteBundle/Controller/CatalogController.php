@@ -17,9 +17,9 @@ use Main\SiteBundle\Form\AcceptOrderType;
  */
 class CatalogController extends ControllerHelper //Controller
 {
-    private $productGroup = 'ItcAdminBundle:Product\ProductGroup';
-    private $product      = 'ItcAdminBundle:Product\Product';
-    private $menu         = 'ItcAdminBundle:Menu\Menu';
+    protected  $productGroup = 'ItcAdminBundle:Product\ProductGroup';
+    protected  $product      = 'ItcAdminBundle:Product\Product';
+    protected  $menu         = 'ItcAdminBundle:Menu\Menu';
 
     const VIEW_CATALOG = "view_catalog";
     const SORT_CATALOG = "sort_catalog";
@@ -53,36 +53,35 @@ class CatalogController extends ControllerHelper //Controller
         $wheres = NULL;
         $params = NULL;
         $route  = NULL;
-        
+
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
-        
+
         $entity = $this->getEntityTranslit($this->productGroup, $translit)
-                       ->getOneOrNullResult();
+                       ->setMaxResults(1)->getOneOrNullResult();
         if($entity){
             $wheres[] = "M.productGroup = :productGroup";
             $params['productGroup'] = $entity->getId();
         }
-        
+
         if($param !== NULL) $wheres[] = "M.$param = 1";
 
         $order = array('M.'. $sort, $sortType);
-        
+
         $entities = $this->getEntities($this->product, $wheres, $params, $order);
 
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
+        $products = $this->get('knp_paginator')->paginate(
                         $entities,
                         $this->get('request')->query->get('page', $page)/*page number*/,
                         $coulonpage,
                         array('distinct' => false)
         );
 
-        $totalPages = ceil($entities->getTotalItemCount() / $coulonpage);
+        $totalPages = ceil($products->getTotalItemCount() / $coulonpage);
 
         return array(
             'entity'      => $entity,
-            'entities'    => $entities,
+            'entities'    => $products,
             'locale'      => $locale,
             'sort'        => $sort,
             'coulonpage'  => $coulonpage,
@@ -277,14 +276,14 @@ class CatalogController extends ControllerHelper //Controller
         $locale =  LanguageHelper::getLocale();
         
         $entity = $this->GetCategory();
-        //$em->getRepository($this->menu)->findOneBy(array('routing'=>"categories"));
-        $entities = $em->getRepository('ItcAdminBundle:Product\ProductGroup')
+
+        $entities = $em->getRepository($this->productGroup)
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
-                        ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale")
+                        ->select( 'M' )
+//                        ->leftJoin('M.translations', 'T',
+//                                'WITH', "T.locale = :locale")
                         ->orderBy('M.kod', 'ASC')
-                        ->setParameter('locale', $locale)
+//                        ->setParameter('locale', $locale)
                         ->getQuery()->execute();
 
         return array( 

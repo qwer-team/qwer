@@ -16,10 +16,7 @@ use Main\SiteBundle\Tools\ControllerHelper;
  */
 class NewsController extends ControllerHelper //Controller
 {
-    private $menu = array( 
-        'ItcAdminBundle:Menu\Menu',
-        'ItcAdminBundle:Menu\MenuTranslation'
-    );
+    protected  $menu = 'ItcAdminBundle:Menu\Menu';
     /**
      * @Route("/", name="news")
      * @Template()
