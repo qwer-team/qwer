@@ -15,7 +15,7 @@ class PdpayController extends ControllerHelper //Controller
 {
      /**
      * @Route("{id}/", name="pdpay")
-     * @Template("HOfficeSiteBundle:Pduser:index.html.twig")
+     * @Template()
      */
     public function pdpayAction($id)
     {
