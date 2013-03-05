@@ -15,7 +15,8 @@ use Itc\AdminBundle\Tools\LanguageHelper;
  *
  * @author root
  */
-class ControllerHelper extends Controller{
+class ControllerHelper extends Controller
+{
 
     protected $menu = 'ItcAdminBundle:Menu\Menu';
 
@@ -27,7 +28,8 @@ class ControllerHelper extends Controller{
      * @param string $translit - транслит для поиска
      * @return результат запроса
      */
-    protected function getEntityRouting($entities, $routing){
+    protected function getEntityRouting($entities, $routing)
+    {
             $wheres[] = "M.routing = :routing";
             $parameters['routing'] = $routing;
 
@@ -43,26 +45,39 @@ class ControllerHelper extends Controller{
      * @param string $translit - транслит для поиска
      * @return результат запроса
      */
-    protected function getEntityTranslit( $entities, $translit, 
-                                            array $wheres = NULL, 
-                                            array $parameters = NULL,
-                                            array $orderby = NULL ){
-
-        if( LanguageHelper::getLocale() == LanguageHelper::getDefaultLocale() ){
-
+    protected function getEntityTranslit($entities, $translit)
+    {
+        $locale = LanguageHelper::getLocale();
+        if($locale == LanguageHelper::getDefaultLocale()){
             $wheres[] = "M.translit = :translit";
             $parameters['translit'] = $translit;
+            $entity = $this->getEntities($entities, $wheres, $parameters)
+                           ->setMaxResults(1)
+                           ->getOneOrNullResult();
 
         } else {
+            list($entity, $translation) = (!is_array($entities))? 
+                array($entities, $entities."Translation"): $entities;
 
-            $wheres[] = "T.value    = :translit";
-            $wheres[] = "T.property = :property";
-            
-            $parameters['translit'] = $translit;
+            $parameters['locale']   = $locale;
+            $parameters['value']    = $translit;
             $parameters['property'] = "translit";
+
+            $em = $this->getDoctrine()->getManager();
+            $qb = $em->getRepository($translation)
+                     ->createQueryBuilder('T')
+                     ->select('T')
+                     ->where("   T.value    = :value")
+                     ->andWhere("T.locale   = :locale")
+                     ->andWhere("T.property = :property")
+                     ->setParameters($parameters)
+                     ->getQuery();
+
+            $ent = $qb->getOneOrNullResult();
+            $entity = $ent->getTranslatable();
         }
 
-        return $this->getEntities( $entities, $wheres, $parameters, $orderby );
+        return $entity;
     }
     /**
      * Вытягивет сущьность по критериям
@@ -77,58 +92,37 @@ class ControllerHelper extends Controller{
      * пример $this->menu;
      * 
      * @param array $wheres - массив с поиском [] = "M.locale = :locale" без AND;
-     * $qb->where( implode( ' AND ', $wheres ) );
+     * $qb->where(implode(' AND ', $wheres));
      * 
      * @param array $parameters - парметры поиска, обязательное условие
-     * array( ['locale'] => $locale, ... )
+     * array(['locale'] => $locale, ...)
      * 
      * @return $qb->getQuery();
      */
-    protected function getEntities( $entities, array $wheres     = NULL, 
+    protected function getEntities($entities, array $wheres     = NULL, 
                                                array $parameters = NULL, 
-                                               array $orderby    = NULL ){
-
-        list( $entity, $translation ) = (!is_array($entities))? 
+                                               array $orderby    = NULL)
+    {
+        list($entity, $translation) = (!is_array($entities))? 
                 array($entities, $entities."Translation"): $entities;
             
-        $em            = $this->getDoctrine()->getManager();
-        $locale        = LanguageHelper::getLocale();
+        $em = $this->getDoctrine()->getManager();
 
-        if( $locale == LanguageHelper::getDefaultLocale() ){
+        $qb = $em->getRepository($entity)
+                 ->createQueryBuilder('M')
+                 ->select('M');
 
-            foreach( $wheres as $v ){
-                $w[] = str_replace( "T.", "M.", $v );
-            }
+        if($wheres)     $qb->where(implode(' AND ', $wheres));
+        if($parameters) $qb->setParameters($parameters);
 
-            $wheres = $w;
-
-            $qb = $em->getRepository( $entity )
-                     ->createQueryBuilder( 'M' )
-                     ->select( 'M' );
-        } else {
-
-            //$wheres[] = "T.locale = :locale";
-            $parameters['locale'] = $locale;
-
-            $qb = $em->getRepository( $entity )
-                     ->createQueryBuilder( 'M' )
-                     ->select( 'M, T' )
-                     ->leftJoin('M.translations', 'T',
-                                'WITH', "T.locale = :locale");
-        }
-
-        if($wheres)     $qb->where( implode( ' AND ', $wheres ) );
-        if($parameters) $qb->setParameters( $parameters );
-
-        if( $orderby !== NULL ){
-
-            list( $sort, $order ) = $orderby;
-            $qb->orderBy( $sort, $order );
+        if($orderby !== NULL){
+            list($sort, $order) = $orderby;
+            $qb->orderBy($sort, $order);
         }
 
         $query =  $qb->getQuery();
-        return $query;
 
+        return $query;
     }
 
     protected function getLocale()
@@ -142,22 +136,22 @@ class ControllerHelper extends Controller{
      */
     protected function getRoutes()
     {
-        $router = $this->container->get( 'router' );
+        $router = $this->container->get('router');
         
         $routes = array();
 
-        foreach ( $router->getRouteCollection()->all() as $name => $route ){
+        foreach ($router->getRouteCollection()->all() as $name => $route){
            $routes[] = $name;
           
         }
         return $routes;
     }
 
-    protected function getController( $name ){
+    protected function getController($name){
 
-        return $this->container->get( 'router' )
+        return $this->container->get('router')
                     ->getRouteCollection()
-                    ->get( $name )
+                    ->get($name)
                     ->getDefault("_controller");
     }
     

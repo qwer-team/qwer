@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
-use Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
 
 /**
  * News controller.

@@ -13,7 +13,7 @@ use Itc\DocumentsBundle\Entity\Pd\Trans;
 use Itc\DocumentsBundle\Entity\Pd\Pd;
 use Itc\DocumentsBundle\Entity\Pd\Pdl;
 use Itc\DocumentsBundle\Entity\PdOrder\PdOrder;
-use Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
 
 class CartController extends ControllerHelper {
 

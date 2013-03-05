@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
-use Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
 use Main\SiteBundle\Form\AcceptOrderType;
 /**
  * Catalog controller.
@@ -57,8 +57,7 @@ class CatalogController extends ControllerHelper //Controller
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
 
-        $entity = $this->getEntityTranslit($this->productGroup, $translit)
-                       ->setMaxResults(1)->getOneOrNullResult();
+        $entity = $this->getEntityTranslit($this->menu, $translit);
         if($entity){
             $wheres[] = "M.productGroup = :productGroup";
             $params['productGroup'] = $entity->getId();
@@ -171,8 +170,7 @@ class CatalogController extends ControllerHelper //Controller
         $em = $this->getDoctrine()->getManager();
         $locale =  LanguageHelper::getLocale();
         
-        $entity = $this->getEntityTranslit($this->product, $translit)
-                       ->getOneOrNullResult();
+        $entity = $this->getEntityTranslit($this->product, $translit);
 
         $relative=$em->getRepository('ItcAdminBundle:Product\RelationsProdToProd')
                         ->createQueryBuilder('M')
@@ -230,8 +228,7 @@ class CatalogController extends ControllerHelper //Controller
         $locale =  LanguageHelper::getLocale();
         $deflocale=LanguageHelper::getDefaultLocale();
         
-        $entity = $this->getEntityTranslit('ItcAdminBundle:Keyword\Keyword', $translit)
-                       ->getOneOrNullResult();
+        $entity = $this->getEntityTranslit('ItcAdminBundle:Keyword\Keyword', $translit);
 //        if($locale == $deflocale){
 //        $entity=$em->getRepository('ItcAdminBundle:Keyword\Keyword')
 //                       ->createQueryBuilder('M')

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
-use Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
 use Main\SiteBundle\Form\SendMailType;
 use Itc\AdminBundle\Tools\TranslitGenerator;
 /**
@@ -337,9 +337,8 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function otherAction( $translit ){
-        
-        $query = $this->getEntityTranslit( $this->menu, $translit );
-        $entity = $query->setMaxResults(1)->getOneOrNullResult();
+
+        $entity = $this->getEntityTranslit( $this->menu, $translit );
 
         if( $entity === NULL ){
            
@@ -414,12 +413,17 @@ class DefaultController extends ControllerHelper
      * @Template()
      */
     public function contentAction($translit){
-        
+
         $em = $this->getDoctrine()->getManager();
+        $em->clear();
         $locale =  LanguageHelper::getLocale();
         $deflocale = LanguageHelper::getDefaultLocale();
         
-        $entity = $this->getEntityTranslit( array( 'ItcAdminBundle:Menu\Menu', "a" ), $translit)->getOneOrNullResult();
+        $entity = $this->getEntityTranslit('ItcAdminBundle:Menu\Menu', $translit);
+        
+        //$entity = $em->getRepository('ItcAdminBundle:Menu\Menu')->find($entity->getId());
+
+        //$tr = $entity->translate($locale);
 /*        
                         $enti = $this->getAllTranslitForEntity('ItcAdminBundle:Menu\Menu', 
                             $locale, 'en', 'translit', $entity->getTranslit())->getOneOrNullResult();
@@ -734,8 +738,7 @@ echo $enti->translate('en')->getTranslit();
                 if($param == "translit")
                 {  
                     
-                    $entity = $this->getEntityTranslit( $this->menu, $value )
-                                   ->getOneOrNullResult();
+                    $entity = $this->getEntityTranslit( $this->menu, $value );
                     $value = $entity?$entity->translate($lang)->getTranslit():"";
                 }else 
                     if($param == "_locale")
@@ -786,8 +789,7 @@ echo $enti->translate('en')->getTranslit();
             
         $wheres[] = "M.routing = :routing";
         $routingf["routing"] = $routing;
-        $entity = $this->getEntities( $menu, $wheres, $routingf )
-                       ->getOneOrNullResult();
+        $entity = $this->getEntityRouting($menu, $routingf);
         if($translit==null)
         {
             return array( 
@@ -801,8 +803,7 @@ echo $enti->translate('en')->getTranslit();
          {
              $wheres2[] = "M.parent_id = :parent_id";
              $parameters["parent_id"] = $entity->getId();
-             $entity2 = $this->getEntityTranslit( $menu, $translit, $wheres2, $parameters )
-                            ->getOneOrNullResult();
+             $entity2 = $this->getEntityTranslit( $menu, $translit, $wheres2, $parameters );
 
              return array( 
                  'entity'  => $entity2,
