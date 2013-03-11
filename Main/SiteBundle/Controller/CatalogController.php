@@ -444,12 +444,13 @@ class CatalogController extends ControllerHelper //Controller
      * @Route("recommend_product_site/{id}", name="recommend_product_site")
      * @Template()
      */
-    public function RecommendProductsAction($id){
-        
+    public function RecommendProductsAction($id)
+    {
         $em = $this->getDoctrine()->getManager();
         $products = $em->getRepository('ItcAdminBundle:Product\RelationsProdToProd')
                        ->createQueryBuilder('M')
-                       ->select('M')
+                       ->select('M, P')
+                       ->join("M.rel_prod", "P")
                        ->where('M.prod_id = :prod_id')
                        ->setParameter('prod_id', $id)
                        ->orderBy('M.kod', 'ASC')
@@ -457,6 +458,7 @@ class CatalogController extends ControllerHelper //Controller
                        ->execute();
         return array(
             'relative_products' => $products,
+            'locale'     => LanguageHelper::getLocale(),
         );
     }
     /**
