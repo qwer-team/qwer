@@ -17,17 +17,9 @@ use Main\SiteBundle\Form\AcceptOrderType;
  */
 class CatalogController extends ControllerHelper //Controller
 {
-    protected  $productGroup = 'ItcAdminBundle:Product\ProductGroup';
-    protected  $product      = 'ItcAdminBundle:Product\Product';
-    protected  $menu         = 'ItcAdminBundle:Menu\Menu';
-
     const VIEW_CATALOG = "view_catalog";
     const SORT_CATALOG = "sort_catalog";
     const TYPE_CATALOG = "type_catalog";
-
-    /** Роутинги */
-    const R_BESTSELLERS = 'bestsellers';
-    const R_CATEGORIES  = 'categories';
 
     public function CurrentUser() {
       
@@ -48,17 +40,15 @@ class CatalogController extends ControllerHelper //Controller
         return $this->getCurrentCatalog($translit, $page, $sort, "ASC", $coulonpage);
     }
     
-    private function getCurrentCatalog($translit, $page, $sort, $sortType, $coulonpage, $param=null){
-
+    private function getCurrentCatalog($entName, $translit, $page, $sort, $sortType, $coulonpage, $param=null)
+    {
         $wheres = NULL;
         $params = NULL;
         $route  = NULL;
 
-        $em = $this->getDoctrine()->getManager();
-        $locale =  LanguageHelper::getLocale();
+        $entity = $this->getEntityTranslit($entName, $translit);
 
-        $entity = $this->getEntityTranslit($this->menu, $translit);
-        if($entity){
+        if($entity && $param === NULL){
             $wheres[] = "M.productGroup = :productGroup";
             $params['productGroup'] = $entity->getId();
         }
@@ -69,19 +59,14 @@ class CatalogController extends ControllerHelper //Controller
 
         $entities = $this->getEntities($this->product, $wheres, $params, $order);
 
-        $products = $this->get('knp_paginator')->paginate(
-                        $entities,
-                        $this->get('request')->query->get('page', $page)/*page number*/,
-                        $coulonpage,
-                        array('distinct' => false)
-        );
+        $products = $this->paginator($entities, $page, $coulonpage);
 
         $totalPages = ceil($products->getTotalItemCount() / $coulonpage);
 
         return array(
             'entity'      => $entity,
             'entities'    => $products,
-            'locale'      => $locale,
+            'locale'      => LanguageHelper::getLocale(),
             'sort'        => $sort,
             'coulonpage'  => $coulonpage,
             'page'        => $page,
@@ -108,7 +93,7 @@ class CatalogController extends ControllerHelper //Controller
         $view = $this->checkParamSession(self::VIEW_CATALOG, $view, "list");
         $type = $this->checkParamSession(self::TYPE_CATALOG, $type, "ASC");
         
-        $res = $this->getCurrentCatalog($translit, $page, $sort, $type, $coulonpage);
+        $res = $this->getCurrentCatalog($this->productGroup, $translit, $page, $sort, $type, $coulonpage);
         $res['view'] = $view;
         $res['type'] = $type;
 
@@ -130,8 +115,8 @@ class CatalogController extends ControllerHelper //Controller
         $view = $this->checkParamSession(self::VIEW_CATALOG, $view, "list");
         $type = $this->checkParamSession(self::TYPE_CATALOG, $type, "ASC");
 
-        $res = $this->getCurrentCatalog($translit, $page, $sort, $type, $coulonpage, 'bestSeller');
-        $res['entity'] = $this->GetMenuRouting(self::R_BESTSELLERS);
+        $res = $this->getCurrentCatalog($this->menu, $translit, $page, $sort, $type, $coulonpage, 'bestSeller');
+        $res['entity'] = $this->GetMenuRouting(self::BESTSELLERS);
         $res['view']   = $view;
         $res['type']   = $type;
         $res['route']  = $res['entity']->getRouting();
@@ -205,9 +190,9 @@ class CatalogController extends ControllerHelper //Controller
         
         $keywords=$entity->getKeywords();
 
-        $breadCrumbs = array('categories'    => $menuCatalog, 
-                             'catalogup'     => $entity->getProductGroup(), 
-                             'product'       => $entity
+        $breadCrumbs = array('categories'    => $menuCatalog->translate($locale), 
+                             'catalogup'     => $entity->getProductGroup()->translate($locale), 
+                             'product'       => $entity->translate($locale)
                        );
 
         return array(
@@ -354,7 +339,7 @@ class CatalogController extends ControllerHelper //Controller
                            ->getQuery()
                            ->execute();
 
-        $category = $this->GetMenuRouting(self::R_BESTSELLERS);
+        $category = $this->GetMenuRouting(self::BESTSELLERS);
 
         return array( 
             'entities' => $entities,
@@ -385,7 +370,7 @@ class CatalogController extends ControllerHelper //Controller
 
         $entities = array_slice($entities, 1, 2);
 
-        $category = $this->GetMenuRouting(self::R_BESTSELLERS);
+        $category = $this->GetMenuRouting(self::BESTSELLERS);
 
         return array( 
             'entities' => $entities,
@@ -402,7 +387,7 @@ class CatalogController extends ControllerHelper //Controller
         
     private function GetCategory(){
 
-        return $this->GetMenuRouting(self::R_CATEGORIES);
+        return $this->GetMenuRouting(self::CATEGORIES);
     }
     /**
      * @Template()
@@ -548,31 +533,36 @@ class CatalogController extends ControllerHelper //Controller
    }
 
     /**
-     * @Route("/ordering", name="ordering")
+     * @Route("/ordering/index", name="ordering")
      * @Template()
      */
-   public function OrderingAction(){
+   public function OrderingAction()
+   {
+       $entity = NULL;
+       $securityContext = $this->container->get('security.context');
+       if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+           $entity = $securityContext->getToken()->getUser();
+       }
 
-       $form = $this->createForm(new AcceptOrderType());
+       $form = $this->createForm(new AcceptOrderType(), $entity);
+
        return array(
            'form' => $form->createView()
        );
    }
     /**
-     * @Route("/ordering_accept", name="ordering_accept")
+     * @Route("/order/accept", name="ordering_accept")
      * @Template()
      */
-   public function OrderingAcceptAction(Request $request){
-       
+   public function OrderingAcceptAction(Request $request)
+   {       
        $form = $this->createForm(new AcceptOrderType());
        $form->bind($request);
 
        if($form->isValid()){
-
            $this->forward("MainSiteBundle:Cart:accept");
-           return array();
+           return $this->redirect($this->generateUrl('usercabinet'));
        } else {
-
            return $this->forward($this->getController("ordering"));
        }
    }

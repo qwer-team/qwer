@@ -17,13 +17,12 @@ class AcceptOrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options = NULL )
     {
         $builder
-        
             ->add('fio',     null,      array('label' => 'enter_name:'))
             ->add('email',   null,      array('label' => 'enter_email:'))
             ->add('telefon', null,      array('label' => 'enter_phone:'))
             ->add('address', null,      array('label' => 'enter_address:'))
             ->add('body', 'textarea',   array('label' => 'enter_message:', "attr" => array("rows"=>"4", "cols"=>"79")))
-            ->add('captcha', 'captcha', array( 'keep_value' => false, ) );
+            ;//->add('captcha', 'captcha', array( 'keep_value' => false, ) );
     }
 
     private function getLanguages()

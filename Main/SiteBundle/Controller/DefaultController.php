@@ -17,15 +17,6 @@ use Itc\AdminBundle\Tools\TranslitGenerator;
  */
 class DefaultController extends ControllerHelper
 {
-    protected $menu = 'ItcAdminBundle:Menu\Menu';
-    
-    /* routings */
-    const INDEX           = "index";
-    const OTHER           = "other";
-    const CONTACTS        = "contacts";
-    const PHOTO_VIDEO     = "photo_video";
-    const QUESTION_ANSWER = "faq";
-
     /**
      * @Route("/login", name="login")
      * @Template()
@@ -47,7 +38,7 @@ class DefaultController extends ControllerHelper
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->where("M.routing = 'index' ")
@@ -60,30 +51,30 @@ class DefaultController extends ControllerHelper
                 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Gallery\Image')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->innerJoin('M.gallery', 'G',
                                 'WITH', "G.menu = :menu ")                                        
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
-                        ->setParameter('menu', $entity->getId() )
+                        ->setParameter('menu', $entity->getId())
                         ->setParameter('locale', $locale);
 
         $images = $queryBuilder->getQuery()->execute();
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->where("M.parent = :parent ")
-                        ->setParameter('parent', $entity->getId() )
+                        ->setParameter('parent', $entity->getId())
                         ->setParameter('locale', $locale);
 
         $children = $queryBuilder->getQuery()->execute();                
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->innerJoin('M.parent', 'P') 
                         ->innerJoin('P.parent', 'PP',
                                 'WITH', "PP.routing = 'portfolio' ")                                        
@@ -97,9 +88,9 @@ class DefaultController extends ControllerHelper
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->innerJoin('M.parent', 'P',
-                                'WITH', "P.routing IN ( 'news', 'blog') ")                        
+                                'WITH', "P.routing IN ('news', 'blog') ")                        
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->orderBy('M.date_create', 'DESC')
@@ -108,7 +99,7 @@ class DefaultController extends ControllerHelper
         
         $news = $queryBuilder->getQuery()->execute();
         if(isset($_GET['error'])){$_GET['error']==0 ? $messa=1: $messa=0;}
-        return array( 
+        return array(
             'entity'    => $entity,
             'images'    => $images,
             'childrens' => $children,
@@ -131,7 +122,7 @@ class DefaultController extends ControllerHelper
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->where("M.routing = 'portfolio' ")                        
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
@@ -141,11 +132,11 @@ class DefaultController extends ControllerHelper
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->where("M.parent = :parent ")
-                        ->setParameter('parent', $entity->getId() )
+                        ->setParameter('parent', $entity->getId())
                         ->setParameter('locale', $locale);
 
         $children = $queryBuilder->getQuery()->execute();                
@@ -161,7 +152,7 @@ class DefaultController extends ControllerHelper
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )                                       
+                        ->select('M, T')                                       
                         ->innerJoin('M.galleries', 'G')                        
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
@@ -173,7 +164,7 @@ class DefaultController extends ControllerHelper
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->innerJoin('M.menus', 'G',
                                 'WITH', "G.parent_id IN (". implode(',', $list) .") ")
                         ->leftJoin('M.translations', 'T',
@@ -185,7 +176,7 @@ class DefaultController extends ControllerHelper
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
-                        ->select( 'M.id keyword_id, G.id menu_id' )
+                        ->select('M.id keyword_id, G.id menu_id')
                         ->innerJoin('M.menus', 'G',
                                 'WITH', "G.parent_id IN (". implode(',', $list) .") ");
         
@@ -197,11 +188,11 @@ class DefaultController extends ControllerHelper
         $galleries = array();
         $galleries_list =array();
         
-        foreach($entities as $sites ){
-            array_push($list, $sites->getId() );
+        foreach($entities as $sites){
+            array_push($list, $sites->getId());
             $list_keywords = array();
             foreach($menu_keywords as $val){
-                if ( $val['menu_id'] == $sites->getId() )
+                if ($val['menu_id'] == $sites->getId())
                     array_push($list_keywords, $val['keyword_id']);
             }
             $entities_keywords[$sites->getId()] = implode(',', $list_keywords);
@@ -209,7 +200,7 @@ class DefaultController extends ControllerHelper
                 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Gallery\Gallery')
                         ->createQueryBuilder('M')
-                        ->select( 'M' )
+                        ->select('M')
                         ->where("M.menuId IN 
                                     (". implode(',', $list) .") ");
 
@@ -223,7 +214,7 @@ class DefaultController extends ControllerHelper
         
         $queryBuilder = $em->getRepository('ItcAdminBundle:Gallery\Image')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->where("M.gallery IN 
@@ -239,7 +230,7 @@ class DefaultController extends ControllerHelper
             array_push($images[$menu_id], $val);
         }
                 
-        return array( 
+        return array(
             'entities'  => $entities,
             'entity'    => $entity,
             'images'    => $images,
@@ -251,7 +242,7 @@ class DefaultController extends ControllerHelper
     }
   /*      $queryBuilder = $em->getRepository('ItcAdminBundle:Keyword\Keyword')
                         ->createQueryBuilder('M')
-                        ->select( 'M.id, M.keyword, T.value trans, G.id menu_id' )
+                        ->select('M.id, M.keyword, T.value trans, G.id menu_id')
                         ->innerJoin('M.menus', 'G',
                                 'WITH', "G.parent_id IN (". implode(',', $child_list) .") ")
                         ->leftJoin('M.translations', 'T',
@@ -276,17 +267,17 @@ class DefaultController extends ControllerHelper
 
         $queryBuilder = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
-                        ->where( "M.routing = :routing ")
-                        ->setParameter( "routing", "portfolio" )
+                        ->where("M.routing = :routing ")
+                        ->setParameter("routing", "portfolio")
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale);
 
         $entity = $queryBuilder->getQuery()->getOneOrNullResult();
         
-        return array( 
+        return array(
             'entity' => $entity,
         );
     }*/
@@ -328,7 +319,7 @@ class DefaultController extends ControllerHelper
         if($entity == null) 
            $entity = $this->getEntityRouting($this->menu, self::QUESTION_ANSWER);
 
-        return array( 
+        return array(
             'entity' => $entity,
         );
     }
@@ -336,21 +327,21 @@ class DefaultController extends ControllerHelper
      * @Route("/{translit}", name="other")
      * @Template()
      */
-    public function otherAction( $translit ){
+    public function otherAction($translit){
 
-        $entity = $this->getEntityTranslit( $this->menu, $translit );
+        $entity = $this->getEntityTranslit($this->menu, $translit);
 
-        if( $entity === NULL ){
+        if($entity === NULL){
            
             $r = "index";
-            $res = $this->redirect( $this->generateUrl( $r, array() ) );
+            $res = $this->redirect($this->generateUrl($r, array()));
             
-        }elseif( ( $r = $entity->getRouting() ) !== NULL &&
-                    in_array( $r, $this->getRoutes() ) ){
+        }elseif(($r = $entity->getRouting()) !== NULL &&
+                    in_array($r, $this->getRoutes())){
 
             $httpKernel = $this->container->get('http_kernel');
-            $controller = $this->getController( $r );
-            $res = $httpKernel->forward( $controller, array(
+            $controller = $this->getController($r);
+            $res = $httpKernel->forward($controller, array(
                 "translit" => $translit,
                 "entity"   => $entity,
             ));
@@ -370,12 +361,12 @@ class DefaultController extends ControllerHelper
      *
      * @Template()
      */
-    public function rightblockAction( $parent_id, $entity, $link = '/' ){
+    public function rightblockAction($parent_id, $entity, $link = '/'){
         $em = $this->getDoctrine()->getManager();
         $keywords = $em->getRepository('ItcAdminBundle:Keyword\Keyword')->findAll();
-        $entities = $this->getMenus( $parent_id );
+        $entities = $this->getMenus($parent_id);
 
-        return array( 
+        return array(
             'entity'    => $entity,
             'keywords'  => $keywords,
             'menus'     => $entities,//$entity->getChildren(),
@@ -403,7 +394,7 @@ class DefaultController extends ControllerHelper
             $parameters['parent'] = $parent_id;
         }
 
-        $entity = $this->getEntities( $this->menu, $wheres, $parameters )
+        $entity = $this->getEntities($this->menu, $wheres, $parameters)
                        ->execute();
 
         return $entity;
@@ -438,13 +429,13 @@ echo $enti->translate('en')->getTranslit();
                         ->getQuery()->execute();   
        
         $parent = $entity->getParent();
-        if ($parent === null ){
+        if ($parent === null){
             $parent = $entity->getId();  
         }
         
         $entities = $this->getMenus($parent);
         
-        return array( 'entity' => $entity, 
+        return array('entity' => $entity, 
                       'keywords' => $keywords,
                       'menus'    => $entities,
                       'locale'   => $locale,
@@ -481,7 +472,7 @@ echo $enti->translate('en')->getTranslit();
             throw $this->createNotFoundException('The keyword does not exist');
         }     
         $entities=$entity->getMenus();
-        return array( 'entity'   => $entity,
+        return array('entity'   => $entity,
                        'locale'   => $locale,
                        'entities' => $entities
                     );
@@ -499,19 +490,19 @@ echo $enti->translate('en')->getTranslit();
         $deflocale=LanguageHelper::getDefaultLocale();
         $entity=$em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
                         ->where("M.routing = 'contacts'")
                         ->setParameter('locale', $locale);
 
         $entity = $entity->getQuery()->getOneOrNullResult(); 
-        $sendMailType = new SendMailType( LanguageHelper::getLocale() );
-        $form = $this->createForm( $sendMailType );
+        $sendMailType = new SendMailType(LanguageHelper::getLocale());
+        $form = $this->createForm($sendMailType);
         
         $securityContext = $this->container->get('security.context');
         $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')==TRUE ? $auth=1: $auth=0;
-        return array(  'entity'   => $entity,
+        return array('entity'   => $entity,
                        'locale'   => $locale,
                        'form'     => $form->createView(),
                        'auth'     => $auth
@@ -533,10 +524,10 @@ echo $enti->translate('en')->getTranslit();
             throw $this->createNotFoundException('The contact page does not exist');
         }
 
-        $sendMailType = new SendMailType( $locale );
-        $form = $this->createForm( $sendMailType );
+        $sendMailType = new SendMailType($locale);
+        $form = $this->createForm($sendMailType);
 
-        return array( 
+        return array(
             'entity'   => $entity,
             'locale'   => $locale,
             'form'     => $form->createView()
@@ -556,7 +547,7 @@ echo $enti->translate('en')->getTranslit();
         $sendMailType = new SendMailType($locale);
         $form = $this->createForm($sendMailType);
 
-        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+        if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){
 
              $user  = $securityContext->getToken()->getUser();
              $fio   = $user->getFio();
@@ -574,7 +565,7 @@ echo $enti->translate('en')->getTranslit();
 
         if($form->isValid()){
 
-            $body = $this->renderView( 
+            $body = $this->renderView(
                     'MainSiteBundle:Default:sendMail.txt.twig', 
                     array('fio'     => $fio,
                           'email'   => $email,
@@ -600,10 +591,10 @@ echo $enti->translate('en')->getTranslit();
             }
                 
             $url = $this->generateUrl(self::OTHER, array("translit" => $translit));
-            return $this->redirect( $url );
+            return $this->redirect($url);
         }
 
-        return array( 
+        return array(
             'entity'   => $this->getEntityRouting($this->menu, self::CONTACTS),
             'locale'   => $locale,
             'form'     => $form->createView()
@@ -635,7 +626,7 @@ echo $enti->translate('en')->getTranslit();
 
         $qb = $em->getRepository('ItcAdminBundle:Menu\Menu')
                  ->createQueryBuilder('M')
-                 ->select( 'M' )
+                 ->select('M')
                  ->where('M.parent IS NULL')
                  ->andWhere('M.visible = 1')
                  ->orderBy('M.kod', 'ASC');
@@ -652,16 +643,16 @@ echo $enti->translate('en')->getTranslit();
         if($entities)
             $child_entities = $em->getRepository('ItcAdminBundle:Menu\Menu')
                         ->createQueryBuilder('M')
-                        ->select( 'M, T' )
+                        ->select('M, T')
                         ->leftJoin('M.translations', 'T',
                                 'WITH', "T.locale = :locale")
-                        ->where('M.parent IN  ( '.implode(",", $parents).' )')
+                        ->where('M.parent IN  ('.implode(",", $parents).')')
                         ->andWhere('M.visible = 1')
                         ->orderBy('M.kod', 'ASC')
                         ->setParameter('locale', $locale)
                         ->getQuery()->execute();
 
-        return array( 
+        return array(
             "entities"  => $entities,
             'locale'    => $locale,
             'languages' => $languages,
@@ -679,7 +670,7 @@ echo $enti->translate('en')->getTranslit();
      */
     public function footerAction(){
 
-        return array( 
+        return array(
             "entity" => $this->getEntityRouting($this->menu, 'footer'),
             "locale" => LanguageHelper::getLocale(),
         );
@@ -702,7 +693,7 @@ echo $enti->translate('en')->getTranslit();
         if($routing == "site_index")
         {
             $routing = "index";
-        }else if( ! isset( $routing ) )
+        }else if(! isset($routing))
         {
              $routing = "content";
         }
@@ -737,8 +728,13 @@ echo $enti->translate('en')->getTranslit();
                 $value = $req->get($param);
                 if($param == "translit")
                 {  
+                    switch($routing){
+                        case self::CATALOG_UP: $entName = $this->productGroup; break;
+                        case self::PRODUCT: $entName = $this->product; break;
+                        default: $entName = $this->menu; break;
+                    };
                     
-                    $entity = $this->getEntityTranslit( $this->menu, $value );
+                    $entity = $this->getEntityTranslit($entName, $value);
                     $value = $entity?$entity->translate($lang)->getTranslit():"";
                 }else 
                     if($param == "_locale")
@@ -762,7 +758,7 @@ echo $enti->translate('en')->getTranslit();
             $url = $this->generateUrl($routing, $values, true);
             $urls[$lang] = $url;
         }
-        return array( 
+        return array(
             "locale"    => $locale,
             "urls"      => $urls
             );
@@ -780,7 +776,7 @@ echo $enti->translate('en')->getTranslit();
     */ 
     protected function getPartners($routing, $translit=null)
     {
-        $menu = array( 
+        $menu = array(
                 'ItcAdminBundle:Menu\Menu',
                 'ItcAdminBundle:Menu\MenuTranslation'
                 );
@@ -792,7 +788,7 @@ echo $enti->translate('en')->getTranslit();
         $entity = $this->getEntityRouting($menu, $routingf);
         if($translit==null)
         {
-            return array( 
+            return array(
                 'entity'   => $entity,
                 'partners' => $entity->getChildren(),
                 'locale'   => $locale, 
@@ -803,9 +799,9 @@ echo $enti->translate('en')->getTranslit();
          {
              $wheres2[] = "M.parent_id = :parent_id";
              $parameters["parent_id"] = $entity->getId();
-             $entity2 = $this->getEntityTranslit( $menu, $translit, $wheres2, $parameters );
+             $entity2 = $this->getEntityTranslit($menu, $translit, $wheres2, $parameters);
 
-             return array( 
+             return array(
                  'entity'  => $entity2,
                  'locale'  => $locale,
                  'routing' => $routing
