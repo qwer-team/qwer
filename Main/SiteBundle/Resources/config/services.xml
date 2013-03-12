@@ -7,9 +7,11 @@
     <parameters>
         <parameter key="get.product.comments.class">Main\SiteBundle\Service\CommentsProductOnUserSide</parameter>
         <parameter key="main.controller.card.class">Main\SiteBundle\Controller\CartController</parameter>
+        <parameter key="sendmail.service.class">Main\SiteBundle\Service\SendMailService</parameter>
     </parameters>
-
+        
     <services>
+        <service id="sendmail.service" class="%sendmail.service.class%" />
         <service id="get.product.comments" class="%get.product.comments.class%" parent="itc.container.aware"/>
         <service id="checkout.handler" class="%main.controller.card.class%">
             <argument key="container" id="service_container" />

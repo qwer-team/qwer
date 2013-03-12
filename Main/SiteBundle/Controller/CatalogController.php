@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Itc\AdminBundle\Tools\LanguageHelper;
-use Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
 use Main\SiteBundle\Form\AcceptOrderType;
 use Main\SiteBundle\Form\ProductCommentsType;
 use Itc\AdminBundle\Entity\Comments\ProductComments;
@@ -21,29 +21,17 @@ use Main\SiteBundle\Event\ProductCommentsEvent;
  */
 class CatalogController extends ControllerHelper //Controller
 {
-
-    protected $productGroup = 'ItcAdminBundle:Product\ProductGroup';
-    protected $product = 'ItcAdminBundle:Product\Product';
-    protected $menu = 'ItcAdminBundle:Menu\Menu';
-
     const VIEW_CATALOG = "view_catalog";
     const SORT_CATALOG = "sort_catalog";
     const TYPE_CATALOG = "type_catalog";
 
-    /** Роутинги */
-    const R_BESTSELLERS = 'bestsellers';
-    const R_CATEGORIES = 'categories';
-
-    public function CurrentUser()
-    {
-
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $user = $securityContext->getToken()->getUser();
-        } else {
-            $user = "";
-        }
-        return $user;
+    public function CurrentUser() {
+      
+       $securityContext = $this->container->get('security.context');
+       if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+             $user= $securityContext->getToken()->getUser();
+       }else{ $user=""; }
+       return $user;
     }
 
     /**
@@ -56,20 +44,16 @@ class CatalogController extends ControllerHelper //Controller
     {
         return $this->getCurrentCatalog($translit, $page, $sort, "ASC", $coulonpage);
     }
-
-    private function getCurrentCatalog($translit, $page, $sort, $sortType, $coulonpage, $param = null)
+    
+    private function getCurrentCatalog($entName, $translit, $page, $sort, $sortType, $coulonpage, $param=null)
     {
-
         $wheres = NULL;
         $params = NULL;
         $route = NULL;
 
-        $em = $this->getDoctrine()->getManager();
-        $locale = LanguageHelper::getLocale();
+        $entity = $this->getEntityTranslit($entName, $translit);
 
-        $entity = $this->getEntityTranslit($this->productGroup, $translit)
-        ->setMaxResults(1)->getOneOrNullResult();
-        if ($entity) {
+        if($entity && $param === NULL){
             $wheres[] = "M.productGroup = :productGroup";
             $params['productGroup'] = $entity->getId();
         }
@@ -81,20 +65,18 @@ class CatalogController extends ControllerHelper //Controller
 
         $entities = $this->getEntities($this->product, $wheres, $params, $order);
 
-        $products = $this->get('knp_paginator')->paginate(
-        $entities, $this->get('request')->query->get('page', $page)/* page number */, $coulonpage, array('distinct' => false)
-        );
+        $products = $this->paginator($entities, $page, $coulonpage);
 
         $totalPages = ceil($products->getTotalItemCount() / $coulonpage);
 
         return array(
-            'entity' => $entity,
-            'entities' => $products,
-            'locale' => $locale,
-            'sort' => $sort,
-            'coulonpage' => $coulonpage,
-            'page' => $page,
-            'translit' => $translit,
+            'entity'      => $entity,
+            'entities'    => $products,
+            'locale'      => LanguageHelper::getLocale(),
+            'sort'        => $sort,
+            'coulonpage'  => $coulonpage,
+            'page'        => $page,
+            'translit'    => $translit,
             'total_pages' => $totalPages,
             'route' => $route
         );
@@ -114,8 +96,8 @@ class CatalogController extends ControllerHelper //Controller
         $sort = $this->checkParamSession(self::SORT_CATALOG, $sort, "kod");
         $view = $this->checkParamSession(self::VIEW_CATALOG, $view, "list");
         $type = $this->checkParamSession(self::TYPE_CATALOG, $type, "ASC");
-
-        $res = $this->getCurrentCatalog($translit, $page, $sort, $type, $coulonpage);
+        
+        $res = $this->getCurrentCatalog($this->productGroup, $translit, $page, $sort, $type, $coulonpage);
         $res['view'] = $view;
         $res['type'] = $type;
 
@@ -138,11 +120,11 @@ class CatalogController extends ControllerHelper //Controller
         $view = $this->checkParamSession(self::VIEW_CATALOG, $view, "list");
         $type = $this->checkParamSession(self::TYPE_CATALOG, $type, "ASC");
 
-        $res = $this->getCurrentCatalog($translit, $page, $sort, $type, $coulonpage, 'bestSeller');
-        $res['entity'] = $this->GetMenuRouting(self::R_BESTSELLERS);
-        $res['view'] = $view;
-        $res['type'] = $type;
-        $res['route'] = $res['entity']->getRouting();
+        $res = $this->getCurrentCatalog($this->menu, $translit, $page, $sort, $type, $coulonpage, 'bestSeller');
+        $res['entity'] = $this->GetMenuRouting(self::BESTSELLERS);
+        $res['view']   = $view;
+        $res['type']   = $type;
+        $res['route']  = $res['entity']->getRouting();
 
         return $res;
     }
@@ -180,23 +162,22 @@ class CatalogController extends ControllerHelper //Controller
     public function OneProductAction($translit)
     {
         $em = $this->getDoctrine()->getManager();
-        $locale = LanguageHelper::getLocale();
+        $locale =  LanguageHelper::getLocale();
+        
+        $entity = $this->getEntityTranslit($this->product, $translit);
 
-        $entity = $this->getEntityTranslit($this->product, $translit)
-        ->getOneOrNullResult();
-
-        $relative = $em->getRepository('ItcAdminBundle:Product\RelationsProdToProd')
-        ->createQueryBuilder('M')
-        ->select('M')
-        ->where('M.prod_id = :prod_id')
-        ->setParameter('prod_id', $entity->getId())
-        ->orderBy('M.kod', 'ASC')
-        ->getQuery()->execute();
-
-        $relatives = $galary = $galary_images = array();
-
-        foreach ($relative as $rel) {
-            $relatives[] = $rel->getRelProd();
+        $relative=$em->getRepository('ItcAdminBundle:Product\RelationsProdToProd')
+                        ->createQueryBuilder('M')
+                        ->select('M')
+                        ->where('M.prod_id = :prod_id')
+                        ->setParameter('prod_id', $entity->getId())
+                        ->orderBy('M.kod', 'ASC')
+                        ->getQuery()->execute();
+        
+        $relatives=$galary=$galary_images=array();
+        
+        foreach($relative as $rel){
+            $relatives[]=$rel->getRelProd();
         }
 
         $galary = $em->getRepository('ItcAdminBundle:Product\ProductGalary')
@@ -216,12 +197,10 @@ class CatalogController extends ControllerHelper //Controller
 
         $menuCatalog = $this->GetCategory();
 
-        $keywords = $entity->getKeywords();
-
-        $breadCrumbs = array('categories' => $menuCatalog,
-            'catalogup' => $entity->getProductGroup(),
-            'product' => $entity
-        );
+        $breadCrumbs = array('categories'    => $menuCatalog->translate($locale), 
+                             'catalogup'     => $entity->getProductGroup()->translate($locale), 
+                             'product'       => $entity->translate($locale)
+                       );
 
         return array(
             'entity' => $entity,
@@ -288,7 +267,7 @@ class CatalogController extends ControllerHelper //Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = new ProductComments();
-
+        
         $locale = LanguageHelper::getLocale();
         $entity->setLang($locale);
 
@@ -455,7 +434,7 @@ class CatalogController extends ControllerHelper //Controller
         ->getQuery()
         ->execute();
 
-        $category = $this->GetMenuRouting(self::R_BESTSELLERS);
+        $category = $this->GetMenuRouting(self::BESTSELLERS);
 
         return array(
             'entities' => $entities,
@@ -487,7 +466,7 @@ class CatalogController extends ControllerHelper //Controller
 
         $entities = array_slice($entities, 1, 2);
 
-        $category = $this->GetMenuRouting(self::R_BESTSELLERS);
+        $category = $this->GetMenuRouting(self::BESTSELLERS);
 
         return array(
             'entities' => $entities,
@@ -505,7 +484,7 @@ class CatalogController extends ControllerHelper //Controller
     private function GetCategory()
     {
 
-        return $this->GetMenuRouting(self::R_CATEGORIES);
+        return $this->GetMenuRouting(self::CATEGORIES);
     }
 
     /**
@@ -563,18 +542,19 @@ class CatalogController extends ControllerHelper //Controller
      */
     public function RecommendProductsAction($id)
     {
-
         $em = $this->getDoctrine()->getManager();
         $products = $em->getRepository('ItcAdminBundle:Product\RelationsProdToProd')
-        ->createQueryBuilder('M')
-        ->select('M')
-        ->where('M.prod_id = :prod_id')
-        ->setParameter('prod_id', $id)
-        ->orderBy('M.kod', 'ASC')
-        ->getQuery()
-        ->execute();
+                       ->createQueryBuilder('M')
+                       ->select('M, P')
+                       ->join("M.rel_prod", "P")
+                       ->where('M.prod_id = :prod_id')
+                       ->setParameter('prod_id', $id)
+                       ->orderBy('M.kod', 'ASC')
+                       ->getQuery()
+                       ->execute();
         return array(
             'relative_products' => $products,
+            'locale'     => LanguageHelper::getLocale(),
         );
     }
 
@@ -655,38 +635,40 @@ class CatalogController extends ControllerHelper //Controller
     }
 
     /**
-     * @Route("/ordering", name="ordering")
+     * @Route("/ordering/index", name="ordering")
      * @Template()
      */
-    public function OrderingAction()
-    {
+   public function OrderingAction()
+   {
+       $entity = NULL;
+       $securityContext = $this->container->get('security.context');
+       if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+           $entity = $securityContext->getToken()->getUser();
+       }
 
-        $form = $this->createForm(new AcceptOrderType());
-        return array(
-            'form' => $form->createView()
-        );
-    }
+       $form = $this->createForm(new AcceptOrderType(), $entity);
 
+       return array(
+           'form' => $form->createView()
+       );
+   }
     /**
-     * @Route("/ordering_accept", name="ordering_accept")
+     * @Route("/order/accept", name="ordering_accept")
      * @Template()
      */
-    public function OrderingAcceptAction(Request $request)
-    {
+   public function OrderingAcceptAction(Request $request)
+   {       
+       $form = $this->createForm(new AcceptOrderType());
+       $form->bind($request);
 
-        $form = $this->createForm(new AcceptOrderType());
-        $form->bind($request);
-
-        if ($form->isValid()) {
-
-            $this->forward("MainSiteBundle:Cart:accept");
-            return array();
-        } else {
-
-            return $this->forward($this->getController("ordering"));
-        }
-    }
-
+       if($form->isValid()){
+           $this->forward("MainSiteBundle:Cart:accept");
+           return $this->redirect($this->generateUrl('usercabinet'));
+       } else {
+           return $this->forward($this->getController("ordering"));
+       }
+   }
+   
     /**
      * @Route("/novelty_product", name="novelty_product")
      * @Template()

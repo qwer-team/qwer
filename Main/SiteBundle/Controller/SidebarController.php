@@ -1,7 +1,7 @@
 <?php
 namespace Main\SiteBundle\Controller;
 
-use \Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

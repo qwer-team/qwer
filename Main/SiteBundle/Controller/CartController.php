@@ -13,13 +13,14 @@ use Itc\DocumentsBundle\Entity\Pd\Trans;
 use Itc\DocumentsBundle\Entity\Pd\Pd;
 use Itc\DocumentsBundle\Entity\Pd\Pdl;
 use Itc\DocumentsBundle\Entity\PdOrder\PdOrder;
-use Main\SiteBundle\Tools\ControllerHelper;
+use Itc\AdminBundle\Tools\ControllerHelper;
+use Main\SiteBundle\Form\AcceptOrderType;
 
 class CartController extends ControllerHelper {
 
     protected $product = 'Itc\AdminBundle\Entity\Product\Product';
     protected $menu    = 'ItcAdminBundle:Menu\Menu';
-    protected $pdtype  = "ItcDocumentsBundle:Pd\Pdtype";
+    protected $pdtype  = 'ItcDocumentsBundle:Pd\Pdtype';
 
     const CART   = 'cart_user';
     const PDTYPE = 1;
@@ -58,7 +59,7 @@ class CartController extends ControllerHelper {
         }
         
         $securityContext = $this->container->get('security.context');
-        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){$auth=1;}
+        if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){$auth=1;}
         return array(
             'cart'        => $this->getCartSession(),
             'products'    => $products,
@@ -66,20 +67,21 @@ class CartController extends ControllerHelper {
             'auth'        => $auth,
             'accept'      => $accept,
             'ordering'    => $ordering,
+            'locale'      => \Itc\AdminBundle\Tools\LanguageHelper::getLocale(),
         );
     }
 
     /**
      * Добавить товар в корзину
      * ид, количество
-     * @Route("/cart/add/{id}/{amount}", defaults={ "amount"=1 }, name="add_to_cart" )
+     * @Route("/cart/add/{id}/{amount}", defaults={ "amount"=1 }, name="add_to_cart")
      * @Template()
      */
-    public function addAction( $id, $amount, Request $request ){
+    public function addAction($id, $amount, Request $request){
 
-        $entity = $this->getEntity( $this->product )->find( $id );
+        $entity = $this->getEntity($this->product)->find($id);
 
-        if( $entity && $amount > 0 ){
+        if($entity && $amount > 0){
 
             $cart = $this->getCartSession();
 
@@ -90,11 +92,11 @@ class CartController extends ControllerHelper {
                 'amount' => $amount
             );
 
-            $this->setCartSession( $cart );
+            $this->setCartSession($cart);
 
-        } elseif( $amount == 0 ){
+        } elseif($amount == 0){
             
-            $this->removeProduct( $id );
+            $this->removeProduct($id);
         }
         
         return $this->redirectToCart();
@@ -105,18 +107,18 @@ class CartController extends ControllerHelper {
      * @Route("/cart/remove/{id}", name="remove_cart_item")
      * @Template()
      */
-    public function removeAction( $id ){
+    public function removeAction($id){
 
-        $this->removeProduct( $id );
+        $this->removeProduct($id);
         return $this->redirectToCart();
     }
 
-    private function removeProduct( $id ){
+    private function removeProduct($id){
 
         $cart = $this->getCartSession();
-        unset( $cart[$id] );
+        unset($cart[$id]);
 
-        $this->setCartSession( $cart );
+        $this->setCartSession($cart);
     }
 
     /**
@@ -126,7 +128,7 @@ class CartController extends ControllerHelper {
      */
     public function clearAction(){
 
-        $this->setCartSession( NULL );
+        $this->setCartSession(NULL);
         return $this->redirectToCart();
     }
 
@@ -135,22 +137,38 @@ class CartController extends ControllerHelper {
      * @Route("/cart/accept")
      * @Template()
      */
-    public function acceptAction(){
-
+    public function acceptAction($user = NULL)
+    {
+        $em = $this->getDoctrine()->getManager();
         $cart = $this->getCartSession();
 
-        if( ! $cart ) return $this->redirectToCart();
+        if(! $cart) return $this->redirectToCart();
         
         $securityContext = $this->container->get('security.context');
         
         if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){
-             $user= $securityContext->getToken()->getUser();
+            $user = $securityContext->getToken()->getUser();
+            $userInfo = array(
+                'id'      => $user->getId(),
+                'fio'     => $user->getFIO(),
+                'telefon' => $user->getTel(),
+                'address' => $user->getAddress(),
+                'email'   => $user->getEmail(),
+            );
+        } else {
+            $form = new AcceptOrderType;
+            $userInfo = $this->getRequest()->get($form->getName());
         }
+        
+
         $summa1 = $summa2 = 0;
-        $pd = new PdOrder();
+        $pd = new Pd();
+        $pdtype = $em->getRepository($this->pdtype)->find(self::PDTYPE);
+        $pd->setPdtype($pdtype);
+
         $pdlines = new ArrayCollection();
        
-        $mainproducts="Пользователь {$user->getFIO()} c номером телефона {$user->getTel()} проживающий по адресу: {$user->getAddress()}";
+        $mainproducts="Пользователь {$userInfo['fio']} c номером телефона {$userInfo['telefon']} проживающий по адресу: {$userInfo['address']}";
         $mainproducts.="<table border='1'><tr><td>Товар</td><td>Цена за шт.</td><td>Количество</td><td>Итого</td></tr>";
 
         foreach($cart as $key => $product){
@@ -169,85 +187,69 @@ class CartController extends ControllerHelper {
 
             $pdlines->set($key, $pdline);
         }
-        $mainproducts.="<tr><td></td><td></td><td>{$summa2}</td><td>Общая сумма: {$summa1}</td></tr></table><br/> Поступил в: ".date( 'Y-m-d H:i:s' );
-        $pd->setPdtypeId( self::PDTYPE );
-        $pd->setN( 'cart' );
-        $pd->setPdlines( $pdlines );
-        $pd->setDate( date( "Y-m-d H:i:s" ) );
-        $pd->setSumma1( $summa1 );
-        $pd->setSumma2( $summa2 );
-        $pd->setDtcor( date( "Y-m-d H:i:s" ) );
+        $mainproducts.="<tr><td></td><td></td><td>{$summa2}</td><td>Общая сумма: {$summa1}</td></tr></table><br/> Поступил в: ".date('Y-m-d H:i:s');
         
-        if( is_object($user) ){
-             
-             $pd->setUser($user);
-                    
-                    $transaction= new Trans();
-                    $transaction->setPd($pd);
-                    $transaction->setSumma($summa1);
-                    $transaction->setIL2($user->getId());
-                    $transaction->setOL2($user->getId());
-             $pd->addTransaction($transaction);
+        $pd->setN('cart');
+        $pd->setPdlines($pdlines);
+        $pd->setDate(date("Y-m-d H:i:s"));
+        $pd->setSumma1($summa1);
+        $pd->setSumma2($summa2);
+        $pd->setDtcor(date("Y-m-d H:i:s"));
+        $pd->setStatus(1);
+        
+        if(isset($userInfo['id'])){
+            $pd->setOa1($userInfo['id']);
+            $transaction= new Trans();
+            $transaction->setPd($pd);
+            $transaction->setSumma($summa1);
+            $transaction->setIL2($userInfo['id']);
+            $transaction->setOL2($userInfo['id']);
+            $pd->addTransaction($transaction);
         }
-        
-        $em = $this->getDoctrine()->getManager();
-        $em->persist( $pd );
+
+        $em->persist($pd);
         $em->flush();
 
-        $email="lenkov.alex@itcompany.kiev.ua";
-        //$this->sendMailAction($mainproducts, $user, $user->getEmail(), $email);
-        //$this->sendMailAction($mainproducts, $user, $email, $user->getEmail());
-        return $this->clearAction();
+        $email = $this->container->getParameter('default_mail');
+
+        $sendmail = $this->container->get("sendmail.service");
+        $sendmail->from($userInfo['email'])
+                 ->to($email)
+                 ->subject('Order')
+                 ->body($mainproducts)
+                 ->send();
+
+        $sendmail->from($email)
+                 ->to($userInfo['email'])
+                 ->subject('Order')
+                 ->body($mainproducts)
+                 ->send();
+
+        $this->setCartSession(NULL);
     }
 
-    public function sendMailAction($body, $user, $from, $to){
-         
-        $sendMailType = new SendMailType( LanguageHelper::getLocale() );
-        $body = $this->renderView( 'MainSiteBundle:Default:OrderMail.html.twig', 
-                                array( 'text' => $body) );
-
-            $message = \Swift_Message::newInstance()
-                        ->setSubject( 'Новый заказ' )
-                        ->setFrom( $from )
-                        ->setTo( $to )
-                        ->setBody( $body , 'text/html');
-            $this->get( 'mailer' )->send( $message );
-
-    }
-    /**
-     * Показать карзину
-     * @param type $respons
-     * @return type
-     */
-    private function redirectIndex( $respons = true ){
-        
-        $arr = array( 'respons' => $respons );
+    private function redirectToCart($respons = true)
+    {
         $httpKernel = $this->container->get('http_kernel');
-        return $httpKernel->forward( "MainSiteBundle:Cart\Cart:index", $arr );
-    }
-    private function redirectToCart( $respons = true ){
-        
-        $arr = array( 'respons' => $respons );
-        $httpKernel = $this->container->get('http_kernel');
-        return $httpKernel->forward( "MainSiteBundle:Cart:index" );
+        return $httpKernel->forward("MainSiteBundle:Cart:index");
     }
     /**
      * Добавить в сессию
      * @param type $newCart
      * @return type
      */
-    private function setCartSession( $newCart ){
-
-        return $this->getRequest()->getSession()->set( self::CART, $newCart );
+    private function setCartSession($newCart)
+    {
+        return $this->getRequest()->getSession()->set(self::CART, $newCart);
     }
 
     /**
      * Получить из сессии
      * @return type
      */
-    private function getCartSession(){
-
-        return $this->getRequest()->getSession()->get( self::CART );
+    private function getCartSession()
+    {
+        return $this->getRequest()->getSession()->get(self::CART);
     }
 
     /**
@@ -255,10 +257,10 @@ class CartController extends ControllerHelper {
      * @param type $entityName
      * @return type
      */
-    private function getEntity( $entityName ){
-
+    private function getEntity($entityName)
+    {
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->getRepository( $entityName );
+        $qb = $em->getRepository($entityName);
         return $qb;
     }
 
@@ -266,8 +268,8 @@ class CartController extends ControllerHelper {
      * @Route("/small_cart", name="small_cart")
      * @Template()
      */
-   public function SmallCartAction($html="", $auth=NULL){
-
+    public function SmallCartAction($html="", $auth=NULL)
+    {
         $col=0;
         $sum=0;
         $cart="";
@@ -279,13 +281,13 @@ class CartController extends ControllerHelper {
                 $sum=$sum+$product['price']*$product['amount'];
             }
         }
-        return array( 
+        return array(
             'cart' => $cart, 
             'sum'  => $sum, 
             'col'  => $col,
             'html' => $html,
             'auth' => $auth,
-        );
+       );
     }
 }
 
