@@ -1,0 +1,30 @@
+{% for entity in entities %}
+<div>{{entity.id}}</div>
+<div>{{entity.autor.username}}</div>
+<div>{{entity.comment}}</div>
+<div>{{entity.data |date('Y-m-d H:i:s')}}</div>
+{% endfor %}
+
+{#% block navigation %}    
+    {% include 'ItcAdminBundle::navigator.html.twig' with {'route': route} %}
+{% endblock %#}
+{% if isAuthenticated==true%}
+{{message}}
+<form action="{{ path('comments_in_product_create', { 'parent_id': parent_id, 'coulonpage':coulonpage, 'page':page }) }}" method="post" {{ form_enctype(form) }}>
+                <div class = '' style = 'position: fixed; top: 5px; right: 80px; height: 30px;'>
+        <div class = 'fl'>
+            <button class = 'menu_sys_save_button' type="submit" alt='Сохранить'>  </button>
+        </div>
+    </div>
+    <div class = 'menu_sys_upper_form fl'>
+        <div class = 'fl'>
+        </div>
+    </div>
+    <br class = 'clr' />
+    <hr />
+    {{ form_widget(form) }}
+</form>
+{%endif%}
+
+
+ {#{ block("navigation") }#}
