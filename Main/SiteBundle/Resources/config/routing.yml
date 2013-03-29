@@ -16,6 +16,13 @@ site_brand:
     defaults: {_locale: %locale% }
     requirements:
       _locale : \w{2}        
+site_wish:
+    prefix:   /{_locale}
+    resource: "@MainSiteBundle/Controller/WishListController.php"
+    type:     annotation
+    defaults: {_locale: %locale% }
+    requirements:
+      _locale : \w{2}        
 site_catalog:
     prefix:   /{_locale}/
     resource: "@MainSiteBundle/Controller/CatalogController.php"
