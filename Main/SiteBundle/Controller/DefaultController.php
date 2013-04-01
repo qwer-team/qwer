@@ -562,8 +562,8 @@ echo $enti->translate('en')->getTranslit();
              $tel   = $info['telefon'];
         }
 
-        $form->bind($request);
-        print_r($form->getErrorsAsString());
+        $form->bind($request); 
+        
         if($form->isValid()){
             
             echo "das";
