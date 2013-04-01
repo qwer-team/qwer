@@ -96,7 +96,7 @@ class WishListController extends ControllerHelper //Controller
     * @Route("/allinbag/user" ,name="all_in_bag")
     * @Template()
     */
-    public function AllInBagAction($id)
+    public function AllInBagAction()
     {
        $user=  $this->getTokenUser();
         
