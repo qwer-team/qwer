@@ -21,8 +21,8 @@ class SendMailType extends AbstractType
             ->add('fio', null ,array('attr' => array('label' => 'Введите имя:')))
             ->add('email', null ,array('attr' => array('label' => 'Введите email:')) )
             ->add('telefon', null ,array('attr' => array('label' => 'Введите телефон:')) )
-            ->add('body', 'textarea')
-            ->add('captcha', 'captcha', array( 'keep_value' => false, ) );
+            ->add('body', 'textarea');
+            //->add('captcha', 'captcha', array( 'keep_value' => false, ) );
             
     }
 
