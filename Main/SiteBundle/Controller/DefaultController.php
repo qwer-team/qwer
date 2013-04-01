@@ -546,7 +546,8 @@ echo $enti->translate('en')->getTranslit();
         
         $sendMailType = new SendMailType($locale);
         $form = $this->createForm($sendMailType);
-
+        
+        $info = $request->get($form->getName());
         if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')){
 
              $user  = $securityContext->getToken()->getUser();
@@ -555,16 +556,17 @@ echo $enti->translate('en')->getTranslit();
              $tel   = $user->getTel();
         } else {
 
-             $info = $request->get($form->getName());
+             
              $fio   = $info['fio'];
              $email = $info['email'];
              $tel   = $info['telefon'];
         }
 
         $form->bind($request);
-
+        print_r($form->getErrorsAsString());
         if($form->isValid()){
-
+            
+            echo "das";
             $body = $this->renderView(
                     'MainSiteBundle:Default:sendMail.txt.twig', 
                     array('fio'     => $fio,
@@ -575,7 +577,7 @@ echo $enti->translate('en')->getTranslit();
                 );
             
             $em = $this->getDoctrine()->getManager();
-            $option = $em->getRepository('ItcAdminBundle:Options')
+            $option = $em->getRepository('ItcAdminBundle:Option')
                          ->findOneBy(array("tag" => "feedback"));
 
             $emails = explode(", ", $option->getValue());
