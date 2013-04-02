@@ -42,7 +42,7 @@ class CatalogController extends ControllerHelper //Controller
      */
     public function CurrentCatalogAction($translit, $page, $sort = 'kod', $coulonpage = 10, $view = NULL)
     {
-        return $this->getCurrentCatalog($translit, $page, $sort, "ASC", $coulonpage);
+        return $this->getCurrentCatalog($this->productGroup, $translit, $page, $sort, "ASC", $coulonpage);
     }
     
     private function getCurrentCatalog($entName, $translit, $page, $sort, $sortType, $coulonpage, $param=null)
@@ -166,6 +166,8 @@ class CatalogController extends ControllerHelper //Controller
         
         $entity = $this->getEntityTranslit($this->product, $translit);
 
+        $keywords = $entity->getKeywords();
+        
         $relative=$em->getRepository('ItcAdminBundle:Product\RelationsProdToProd')
                         ->createQueryBuilder('M')
                         ->select('M')
@@ -197,7 +199,7 @@ class CatalogController extends ControllerHelper //Controller
 
         $menuCatalog = $this->GetCategory();
 
-        $breadCrumbs = array('categories'    => $menuCatalog->translate($locale), 
+        $breadCrumbs = array('categories'    => $menuCatalog, 
                              'catalogup'     => $entity->getProductGroup()->translate($locale), 
                              'product'       => $entity->translate($locale)
                        );
@@ -439,7 +441,7 @@ class CatalogController extends ControllerHelper //Controller
         return array(
             'entities' => $entities,
             'locale' => $locale,
-            'category' => $category->translate($locale),
+            'category' => $category, //->translate($locale)
         );
     }
 
