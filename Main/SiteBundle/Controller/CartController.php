@@ -199,18 +199,18 @@ class CartController extends ControllerHelper {
         
         if(isset($userInfo['id'])){
             $pd->setOa1($userInfo['id']);
-            $transaction= new Trans();
-            $transaction->setPd($pd);
-            $transaction->setSumma($summa1);
-            $transaction->setIL2($userInfo['id']);
-            $transaction->setOL2($userInfo['id']);
-            $pd->addTransaction($transaction);
+            //$transaction= new Trans();
+            //$transaction->setPd($pd);
+            //$transaction->setSumma($summa1);
+            //$transaction->setIL2($userInfo['id']);
+            //$transaction->setOL2($userInfo['id']);
+            //$pd->addTransaction($transaction);
         }
 
         $em->persist($pd);
         $em->flush();
 
-        $email = $this->container->getParameter('default_mail');
+        $email = "neversmoke@i.ua";
 
         $sendmail = $this->container->get("sendmail.service");
         $sendmail->from($userInfo['email'])

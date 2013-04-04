@@ -26,13 +26,13 @@ class UserType extends AbstractType
                         'second_options' => array('label' => 'password_confirmation'),
                     )
                 )
-                ->add('captcha', 'captcha', 
-                        array('label'  => "captcha",
-                              'width'  => 100,
-                              'height' => 40,
-                              'length' => 4,
-                        )
-                )
+//                ->add('captcha', 'captcha', 
+//                        array('label'  => "captcha",
+//                              'width'  => 100,
+//                              'height' => 40,
+//                              'length' => 4,
+//                        )
+//                )
                 ->add('username',   null, array('label' => "login"));
             }
     }
