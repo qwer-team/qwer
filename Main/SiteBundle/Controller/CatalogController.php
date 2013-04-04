@@ -510,7 +510,15 @@ class CatalogController extends ControllerHelper //Controller
             'locale' => $locale
         );
     }
+    
+    /**
+     * @Template()
+     */
+    public function TopSalesSliderAction()
+    {
 
+        return $this->TopSalesBlockAction();
+    }
     /**
      * @Template()
      */
