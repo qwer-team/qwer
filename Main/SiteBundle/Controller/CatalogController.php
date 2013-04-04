@@ -35,14 +35,14 @@ class CatalogController extends ControllerHelper //Controller
     }
 
     /**
-     * @Route("catalog/{translit}/{sort}/{coulonpage}/{page}", name="catalog",
+     * @Route("catalog/{translit}/{sort}/{sortType}/{coulonpage}/{page}", name="catalog",
      * requirements={"coulonpage" = "\d+","page"="\d+"}, 
-     * defaults={ "sort" = "kod", "coulonpage" = "10", "page"=1})
+     * defaults={ "sort" = "kod", "sortType" = "ASC", "coulonpage" = "10", "page"=1})
      * @Template()
      */
-    public function CurrentCatalogAction($translit, $page, $sort = 'kod', $coulonpage = 10, $view = NULL)
+    public function CurrentCatalogAction($translit, $page, $sort = 'kod', $sortType = 'ASC',  $coulonpage = 10, $view = NULL)
     {
-        return $this->getCurrentCatalog($this->productGroup, $translit, $page, $sort, "ASC", $coulonpage);
+        return $this->getCurrentCatalog($this->productGroup, $translit, $page, $sort, $sortType , $coulonpage);
     }
     
     private function getCurrentCatalog($entName, $translit, $page, $sort, $sortType, $coulonpage, $param=null)
