@@ -233,7 +233,7 @@ class CartController extends ControllerHelper {
                  ->send();
 
         $this->setCartSession(NULL);
-        $this->redirectToCart(NULL);
+      return  $this->redirectToCart(NULL);
     }
 
     private function redirectToCart($respons = true)
