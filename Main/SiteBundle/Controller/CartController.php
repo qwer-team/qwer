@@ -13,6 +13,7 @@ use Itc\DocumentsBundle\Entity\Pd\Trans;
 use Itc\DocumentsBundle\Entity\Pd\Pd;
 use Itc\DocumentsBundle\Entity\Pd\Pdl;
 use Itc\DocumentsBundle\Entity\PdOrder\PdOrder;
+use Itc\DocumentsBundle\Entity\PdOrder\PdlList;
 use Itc\AdminBundle\Tools\ControllerHelper;
 use Main\SiteBundle\Form\AcceptOrderType;
 
@@ -162,7 +163,7 @@ class CartController extends ControllerHelper {
         
 
         $summa1 = $summa2 = 0;
-        $pd = new Pd();
+        $pd = new PdOrder();
         $pdtype = $em->getRepository($this->pdtype)->find(self::PDTYPE);
         $pd->setPdtype($pdtype);
 
@@ -180,11 +181,16 @@ class CartController extends ControllerHelper {
             $summa2  += $amount;
             $mainproducts .= "<tr><td>{$product['title']}</td><td>{$product['price']}</td><td>{$product['amount']}</td><td>".$product['amount']*$product['price']."</td></tr>";
 
-            $pdline = new Pdl();
+            /*$pdline = new Pdl();
             $pdline->setPd($pd);
             $pdline->setSumma1($price);
-            $pdline->setSumma2($amount);
-
+            $pdline->setSumma2($amount);*/
+            $pdline = new PdlList();
+            $product = $em->getRepository('ItcAdminBundle:Product\Product')->find($product['id']);
+            $pdline->setProduct($product);
+            $pdline->setPd( $pd );
+            $pdline->setSumma1( $price );
+            $pdline->setSumma2( $amount );
             $pdlines->set($key, $pdline);
         }
         $mainproducts.="<tr><td></td><td></td><td>{$summa2}</td><td>Общая сумма: {$summa1}</td></tr></table><br/> Поступил в: ".date('Y-m-d H:i:s');
@@ -199,6 +205,7 @@ class CartController extends ControllerHelper {
         
         if(isset($userInfo['id'])){
             $pd->setOa1($userInfo['id']);
+            $pd->setUser($user);
             //$transaction= new Trans();
             //$transaction->setPd($pd);
             //$transaction->setSumma($summa1);
